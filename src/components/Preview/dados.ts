@@ -1,6 +1,7 @@
 import type { ISpotifyAniversario } from "../../models/ISpotify"
 
 export const dadosPreviewSpotify: ISpotifyAniversario = {
+    titulo: 'Nosso amor!',
     nome: 'Julia da Silva',
     fotoPrincipal: 'https://m.media-amazon.com/images/I/81z1Js7n8PL._UF350,350_QL80_.jpg',
     musicas: [

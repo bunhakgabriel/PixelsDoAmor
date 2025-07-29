@@ -21,12 +21,12 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
     ]
 
     return (
-        <div className={`${backgroundsPage[0]} text-white min-h-screen pb-[130px] p-4`}>
+        <div className={`${backgroundsPage[2]} text-white min-h-screen pb-[130px] p-4`}>
             <div className="flex flex-col gap-12">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold">Feliz Aniversário!</h1>
-                        <p className="text-green-200">Playlist especial para {model.nome}</p>
+                        <h1 className="text-2xl font-bold">{model.titulo || ''}</h1>
+                        <p className="text-green-200">Playlist especial {model.nome ? `para ${model.nome}` : ''}</p>
                     </div>
                     <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
                         <IoPlayOutline className="w-6 h-6 text-green-500" />
@@ -37,13 +37,13 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
                         <img className="w-full object-cover" src={model.fotoPrincipal} />
                     </div>
 
-                    <PlaylistAniversario musicas={model.musicas} />
+                    {/* <PlaylistAniversario musicas={model.musicas} /> */}
                 </div>
-                <MensagemParabens model={model.mensagemParabens} />
-                <AlbumMemorias fotos={model.albumMemorias} />
-                <Comentarios />
+                {/* <MensagemParabens model={model.mensagemParabens} />
+                <AlbumMemorias fotos={model.albumMemorias} /> */}
+                {/* <Comentarios /> */}
             </div>
-            <Player />
+            {/* <Player /> */}
         </div>
     )
 }

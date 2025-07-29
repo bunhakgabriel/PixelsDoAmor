@@ -1,5 +1,6 @@
 export interface ISpotifyAniversario {
-    nome: string
+    titulo: string
+    nome?: string
     fotoPrincipal: string
     musicas: {
         nome: string
