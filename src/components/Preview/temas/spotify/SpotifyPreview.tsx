@@ -37,7 +37,7 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
                         <img className="w-full object-cover" src={model.fotoPrincipal} />
                     </div>
 
-                    {/* <PlaylistAniversario musicas={model.musicas} /> */}
+                    <PlaylistAniversario musicas={model.musicas} />
                 </div>
                 {/* <MensagemParabens model={model.mensagemParabens} />
                 <AlbumMemorias fotos={model.albumMemorias} /> */}

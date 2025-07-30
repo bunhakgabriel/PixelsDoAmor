@@ -1,23 +1,27 @@
 import clsx from "clsx"
 import SpotifyTema from "../../../../components/Preview/temas/spotify/SpotifyPreview"
-import { HiOutlineSparkles } from "react-icons/hi2"
 import { useForm, useWatch } from "react-hook-form"
 import type { ISpotifyAniversario } from "../../../../models/ISpotify"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import BackButton from "../../../../components/BackButton/BackButon"
 import ButtonUi from "../../../../components/ButtonUi/ButtonUi"
+import PrimeiraEtapa from "./etapas/PrimairaEtapa"
+import SegundaEtapa from "./etapas/SegundaEtapa"
+import { dadosPreviewSpotify } from "../../../../components/Preview/dados"
+import YouTubeSearch from "../../../../components/YoutubeSearch/YoutubeSearch"
 
-const classLabel = 'block text-sm sm:text-xl font-medium text-gray-700 mb-1'
-const classInput = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-const etapas = ['','','','','','']
+
+const etapas = ['', '', '', '', '', '']
 
 function SpotifyForm() {
-    const { register, control } = useForm<ISpotifyAniversario>()
+    const form = useForm<ISpotifyAniversario>()
+    const { control } = form
 
     const [etapaAtual, setEtapaAtual] = useState(0)
     const model = useWatch({ control });
 
     async function avancarEtapa() {
+        console.log('avançar etapa')
         setEtapaAtual(prev => prev + 1)
     }
 
@@ -25,6 +29,12 @@ function SpotifyForm() {
         // if (etapaAtual == 0) return navigate('/login/motoboy')
         setEtapaAtual(prev => prev - 1)
     }
+
+    const formValues = useWatch({ control })
+
+    useEffect(() => {
+        console.log(formValues)
+    }, [formValues])
 
     return (
         <div className="flex flex-col lg:flex-row p-6 gap-8 lg:gap-16 max-lg:items-center">
@@ -40,8 +50,7 @@ function SpotifyForm() {
                         {etapas.map((etapa, index) => (
                             <span key={index} className={clsx('rounded-2xl w-full h-[10px]', {
                                 'bg-gradient-to-r from-purple-600 to-pink-600': etapaAtual >= index,
-                                'bg-[#E5E7EB]': etapaAtual < index,
-                                'hidden': index == 4
+                                'bg-[#E5E7EB]': etapaAtual < index
                             })}></span>
                         ))}
                     </div>
@@ -51,50 +60,28 @@ function SpotifyForm() {
                 </div>
 
                 <form className="flex gap-6 flex-col">
-                    <div>
-                        <label htmlFor="titulo" className={`${classLabel}`}>
-                            Titulo do cartão *
-                        </label>
-                        <div className="flex gap-2">
-                            <input
-                                type="text"
-                                id="titulo"
-                                className={classInput}
-                                placeholder="Ex: Para alguém especial!"
-                                {...register('titulo')}
-                            />
-                            <ButtonUi
-                                icon={<HiOutlineSparkles className="hidden sm:block w-5 h-5" />}
-                                element="div"
-                                text="Gerar IA"
-                                className="max-sm:text-[12px] w-[110px] sm:w-[25%] sm:min-w-[125px]"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="titulo" className={`${classLabel}`}>
-                            Nome da pessoa a presentear
-                        </label>
-                        <input
-                            type="text"
-                            id="titulo"
-                            className={classInput}
-                            placeholder="Ex: Bruna Silva"
-                            {...register('nome')}
+                    {etapaAtual === 0 && <PrimeiraEtapa form={form} />}
+                    {etapaAtual === 1 && <SegundaEtapa form={form} />}
+                    {etapaAtual === 2 && (
+                        <YouTubeSearch
+                            form={form}
+                            name="musicas"
+                            label="Buscar vídeo no YouTube"
+                            apiKey="AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo"
                         />
-                        <span className="text-[12px] sm:text-sm text-gray-600">Esse campo é opcional, se o cartão não for pra presentear uma pessoa e tiver outro propósito pode deixa-lo em branco.</span>
-                    </div>
+                    )}
+
                 </form>
                 <ButtonUi
                     className="w-[100%] h-[40px] sm:my-4"
                     text="Próximo"
                     onClick={avancarEtapa}
                     element="button"
-                 />
+                />
             </div>
-            
+
             <div className="w-full sm:w-[500px] lg:w-[2/5]">
-                <SpotifyTema model={model} />
+                <SpotifyTema model={dadosPreviewSpotify} />
             </div>
 
         </div>
