@@ -5,11 +5,11 @@ export const dadosPreviewSpotify: ISpotifyAniversario = {
     nome: 'Julia da Silva',
     fotoPrincipal: 'https://m.media-amazon.com/images/I/81z1Js7n8PL._UF350,350_QL80_.jpg',
     musicas: [
-        { nome: 'spinning-head', duracao: '2:08' },
-        { nome: 'If You Want - Ariel Shalom Remix', duracao: '2:08' },
-        { nome: 'inside-you', duracao: '2:08' },
-        { nome: 'leva-eternity', duracao: '2:08' },
-        { nome: 'Pull Me Closer GOOD Remix', duracao: '2:08' },
+        { nome: 'spinning-head', url: '2:08' },
+        { nome: 'If You Want - Ariel Shalom Remix', url: '2:08' },
+        { nome: 'inside-you', url: '2:08' },
+        { nome: 'leva-eternity', url: '2:08' },
+        { nome: 'Pull Me Closer GOOD Remix', url: '2:08' },
     ],
     mensagemParabens: {
         autor: 'Gabriel Bunhak',

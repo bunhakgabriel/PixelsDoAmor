@@ -4,7 +4,7 @@ export interface ISpotifyAniversario {
     fotoPrincipal: string
     musicas: {
         nome: string
-        duracao: string
+        url: string
     }[]
     mensagemParabens: {
         autor?: string

@@ -9,6 +9,7 @@ import PrimeiraEtapa from "./etapas/PrimairaEtapa"
 import SegundaEtapa from "./etapas/SegundaEtapa"
 import { dadosPreviewSpotify } from "../../../../components/Preview/dados"
 import YouTubeSearch from "../../../../components/YoutubeSearch/YoutubeSearch"
+import TerceiraEtapa from "./etapas/TerceiraEtapa"
 
 
 const etapas = ['', '', '', '', '', '']
@@ -62,14 +63,7 @@ function SpotifyForm() {
                 <form className="flex gap-6 flex-col">
                     {etapaAtual === 0 && <PrimeiraEtapa form={form} />}
                     {etapaAtual === 1 && <SegundaEtapa form={form} />}
-                    {etapaAtual === 2 && (
-                        <YouTubeSearch
-                            form={form}
-                            name="musicas"
-                            label="Buscar vídeo no YouTube"
-                            apiKey="AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo"
-                        />
-                    )}
+                    {etapaAtual === 2 && <TerceiraEtapa form={form} />}
 
                 </form>
                 <ButtonUi

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { UseFormReturn, Path, FieldValues, PathValue } from 'react-hook-form'
+import type { UseFormReturn, Path, FieldValues } from 'react-hook-form'
 
 type YouTubeSearchProps<T extends FieldValues> = {
   form: UseFormReturn<T>
@@ -15,7 +15,7 @@ function YouTubeSearch<T extends FieldValues>({
   apiKey
 }: YouTubeSearchProps<T>) {
   const { setValue, watch } = form
-  const selectedEmbed = watch(name) as string
+  const selectedVideos = watch(name) as { nome: string; url: string }[] || []
 
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<any[]>([])
@@ -45,11 +45,23 @@ function YouTubeSearch<T extends FieldValues>({
     }
   }
 
-  function handleSelect(videoId: string) {
+  function handleSelect(videoId: string, title: string) {
     const embedUrl = `https://www.youtube.com/embed/${videoId}`
-    setValue(name, embedUrl as PathValue<T, typeof name>)
+
+    if (selectedVideos.length >= 5) {
+      setError('Você só pode adicionar até 5 músicas.')
+      return
+    }
+
+    const novoArray = [...selectedVideos, { nome: title, url: embedUrl }]
+    setValue(name, novoArray as any)
     setResults([])
     setQuery('')
+  }
+
+  function handleRemove(index: number) {
+    const novoArray = selectedVideos.filter((_, i) => i !== index)
+    setValue(name, novoArray as any)
   }
 
   return (
@@ -82,7 +94,7 @@ function YouTubeSearch<T extends FieldValues>({
             <li
               key={item.id.videoId}
               className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSelect(item.id.videoId)}
+              onClick={() => handleSelect(item.id.videoId, item.snippet.title)}
             >
               <img
                 src={item.snippet.thumbnails.default.url}
@@ -95,16 +107,31 @@ function YouTubeSearch<T extends FieldValues>({
         </ul>
       )}
 
-      {selectedEmbed && (
-        <div className="mt-4">
-          <iframe
-            width="100%"
-            height="250"
-            src={selectedEmbed}
-            title="YouTube video"
-            frameBorder="0"
-            allowFullScreen
-          />
+      {selectedVideos.length > 0 && (
+        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-4 max-h-[250px] overflow-scroll">
+          {selectedVideos.map((video, index) => (
+            <div
+              key={index}
+              className="relative rounded overflow-hidden shadow-sm"
+            >
+              <iframe
+                width=""
+                height=""
+                className='h-[140px] sm:h-[150px] md:h-[170px] w-full sm:w-[150px] md:w-[220px] lg:w-[215px]'
+                src={video.url}
+                title={video.nome}
+                frameBorder="0"
+                allowFullScreen
+              />
+              <button
+                type="button"
+                onClick={() => handleRemove(index)}
+                className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs rounded hover:bg-red-600"
+              >
+                X
+              </button>
+            </div>
+          ))}
         </div>
       )}
     </div>

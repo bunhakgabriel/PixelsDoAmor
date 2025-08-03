@@ -4,7 +4,7 @@ import { FaPlay, FaPause } from "react-icons/fa";
 type PlaylistAniversarioProps = {
   musicas: {
     nome: string;
-    duracao: string;
+    url: string;
   }[];
 };
 
@@ -79,7 +79,6 @@ function PlaylistAniversario({ musicas }: PlaylistAniversarioProps) {
                 <p className="font-semibold">{musica.nome}</p>
               </div>
             </div>
-            <span className="text-sm text-gray-400">{musica.duracao}</span>
           </div>
         ))}
       </div>
