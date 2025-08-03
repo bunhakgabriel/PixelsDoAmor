@@ -6,6 +6,8 @@ import mensagemParabens from "./componentes/MensagemEspecial";
 import Comentarios from "./componentes/Comentarios";
 import type { ISpotifyAniversario } from "../../../../models/ISpotify";
 import MensagemEspecial from "./componentes/MensagemEspecial";
+import Comentarios1 from "./componentes/Comentarios1";
+import type { UseFormReturn } from "react-hook-form";
 
 type SpotifyTemaProps = {
     model: ISpotifyAniversario
@@ -42,7 +44,7 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
                 </div>
                 <MensagemEspecial model={model.mensagemEspecial} />
                 <AlbumMemorias1 fotos={model.albumMemorias} />
-                {/* <Comentarios /> */}
+                <Comentarios1 comentarios={model.comentarios} />
             </div>
             {/* <Player /> */}
         </div>

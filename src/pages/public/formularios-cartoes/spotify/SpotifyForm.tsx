@@ -10,6 +10,7 @@ import TerceiraEtapa from "./etapas/TerceiraEtapa"
 import SpotifyTema1 from "../../../../components/Preview/temas/spotify/SpotifyPreview1"
 import QuartaEtapa from "./etapas/QuartaEtapa"
 import QuintaEtapa from "./etapas/QuintaEtapa"
+import SextaEtapa from "./etapas/SextaEtapa"
 
 
 const etapas = ['', '', '', '', '', '']
@@ -62,6 +63,7 @@ function SpotifyForm() {
                     {etapaAtual === 2 && <TerceiraEtapa form={form} />}
                     {etapaAtual === 3 && <QuartaEtapa form={form} />}
                     {etapaAtual === 4 && <QuintaEtapa form={form} />}
+                    {etapaAtual === 5 && <SextaEtapa form={form} />}
 
                 </form>
                 <ButtonUi

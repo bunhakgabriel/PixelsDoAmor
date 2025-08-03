@@ -108,7 +108,7 @@ function YouTubeSearch<T extends FieldValues>({
       )}
 
       {selectedVideos.length > 0 && (
-        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-4 max-h-[250px] overflow-scroll">
+        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-4 max-h-[250px] overflow-auto">
           {selectedVideos.map((video, index) => (
             <div
               key={index}

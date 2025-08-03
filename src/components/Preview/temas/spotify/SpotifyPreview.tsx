@@ -41,7 +41,7 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
                 </div>
                 <MensagemEspecial model={model.mensagemEspecial} />
                 <AlbumMemorias fotos={model.albumMemorias} />
-                {/* <Comentarios /> */}
+                <Comentarios />
             </div>
             {/* <Player /> */}
         </div>

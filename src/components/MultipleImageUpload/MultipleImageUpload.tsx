@@ -10,7 +10,7 @@ type MultipleImageUploadProps = {
 }
 
 function MultipleImageUpload({ name, form, label }: MultipleImageUploadProps) {
-  const { control, setValue, watch } = form
+  const { control, watch } = form
   const imagens = watch(name) as string[] || []
 
   const { append, remove } = useFieldArray({
