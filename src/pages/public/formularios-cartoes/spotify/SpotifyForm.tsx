@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import SpotifyTema from "../../../../components/Preview/temas/spotify/SpotifyPreview"
 import { useForm, useWatch } from "react-hook-form"
 import type { ISpotifyAniversario } from "../../../../models/ISpotify"
 import { useEffect, useState } from "react"
@@ -7,9 +6,9 @@ import BackButton from "../../../../components/BackButton/BackButon"
 import ButtonUi from "../../../../components/ButtonUi/ButtonUi"
 import PrimeiraEtapa from "./etapas/PrimairaEtapa"
 import SegundaEtapa from "./etapas/SegundaEtapa"
-import { dadosPreviewSpotify } from "../../../../components/Preview/dados"
-import YouTubeSearch from "../../../../components/YoutubeSearch/YoutubeSearch"
 import TerceiraEtapa from "./etapas/TerceiraEtapa"
+import SpotifyTema1 from "../../../../components/Preview/temas/spotify/SpotifyPreview1"
+import QuartaEtapa from "./etapas/QuartaEtapa"
 
 
 const etapas = ['', '', '', '', '', '']
@@ -22,20 +21,16 @@ function SpotifyForm() {
     const model = useWatch({ control });
 
     async function avancarEtapa() {
-        console.log('avançar etapa')
         setEtapaAtual(prev => prev + 1)
     }
 
     function voltarEtapa() {
-        // if (etapaAtual == 0) return navigate('/login/motoboy')
         setEtapaAtual(prev => prev - 1)
     }
 
-    const formValues = useWatch({ control })
-
     useEffect(() => {
-        console.log(formValues)
-    }, [formValues])
+        console.log(model)
+    }, [model])
 
     return (
         <div className="flex flex-col lg:flex-row p-6 gap-8 lg:gap-16 max-lg:items-center">
@@ -64,6 +59,7 @@ function SpotifyForm() {
                     {etapaAtual === 0 && <PrimeiraEtapa form={form} />}
                     {etapaAtual === 1 && <SegundaEtapa form={form} />}
                     {etapaAtual === 2 && <TerceiraEtapa form={form} />}
+                    {etapaAtual === 3 && <QuartaEtapa form={form} />}
 
                 </form>
                 <ButtonUi
@@ -75,7 +71,7 @@ function SpotifyForm() {
             </div>
 
             <div className="w-full sm:w-[500px] lg:w-[2/5]">
-                <SpotifyTema model={dadosPreviewSpotify} />
+                <SpotifyTema1 model={model} />
             </div>
 
         </div>

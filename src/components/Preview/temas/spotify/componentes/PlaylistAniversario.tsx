@@ -1,89 +1,79 @@
-import { useRef, useState } from "react";
-import { FaPlay, FaPause } from "react-icons/fa";
+import { useState, useRef } from 'react'
+import { FaYoutube, FaPause } from 'react-icons/fa'
 
-type PlaylistAniversarioProps = {
-  musicas: {
-    nome: string;
-    url: string;
-  }[];
-};
+type Musica = {
+  nome: string
+  url: string
+}
 
-function PlaylistAniversario({ musicas }: PlaylistAniversarioProps) {
-  const audioRefs = useRef<HTMLAudioElement[]>([]);
-  const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(null);
+type Props = {
+  musicas: Musica[]
+}
+
+export default function ListaMusicas({ musicas }: Props) {
+  const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(null)
 
   const tocar = (index: number) => {
-    // Se há uma música tocando e não é a mesma, pausamos e resetamos ela
-    if (musicaTocandoIndex !== null && musicaTocandoIndex !== index) {
-      const atual = audioRefs.current[musicaTocandoIndex];
-      if (atual) {
-        atual.pause();
-        atual.currentTime = 0;
-      }
-    }
+    setMusicaTocandoIndex(index)
+  }
 
-    const audio = audioRefs.current[index];
-    if (audio) {
-      audio.play();
-      setMusicaTocandoIndex(index);
-    }
-  };
-
-  const pausar = (index: number) => {
-    const audio = audioRefs.current[index];
-    if (audio) {
-      audio.pause();
-      setMusicaTocandoIndex(null);
-    }
-  };
+  const pausar = () => {
+    setMusicaTocandoIndex(null)
+  }
 
   const cores = [
-    "from-green-400 to-green-600",
-    "from-pink-400 to-purple-600",
-    "from-yellow-400 to-orange-500",
-    "from-cyan-400 to-blue-500",
-    "from-pink-400 to-red-500",
-  ];
+    'from-green-400 to-green-600',
+    'from-purple-400 to-purple-600',
+    'from-yellow-400 to-yellow-600',
+    'from-blue-400 to-blue-600',
+    'from-red-400 to-red-600'
+  ]
+
+  if (!musicas || musicas?.length == 0) return <></>
 
   return (
-    <div className="sm:w-4/6 rounded-xl bg-[#121212] text-white font-sans p-4">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 flex justify-between items-center gap-2">
-        Playlist de Aniversário <span className="text-green-400">🎵</span>
+    <div className="flex flex-col gap-4 w-full rounded-xl bg-[#121212] p-4">
+      <h2 className="text-xl sm:text-2xl font-bold flex justify-between items-center gap-2">
+        Playlist <span className="text-green-400">🎵</span>
       </h2>
 
-      <div className="space-y-4 w-full">
+      {/* Lista de músicas */}
+      <div className="space-y-4"> {/* padding-top para não esconder a lista */}
         {musicas.map((musica, index) => (
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <audio
-                ref={(el) => {
-                  if (el) audioRefs.current[index] = el;
-                }}
-                src={`/musicas/${musica.nome}.mp3`}
-              />
               <button
                 onClick={() =>
-                  musicaTocandoIndex === index ? pausar(index) : tocar(index)
+                  musicaTocandoIndex === index ? pausar() : tocar(index)
                 }
-                className={`cursor-pointer min-w-10 h-10 rounded bg-gradient-to-br ${
-                  cores[index % cores.length]
-                } flex items-center justify-center`}
+                className={`cursor-pointer min-w-10 h-10 rounded bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center`}
               >
                 {musicaTocandoIndex === index ? (
-                  <FaPause className="text-white text-xs" />
+                  <FaPause className="text-white text-lg" />
                 ) : (
-                  <FaPlay className="text-white text-xs" />
+                  <FaYoutube className="text-white text-lg" />
                 )}
               </button>
-              <div>
-                <p className="font-semibold">{musica.nome}</p>
-              </div>
+              <p className="font-semibold max-sm:text-[12px]">
+                {musica.nome.length > 66 ? musica.nome.slice(0, 63) + '...' : musica.nome}
+              </p>
             </div>
           </div>
         ))}
       </div>
-    </div>
-  );
-}
 
-export default PlaylistAniversario;
+      {/* Iframe do vídeo no topo */}
+      <div className={`${musicaTocandoIndex !== null ? 'w-full  md:h-64' : 'w-0 h-0 hidden'}`}>
+        {musicaTocandoIndex !== null && (
+          <iframe
+            className="w-full h-full"
+            src={`${musicas[musicaTocandoIndex].url}?autoplay=1`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
+      </div>
+    </div>
+  )
+}

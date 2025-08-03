@@ -11,7 +11,7 @@ export const dadosPreviewSpotify: ISpotifyAniversario = {
         { nome: 'leva-eternity', url: '2:08' },
         { nome: 'Pull Me Closer GOOD Remix', url: '2:08' },
     ],
-    mensagemParabens: {
+    mensagemEspecial: {
         autor: 'Gabriel Bunhak',
         mensagem: `Ter a chance de conviver com alguém como você é realmente um presente. 
           Sua maneira de encarar a vida, seu bom humor e sua generosidade fazem toda a 

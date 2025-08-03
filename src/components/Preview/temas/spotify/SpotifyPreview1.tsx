@@ -5,12 +5,13 @@ import Player from "./componentes/Player";
 import mensagemParabens from "./componentes/MensagemEspecial";
 import Comentarios from "./componentes/Comentarios";
 import type { ISpotifyAniversario } from "../../../../models/ISpotify";
+import MensagemEspecial from "./componentes/MensagemEspecial";
 
 type SpotifyTemaProps = {
     model: ISpotifyAniversario
 }
 
-function SpotifyTema({ model }: SpotifyTemaProps) {
+function SpotifyTema1({ model }: SpotifyTemaProps) {
 
     const backgroundsPage = [
         'bg-gradient-to-b from-[#2a2a2a] to-[#121212]',
@@ -22,7 +23,7 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
 
     return (
         <div className={`${backgroundsPage[2]} text-white min-h-screen pb-[130px] p-4`}>
-            <div className="flex flex-col gap-12">
+            <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold">{model.titulo || ''}</h1>
@@ -32,15 +33,15 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
                         <IoPlayOutline className="w-6 h-6 text-green-500" />
                     </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="sm:w-2/6">
+                <div className="flex flex-col gap-4">
+                    <div className="">
                         <img className="w-full object-cover" src={model.fotoPrincipal} />
                     </div>
 
                     <PlaylistAniversario musicas={model.musicas} />
                 </div>
-                {/* <mensagemParabens model={model.mensagemParabens} />
-                <AlbumMemorias fotos={model.albumMemorias} /> */}
+                <MensagemEspecial model={model.mensagemEspecial} />
+                {/* <AlbumMemorias fotos={model.albumMemorias} /> */}
                 {/* <Comentarios /> */}
             </div>
             {/* <Player /> */}
@@ -48,4 +49,4 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
     )
 }
 
-export default SpotifyTema;
+export default SpotifyTema1;

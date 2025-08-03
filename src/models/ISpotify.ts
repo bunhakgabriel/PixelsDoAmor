@@ -6,7 +6,7 @@ export interface ISpotifyAniversario {
         nome: string
         url: string
     }[]
-    mensagemParabens: {
+    mensagemEspecial: {
         autor?: string
         mensagem: string
     }
