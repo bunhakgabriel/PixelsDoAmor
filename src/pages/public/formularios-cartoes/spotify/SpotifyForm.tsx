@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import { useForm, useWatch } from "react-hook-form"
-import type { ISpotifyAniversario } from "../../../../models/ISpotify"
+import { defaultValueSpotifyObject, type ISpotifyAniversario } from "../../../../models/ISpotify"
 import { useEffect, useState } from "react"
 import BackButton from "../../../../components/BackButton/BackButon"
 import ButtonUi from "../../../../components/ButtonUi/ButtonUi"
@@ -16,7 +16,9 @@ import SextaEtapa from "./etapas/SextaEtapa"
 const etapas = ['', '', '', '', '', '']
 
 function SpotifyForm() {
-    const form = useForm<ISpotifyAniversario>()
+    const form = useForm<ISpotifyAniversario>({
+        defaultValues: defaultValueSpotifyObject
+    })
     const { control } = form
 
     const [etapaAtual, setEtapaAtual] = useState(0)

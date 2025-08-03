@@ -24,8 +24,8 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
     ]
 
     return (
-        <div className={`${backgroundsPage[2]} rounded-2xl text-white max-h-[500px] overflow-y-scroll pb-[130px] p-4`}>
-            <div className="flex flex-col gap-6">
+        <div className={`${backgroundsPage[2]} relative rounded-2xl text-white max-h-[500px] overflow-y-scroll`}>
+            <div className="flex flex-col gap-6 p-4">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold">{model.titulo || ''}</h1>
@@ -46,7 +46,9 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
                 <AlbumMemorias1 fotos={model.albumMemorias} />
                 <Comentarios1 comentarios={model.comentarios} />
             </div>
-            {/* <Player /> */}
+            <div className="sticky -bottom-4 z-10">
+                <Player musicaPrincipal={model.musicaPrincipal} />
+            </div>
         </div>
     )
 }

@@ -1,7 +1,16 @@
-function Player() {
+type PlayerProps = {
+    musicaPrincipal: {
+        nome: string
+        url: string
+    }
+}
+
+function Player({ musicaPrincipal }: PlayerProps) {
+    if(!musicaPrincipal || !musicaPrincipal?.url) return <></>
+
     return (
         <div className="flex flex-col gap-4 items-center justify-center text-white py-4">
-            <div className="bg-gray-800 p-4 rounded-lg shadow-xl w-full fixed z-50 bottom-0">
+            <div className="bg-gray-800 p-4 rounded-lg shadow-xl w-full">
                 <div className="flex items-center justify-between mb-4">
                     <button className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

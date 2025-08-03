@@ -6,6 +6,10 @@ export interface ISpotifyAniversario {
         nome: string
         url: string
     }[]
+    musicaPrincipal: {
+        nome: string
+        url: string
+    }
     mensagemEspecial: {
         autor?: string
         mensagem: string
@@ -32,4 +36,24 @@ export interface Comentario {
     curtidas: number;
     curtido: boolean;
     respostas: Resposta[];
+}
+
+export const defaultValueSpotifyObject: ISpotifyAniversario = {
+    titulo: '',
+    nome: '',
+    fotoPrincipal: '',
+    musicas: [],
+    musicaPrincipal: {
+        nome: '',
+        url: ''
+    },
+    mensagemEspecial: {
+        autor: '',
+        mensagem: ''
+    },
+    albumMemorias: [],
+    comentarios: {
+        habilitado: true,
+        listaComentarios: []
+    }
 }

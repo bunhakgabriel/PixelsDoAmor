@@ -6,16 +6,23 @@ type YouTubeSearchProps<T extends FieldValues> = {
   name: Path<T>
   label: string
   apiKey: string
+  type: 'list' | 'item'
 }
 
 function YouTubeSearch<T extends FieldValues>({
   form,
   name,
   label,
-  apiKey
+  apiKey,
+  type
 }: YouTubeSearchProps<T>) {
   const { setValue, watch } = form
-  const selectedVideos = watch(name) as { nome: string; url: string }[] || []
+
+  const selectedValue = watch(name)
+  const selectedVideos =
+    type === 'list'
+      ? (selectedValue as { nome: string; url: string }[]) || []
+      : (selectedValue as { nome: string; url: string })
 
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<any[]>([])
@@ -48,20 +55,30 @@ function YouTubeSearch<T extends FieldValues>({
   function handleSelect(videoId: string, title: string) {
     const embedUrl = `https://www.youtube.com/embed/${videoId}`
 
-    if (selectedVideos.length >= 5) {
-      setError('Você só pode adicionar até 5 músicas.')
-      return
+    if (type === 'list') {
+      const currentList = selectedVideos as { nome: string; url: string }[]
+      if (currentList.length >= 5) {
+        setError('Você só pode adicionar até 5 músicas.')
+        return
+      }
+      const novoArray = [...currentList, { nome: title, url: embedUrl }]
+      setValue(name, novoArray as any)
+    } else {
+      setValue(name, { nome: title, url: embedUrl } as any)
     }
 
-    const novoArray = [...selectedVideos, { nome: title, url: embedUrl }]
-    setValue(name, novoArray as any)
     setResults([])
     setQuery('')
   }
 
-  function handleRemove(index: number) {
-    const novoArray = selectedVideos.filter((_, i) => i !== index)
-    setValue(name, novoArray as any)
+  function handleRemove(index?: number) {
+    if (type === 'list') {
+      const currentList = selectedVideos as { nome: string; url: string }[]
+      const novoArray = currentList.filter((_, i) => i !== index)
+      setValue(name, novoArray as any)
+    } else {
+      setValue(name, undefined as any)
+    }
   }
 
   return (
@@ -107,7 +124,8 @@ function YouTubeSearch<T extends FieldValues>({
         </ul>
       )}
 
-      {selectedVideos.length > 0 && (
+      {/* Visualização dos vídeos selecionados */}
+      {type === 'list' && Array.isArray(selectedVideos) && selectedVideos.length > 0 && (
         <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-4 max-h-[250px] overflow-auto">
           {selectedVideos.map((video, index) => (
             <div
@@ -115,9 +133,7 @@ function YouTubeSearch<T extends FieldValues>({
               className="relative rounded overflow-hidden shadow-sm"
             >
               <iframe
-                width=""
-                height=""
-                className='h-[140px] sm:h-[150px] md:h-[170px] w-full sm:w-[150px] md:w-[220px] lg:w-[215px]'
+                className="h-[140px] sm:h-[150px] md:h-[170px] w-full sm:w-[150px] md:w-[220px] lg:w-[215px]"
                 src={video.url}
                 title={video.nome}
                 frameBorder="0"
@@ -132,6 +148,25 @@ function YouTubeSearch<T extends FieldValues>({
               </button>
             </div>
           ))}
+        </div>
+      )}
+
+      {type === 'item' && selectedVideos && (
+        <div className="relative mt-4 w-full max-w-md mx-auto">
+          <iframe
+            className="w-full h-48 sm:h-56 md:h-64 rounded"
+            src={(selectedVideos as { url: string }).url}
+            title={(selectedVideos as { nome: string }).nome}
+            frameBorder="0"
+            allowFullScreen
+          />
+          <button
+            type="button"
+            onClick={() => handleRemove()}
+            className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs rounded hover:bg-red-600"
+          >
+            X
+          </button>
         </div>
       )}
     </div>

@@ -6,6 +6,7 @@ function TerceiraEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
   return (
     <div>
       <YouTubeSearch
+        type="list"
         form={form}
         name="musicas"
         label="Escolha até 5 músicas"
