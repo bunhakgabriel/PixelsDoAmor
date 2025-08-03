@@ -9,7 +9,7 @@ type AlbumMemoriasProps = {
     fotos: string[]
 }
 
-function AlbumMemorias({ fotos }: AlbumMemoriasProps) {
+function AlbumMemorias1({ fotos }: AlbumMemoriasProps) {
     let passar: SwiperType;
 
     const scrollLeft = () => {
@@ -38,7 +38,7 @@ function AlbumMemorias({ fotos }: AlbumMemoriasProps) {
                         </button>
                     </div>
                 </div>
-                <div className="flex flex-wrap justify-between gap-y-7">
+                <div>
                     <Swiper
                         spaceBetween={15}
                         slidesPerView={4.4}
@@ -54,25 +54,8 @@ function AlbumMemorias({ fotos }: AlbumMemoriasProps) {
                                 slidesPerView: 1.4,
                             },
                             500: {
-                                slidesPerView: 2.1,
-                            },
-                            600: {
-                                slidesPerView: 2.3,
-                            },
-                            700: {
-                                slidesPerView: 2.4,
-                            },
-                            900: {
-                                slidesPerView: 3.1,
-                            },
-                            1024: {
-                                spaceBetween: 20,
-                                slidesPerView: 3.3
-                            },
-                            1300: {
-                                spaceBetween: 20,
-                                slidesPerView: 4.1
-                            },
+                                slidesPerView: 1.6,
+                            }
                         }}
                     >
                         {fotos.map((foto, index) => (
@@ -94,4 +77,4 @@ function AlbumMemorias({ fotos }: AlbumMemoriasProps) {
     );
 }
 
-export default AlbumMemorias
+export default AlbumMemorias1

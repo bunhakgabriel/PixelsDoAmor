@@ -1,6 +1,6 @@
 import { IoPlayOutline } from "react-icons/io5";
 import PlaylistAniversario from "./componentes/PlaylistAniversario";
-import AlbumMemorias from "./componentes/AlbumMemorias";
+import AlbumMemorias1 from "./componentes/AlbumMemorias1";
 import Player from "./componentes/Player";
 import mensagemParabens from "./componentes/MensagemEspecial";
 import Comentarios from "./componentes/Comentarios";
@@ -22,7 +22,7 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
     ]
 
     return (
-        <div className={`${backgroundsPage[2]} text-white min-h-screen pb-[130px] p-4`}>
+        <div className={`${backgroundsPage[2]} rounded-2xl text-white max-h-[500px] overflow-y-scroll pb-[130px] p-4`}>
             <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between">
                     <div>
@@ -41,7 +41,7 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
                     <PlaylistAniversario musicas={model.musicas} />
                 </div>
                 <MensagemEspecial model={model.mensagemEspecial} />
-                {/* <AlbumMemorias fotos={model.albumMemorias} /> */}
+                <AlbumMemorias1 fotos={model.albumMemorias} />
                 {/* <Comentarios /> */}
             </div>
             {/* <Player /> */}

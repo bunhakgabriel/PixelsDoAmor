@@ -1,5 +1,7 @@
 import { useFieldArray, type UseFormReturn } from 'react-hook-form'
-import { converteFileBase64 } from '../../utils/ConverteFileBase64'
+import { converteFileBase64 } from '../../utils/converteFileBase64'
+import { style } from '../../utils/classesCssGlobais'
+import { IoAdd } from 'react-icons/io5'
 
 type MultipleImageUploadProps = {
   name: string
@@ -23,11 +25,26 @@ function MultipleImageUpload({ name, form, label }: MultipleImageUploadProps) {
 
   return (
     <div>
-      <p className="block text-sm font-medium text-gray-700 mb-2">{label}</p>
+      <p className={`${style.classLabel} block text-sm font-medium text-gray-700 mb-2`}>{label}</p>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-2 sm:gap-4">
+        <div>
+          <label
+            htmlFor={`upload-${name}`}
+            className="w-21 h-21 sm:w-24 sm:h-24 md:w-28 md:h-28 border-2 border-dashed border-blue-400 rounded-lg flex items-center justify-center text-blue-600 cursor-pointer hover:bg-blue-50 transition"
+          >
+            <IoAdd size={50} className='text-blue-400' />
+          </label>
+          <input
+            id={`upload-${name}`}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleAddImage}
+          />
+        </div>
         {imagens.map((img, index) => (
-          <div key={index} className="relative w-24 h-24">
+          <div key={index} className="relative w-21 h-21 sm:w-24 sm:h-24 md:w-28 md:h-28">
             <img src={img} className="object-cover w-full h-full rounded border" alt={`Imagem ${index}`} />
             <button
               type="button"
@@ -39,20 +56,6 @@ function MultipleImageUpload({ name, form, label }: MultipleImageUploadProps) {
           </div>
         ))}
       </div>
-
-      <label
-        htmlFor={`upload-${name}`}
-        className="mt-4 inline-block w-full h-24 border-2 border-dashed border-blue-400 rounded-lg flex items-center justify-center text-blue-600 cursor-pointer hover:bg-blue-50 transition"
-      >
-        <span>Adicionar imagem</span>
-      </label>
-      <input
-        id={`upload-${name}`}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handleAddImage}
-      />
     </div>
   )
 }

@@ -2,9 +2,9 @@ import { IoPlayOutline } from "react-icons/io5";
 import PlaylistAniversario from "./componentes/PlaylistAniversario";
 import AlbumMemorias from "./componentes/AlbumMemorias";
 import Player from "./componentes/Player";
-import mensagemParabens from "./componentes/MensagemEspecial";
 import Comentarios from "./componentes/Comentarios";
 import type { ISpotifyAniversario } from "../../../../models/ISpotify";
+import MensagemEspecial from "./componentes/MensagemEspecial";
 
 type SpotifyTemaProps = {
     model: ISpotifyAniversario
@@ -39,8 +39,8 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
 
                     <PlaylistAniversario musicas={model.musicas} />
                 </div>
-                {/* <mensagemParabens model={model.mensagemParabens} />
-                <AlbumMemorias fotos={model.albumMemorias} /> */}
+                <MensagemEspecial model={model.mensagemEspecial} />
+                <AlbumMemorias fotos={model.albumMemorias} />
                 {/* <Comentarios /> */}
             </div>
             {/* <Player /> */}
