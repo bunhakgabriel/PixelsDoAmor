@@ -1,12 +1,15 @@
+import type { DataType } from "../../../../../models/ISpotify"
+
 type PlayerProps = {
     musicaPrincipal: {
         nome: string
         url: string
     }
+    data: DataType | undefined
 }
 
-function Player({ musicaPrincipal }: PlayerProps) {
-    if(!musicaPrincipal || !musicaPrincipal?.url) return <></>
+function Player({ musicaPrincipal, data }: PlayerProps) {
+    if ((!musicaPrincipal || !musicaPrincipal?.url) && !data) return <></>
 
     return (
         <div className="flex flex-col gap-4 items-center justify-center text-white py-4">
@@ -38,9 +41,11 @@ function Player({ musicaPrincipal }: PlayerProps) {
                         </svg>
                     </button>
                 </div>
-                <div className="text-center">
-                    <p className="text-xl font-semibold mb-1">25 anos de pura música</p>
-                </div>
+                {data && (
+                    <div className="text-center">
+                        <p className="text-xl font-semibold mb-1">{data.texto} de pura música</p>
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { UseFormReturn, Path, FieldValues } from 'react-hook-form'
+import { style } from '../../utils/classesCssGlobais'
 
 type YouTubeSearchProps<T extends FieldValues> = {
   form: UseFormReturn<T>
@@ -77,13 +78,16 @@ function YouTubeSearch<T extends FieldValues>({
       const novoArray = currentList.filter((_, i) => i !== index)
       setValue(name, novoArray as any)
     } else {
-      setValue(name, undefined as any)
+      setValue(name, {
+        nome: '',
+        url: ''
+      } as any)
     }
   }
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-gray-700">{label}</label>
+      <label className={`${style.classLabel} text-sm font-medium text-gray-700`}>{label}</label>
 
       <div className="flex gap-2">
         <input
@@ -151,7 +155,7 @@ function YouTubeSearch<T extends FieldValues>({
         </div>
       )}
 
-      {type === 'item' && selectedVideos && (
+      {type === 'item' && selectedVideos && selectedValue?.url && (
         <div className="relative mt-4 w-full max-w-md mx-auto">
           <iframe
             className="w-full h-48 sm:h-56 md:h-64 rounded"

@@ -26,5 +26,11 @@ export const dadosPreviewSpotify: ISpotifyAniversario = {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQAMxfhm62lq97NphbabkXf6SueStIT7gsog&s',
         'https://www.guiadasemana.com.br/contentFiles/system/pictures/2015/3/290713/original/selfie.jpg',
         'https://m.media-amazon.com/images/I/81z1Js7n8PL._UF350,350_QL80_.jpg'
-    ]
+    ],
+    data: undefined,
+    comentarios: undefined,
+    musicaPrincipal: {
+        nome: '',
+        url: ''
+    }
 }

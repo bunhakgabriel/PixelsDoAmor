@@ -47,7 +47,7 @@ function SpotifyForm() {
                         onClick={voltarEtapa}
                     />
                     <div className="flex gap-2">
-                        {etapas.map((etapa, index) => (
+                        {etapas.map((_, index) => (
                             <span key={index} className={clsx('rounded-2xl w-full h-[10px]', {
                                 'bg-gradient-to-r from-purple-600 to-pink-600': etapaAtual >= index,
                                 'bg-[#E5E7EB]': etapaAtual < index

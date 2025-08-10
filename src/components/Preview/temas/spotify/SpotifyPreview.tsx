@@ -1,7 +1,6 @@
 import { IoPlayOutline } from "react-icons/io5";
 import PlaylistAniversario from "./componentes/PlaylistAniversario";
 import AlbumMemorias from "./componentes/AlbumMemorias";
-import Player from "./componentes/Player";
 import Comentarios from "./componentes/Comentarios";
 import type { ISpotifyAniversario } from "../../../../models/ISpotify";
 import MensagemEspecial from "./componentes/MensagemEspecial";

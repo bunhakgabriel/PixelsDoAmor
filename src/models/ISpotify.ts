@@ -1,41 +1,49 @@
 export interface ISpotifyAniversario {
-    titulo: string
+    titulo?: string
     nome?: string
-    fotoPrincipal: string
-    musicas: {
-        nome: string
-        url: string
+    fotoPrincipal?: string
+    musicas?: {
+        nome?: string
+        url?: string
     }[]
-    musicaPrincipal: {
-        nome: string
-        url: string
+    musicaPrincipal?: {
+        nome?: string
+        url?: string
     }
-    mensagemEspecial: {
+    mensagemEspecial?: {
         autor?: string
-        mensagem: string
+        mensagem?: string
     }
-    albumMemorias: string[]
-    comentarios: Comentarios
+    albumMemorias?: string[]
+    comentarios?: Comentarios | undefined
+    data?: DataType | undefined
 }
 
 export interface Comentarios {
-    habilitado: boolean
-    listaComentarios: Comentario[]
+    habilitado?: boolean
+    listaComentarios?: Comentario[]
 }
 
+export interface DataType {
+    valor?: string
+    formato?: 'completo' | 'anos' | 'dias' | 'meses'
+    texto?: string
+}
+
+
 export interface Resposta {
-    id: number;
-    autor: string;
-    mensagem: string;
+    id?: number;
+    autor?: string;
+    mensagem?: string;
 }
 
 export interface Comentario {
-    id: number;
-    autor: string;
-    mensagem: string;
-    curtidas: number;
-    curtido: boolean;
-    respostas: Resposta[];
+    id?: number;
+    autor?: string;
+    mensagem?: string;
+    curtidas?: number;
+    curtido?: boolean;
+    respostas?: Resposta[];
 }
 
 export const defaultValueSpotifyObject: ISpotifyAniversario = {
@@ -53,7 +61,8 @@ export const defaultValueSpotifyObject: ISpotifyAniversario = {
     },
     albumMemorias: [],
     comentarios: {
-        habilitado: true,
+        habilitado: false,
         listaComentarios: []
-    }
+    },
+    data: undefined
 }

@@ -5,7 +5,7 @@ import { useState } from "react";
 import clsx from "clsx";
 
 function Header() {
-    const [currentPage, setCurrentPage] = useState<string>('home')
+    const [currentPage] = useState<string>('home')
 
     return (
         <header className="z-50 fixed w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">

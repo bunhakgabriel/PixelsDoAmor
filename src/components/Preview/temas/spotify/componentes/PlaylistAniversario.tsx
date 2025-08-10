@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { FaYoutube, FaPause } from 'react-icons/fa'
 
 type Musica = {
@@ -21,13 +21,13 @@ export default function ListaMusicas({ musicas }: Props) {
     setMusicaTocandoIndex(null)
   }
 
-  const cores = [
-    'from-green-400 to-green-600',
-    'from-purple-400 to-purple-600',
-    'from-yellow-400 to-yellow-600',
-    'from-blue-400 to-blue-600',
-    'from-red-400 to-red-600'
-  ]
+  // const cores = [
+  //   'from-green-400 to-green-600',
+  //   'from-purple-400 to-purple-600',
+  //   'from-yellow-400 to-yellow-600',
+  //   'from-blue-400 to-blue-600',
+  //   'from-red-400 to-red-600'
+  // ]
 
   if (!musicas || musicas?.length == 0) return <></>
 
