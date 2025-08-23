@@ -1,19 +1,18 @@
-import { Controller, type FieldValues, type UseFormReturn, type Path, type PathValue } from "react-hook-form"
+import { Controller, type FieldValues, type Path, type PathValue, useFormContext } from "react-hook-form"
 import { BsUpload } from "react-icons/bs"
 import { converteFileBase64 } from "../../utils/converteFileBase64.ts"
 import { style } from "../../utils/classesCssGlobais.ts"
 import clsx from "clsx"
 
 type ImageUploadFieldProps<T extends FieldValues> = {
-  form: UseFormReturn<T>
   name: Path<T>
   label: string
   height?: string
   width?: string
 }
 
-function ImageUploadField<T extends FieldValues>({ form, name, label, height, width }: ImageUploadFieldProps<T>) {
-  const { control, watch, setValue } = form
+function ImageUploadField<T extends FieldValues>({ name, label, height, width }: ImageUploadFieldProps<T>) {
+  const { control, watch, setValue } = useFormContext<T>()
   const currentValue = watch(name)
 
   return (

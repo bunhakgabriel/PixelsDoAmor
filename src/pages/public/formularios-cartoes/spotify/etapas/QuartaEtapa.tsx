@@ -1,9 +1,9 @@
-import type { EtapaProps } from "../../../../../types/FormType"
 import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
 import { style } from "../../../../../utils/classesCssGlobais"
+import { useFormContext } from "react-hook-form"
 
-function QuartaEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
-    const { register } = form
+function QuartaEtapa() {
+    const { register } = useFormContext<ISpotifyAniversario>()
 
     return (
         <div>

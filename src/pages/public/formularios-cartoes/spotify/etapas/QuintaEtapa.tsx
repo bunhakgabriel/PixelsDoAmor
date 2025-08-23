@@ -1,12 +1,10 @@
-import type { EtapaProps } from "../../../../../types/FormType"
-import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
 import MultipleImageUpload from "../../../../../components/MultipleImageUpload/MultipleImageUpload"
+import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
 
-function QuintaEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
+function QuintaEtapa() {
     return (
         <div>
-            <MultipleImageUpload 
-                form={form}
+            <MultipleImageUpload<ISpotifyAniversario> 
                 name="albumMemorias"
                 label="Selecione até 8 imagens"
             />

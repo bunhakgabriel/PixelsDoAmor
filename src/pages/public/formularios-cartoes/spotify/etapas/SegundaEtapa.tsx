@@ -1,14 +1,12 @@
-import type { EtapaProps } from "../../../../../types/FormType";
-import type { ISpotifyAniversario } from "../../../../../models/ISpotify";
 import ImageUploadField from "../../../../../components/ImageUploadField/ImageUploadField";
+import type { ISpotifyAniversario } from "../../../../../models/ISpotify";
 
-function SegundaEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
+function SegundaEtapa() {
   return (
     <div>
-      <ImageUploadField
+      <ImageUploadField<ISpotifyAniversario>
         name="fotoPrincipal"
         label="Foto principal"
-        form={form}
         width="w-full"
         height="h-[300px]"
       />

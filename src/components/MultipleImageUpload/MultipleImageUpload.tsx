@@ -1,26 +1,25 @@
-import { useFieldArray, type UseFormReturn } from 'react-hook-form'
+import { useFieldArray, useFormContext, type ArrayPath, type FieldValues, type Path, type UseFormReturn } from 'react-hook-form'
 import { converteFileBase64 } from '../../utils/converteFileBase64'
 import { style } from '../../utils/classesCssGlobais'
 import { IoAdd } from 'react-icons/io5'
 
-type MultipleImageUploadProps = {
-  name: string
-  form: UseFormReturn<any>
+type MultipleImageUploadProps<T extends FieldValues> = {
+  name: Path<T>
   label: string
 }
 
-function MultipleImageUpload({ name, form, label }: MultipleImageUploadProps) {
-  const { control, watch } = form
+function MultipleImageUpload<T extends FieldValues>({ name, label }: MultipleImageUploadProps<T>) {
+  const { control, watch } = useFormContext<T>()
   const imagens = watch(name) as string[] || []
 
   const { append, remove } = useFieldArray({
     control,
-    name
+    name: name as ArrayPath<T>
   })
 
   const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const base64 = await converteFileBase64(e)
-    append(base64)
+    append(base64 as any)
   }
 
   return (

@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { useForm, useWatch } from "react-hook-form"
+import { FormProvider, useForm, useWatch } from "react-hook-form"
 import { defaultValueSpotifyObject, type ISpotifyAniversario } from "../../../../models/ISpotify"
 import { useEffect, useState } from "react"
 import BackButton from "../../../../components/BackButton/BackButon"
@@ -37,50 +37,52 @@ function SpotifyForm() {
     }, [model])
 
     return (
-        <div className="flex flex-col lg:flex-row p-6 gap-8 lg:gap-16 max-lg:items-center">
+        <FormProvider {...form}>
+            <div className="flex flex-col lg:flex-row p-6 gap-8 lg:gap-16 max-lg:items-center">
 
-            <div className="flex flex-col w-full lg:w-3/5 max-sm:gap-4">
-                <div className="flex flex-col gap-4">
-                    <BackButton
-                        text="Voltar"
-                        color="blue"
-                        onClick={voltarEtapa}
+                <div className="flex flex-col w-full lg:w-3/5 max-sm:gap-4">
+                    <div className="flex flex-col gap-4">
+                        <BackButton
+                            text="Voltar"
+                            color="blue"
+                            onClick={voltarEtapa}
+                        />
+                        <div className="flex gap-2">
+                            {etapas.map((_, index) => (
+                                <span key={index} className={clsx('rounded-2xl w-full h-[10px]', {
+                                    'bg-gradient-to-r from-purple-600 to-pink-600': etapaAtual >= index,
+                                    'bg-[#E5E7EB]': etapaAtual < index
+                                })}></span>
+                            ))}
+                        </div>
+                        <div className="flex flex-col gap-2 items-center">
+                            <p className="text-[#4B5563] text-sm sm:text-lg">Etapa <span>{etapaAtual + 1}</span> de <span>{etapas.length}</span></p>
+                        </div>
+                    </div>
+
+                    <form className="flex gap-6 flex-col">
+                        {etapaAtual === 0 && <PrimeiraEtapa />}
+                        {etapaAtual === 1 && <SegundaEtapa />}
+                        {etapaAtual === 2 && <TerceiraEtapa />}
+                        {etapaAtual === 3 && <QuartaEtapa />}
+                        {etapaAtual === 4 && <QuintaEtapa />}
+                        {etapaAtual === 5 && <SextaEtapa />}
+
+                    </form>
+                    <ButtonUi
+                        className="w-[100%] h-[40px] sm:my-4"
+                        text="Próximo"
+                        onClick={avancarEtapa}
+                        element="button"
                     />
-                    <div className="flex gap-2">
-                        {etapas.map((_, index) => (
-                            <span key={index} className={clsx('rounded-2xl w-full h-[10px]', {
-                                'bg-gradient-to-r from-purple-600 to-pink-600': etapaAtual >= index,
-                                'bg-[#E5E7EB]': etapaAtual < index
-                            })}></span>
-                        ))}
-                    </div>
-                    <div className="flex flex-col gap-2 items-center">
-                        <p className="text-[#4B5563] text-sm sm:text-lg">Etapa <span>{etapaAtual + 1}</span> de <span>{etapas.length}</span></p>
-                    </div>
                 </div>
 
-                <form className="flex gap-6 flex-col">
-                    {etapaAtual === 0 && <PrimeiraEtapa form={form} />}
-                    {etapaAtual === 1 && <SegundaEtapa form={form} />}
-                    {etapaAtual === 2 && <TerceiraEtapa form={form} />}
-                    {etapaAtual === 3 && <QuartaEtapa form={form} />}
-                    {etapaAtual === 4 && <QuintaEtapa form={form} />}
-                    {etapaAtual === 5 && <SextaEtapa form={form} />}
+                <div className="w-full sm:w-[500px] lg:w-[2/5]">
+                    <SpotifyTema1 model={model} />
+                </div>
 
-                </form>
-                <ButtonUi
-                    className="w-[100%] h-[40px] sm:my-4"
-                    text="Próximo"
-                    onClick={avancarEtapa}
-                    element="button"
-                />
             </div>
-
-            <div className="w-full sm:w-[500px] lg:w-[2/5]">
-                <SpotifyTema1 model={model} />
-            </div>
-
-        </div>
+        </FormProvider>
     )
 }
 

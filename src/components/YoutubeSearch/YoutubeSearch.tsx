@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import type { UseFormReturn, Path, FieldValues } from 'react-hook-form'
+import { type Path, type FieldValues, useFormContext } from 'react-hook-form'
 import { style } from '../../utils/classesCssGlobais'
 
 type YouTubeSearchProps<T extends FieldValues> = {
-  form: UseFormReturn<T>
   name: Path<T>
   label: string
   apiKey: string
@@ -11,13 +10,12 @@ type YouTubeSearchProps<T extends FieldValues> = {
 }
 
 function YouTubeSearch<T extends FieldValues>({
-  form,
   name,
   label,
   apiKey,
   type
 }: YouTubeSearchProps<T>) {
-  const { setValue, watch } = form
+  const { setValue, watch } = useFormContext<T>()
 
   const selectedValue = watch(name)
   const selectedVideos =

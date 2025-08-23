@@ -1,13 +1,11 @@
-import type { EtapaProps } from "../../../../../types/FormType"
-import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
 import YouTubeSearch from "../../../../../components/YoutubeSearch/YoutubeSearch"
+import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
 
-function TerceiraEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
+function TerceiraEtapa() {
   return (
     <div>
-      <YouTubeSearch
+      <YouTubeSearch<ISpotifyAniversario>
         type="list"
-        form={form}
         name="musicas"
         label="Escolha até 5 músicas"
         apiKey={'AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo'}

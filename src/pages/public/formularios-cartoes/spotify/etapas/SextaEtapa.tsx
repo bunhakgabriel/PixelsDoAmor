@@ -1,6 +1,6 @@
+import { useFormContext } from "react-hook-form";
 import YouTubeSearch from "../../../../../components/YoutubeSearch/YoutubeSearch";
 import type { ISpotifyAniversario } from "../../../../../models/ISpotify";
-import type { EtapaProps } from "../../../../../types/FormType";
 import { style } from "../../../../../utils/classesCssGlobais";
 import clsx from "clsx";
 
@@ -16,8 +16,8 @@ const opcoes: typeOpcoes[] = [
     { id: "meses", label: "Formato em meses" },
 ]
 
-function SextaEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
-    const { register, getValues, setValue, watch } = form
+function SextaEtapa() {
+    const { register, getValues, setValue, watch } = useFormContext<ISpotifyAniversario>()
 
     const musica = getValues('musicaPrincipal')
     const valorData = watch('data.valor')
@@ -84,9 +84,8 @@ function SextaEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
 
             </div>
             <div>
-                <YouTubeSearch
+                <YouTubeSearch<ISpotifyAniversario>
                     type="item"
-                    form={form}
                     name="musicaPrincipal"
                     label="Trilha sonora princial"
                     apiKey={'AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo'}

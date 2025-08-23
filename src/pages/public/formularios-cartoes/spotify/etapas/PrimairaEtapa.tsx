@@ -1,11 +1,11 @@
 import { HiOutlineSparkles } from "react-icons/hi2"
 import ButtonUi from "../../../../../components/ButtonUi/ButtonUi"
 import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
-import type { EtapaProps } from "../../../../../types/FormType"
 import { style } from "../../../../../utils/classesCssGlobais"
+import { useFormContext } from "react-hook-form"
 
-function PrimeiraEtapa({ form }: EtapaProps<ISpotifyAniversario>) {
-    const { register } = form
+function PrimeiraEtapa() {
+    const { register } = useFormContext<ISpotifyAniversario>()
 
     return (
         <div className="flex gap-6 flex-col">
