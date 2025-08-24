@@ -1,7 +1,8 @@
 import { IoIosPlay } from "react-icons/io"
 import type { DataType } from "../../../../../models/ISpotify"
-import { useConfigStore } from "../../../../../store/useConfigStore"
+import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify"
 import { IoPauseSharp } from "react-icons/io5"
+import { useEffect, useState } from "react"
 
 type PlayerProps = {
     musicaPrincipal: {
@@ -12,10 +13,20 @@ type PlayerProps = {
 }
 
 function Player({ musicaPrincipal, data }: PlayerProps) {
-    const playingSongMain = useConfigStore(state => state.playingSongMain)
-    const setPlayingSongMain = useConfigStore(state => state.setPlayingSongMain)
+    const playingSongMain = useConfigStoreSpotify(state => state.playingSongMain)
+    const setPlayingSongMain = useConfigStoreSpotify(state => state.setPlayingSongMain)
 
+    const [heights, setHeights] = useState([8, 16, 12, 20, 10]);
 
+    useEffect(() => {
+        if (!playingSongMain) return;
+
+        const interval = setInterval(() => {
+            setHeights(heights.map(() => Math.floor(Math.random() * 25 + 4)));
+        }, 300); // muda a cada 300ms
+
+        return () => clearInterval(interval);
+    }, [playingSongMain, heights]);
 
     if ((!musicaPrincipal || !musicaPrincipal?.url) && !data) return <></>
 
@@ -33,15 +44,32 @@ function Player({ musicaPrincipal, data }: PlayerProps) {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
                         </svg>
                     </button>
-                    {playingSongMain ? (
-                        <button onClick={() => setPlayingSongMain(false)} className="cursor-pointer text-black bg-green-500 hover:bg-green-600 transition-colors duration-200 p-3 rounded-full shadow-lg">
-                            <IoPauseSharp className="h-8 w-8" />
+                    <div className="flex flex-row items-center justify-center gap-2">
+                        <div className="flex items-end gap-1 h-10">
+                            {heights.map((h, i) => (
+                                <div
+                                    key={i}
+                                    className={`bg-green-500 w-2 rounded`}
+                                    style={{ height: `${h}px` }}
+                                ></div>
+                            ))}
+                        </div>
+                        <button
+                            onClick={() => setPlayingSongMain(!playingSongMain)}
+                            className="mt-2 cursor-pointer text-black bg-green-500 hover:bg-green-600 transition-colors duration-200 p-3 rounded-full shadow-lg"
+                        >
+                            {playingSongMain ? <IoPauseSharp className="h-8 w-8" /> : <IoIosPlay className="h-8 w-8" />}
                         </button>
-                    ) : (
-                        <button onClick={() => setPlayingSongMain(true)} className="cursor-pointer text-black bg-green-500 hover:bg-green-600 transition-colors duration-200 p-3 rounded-full shadow-lg">
-                            <IoIosPlay className="h-8 w-8" />
-                        </button>
-                    )}
+                        <div className="flex items-end gap-1 h-10">
+                            {heights.map((h, i) => (
+                                <div
+                                    key={i}
+                                    className={`bg-green-500 w-2 rounded`}
+                                    style={{ height: `${h}px` }}
+                                ></div>
+                            ))}
+                        </div>
+                    </div>
                     <button className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
@@ -53,11 +81,11 @@ function Player({ musicaPrincipal, data }: PlayerProps) {
                         </svg>
                     </button> */}
                 </div>
-                {data && (
+                {/* {data && (
                     <div className="text-center">
                         <p className="text-xl font-semibold mb-1">{data.texto} de pura música</p>
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     )
