@@ -1,5 +1,4 @@
 import { IoIosPlay } from "react-icons/io"
-import type { DataType } from "../../../../../models/ISpotify"
 import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify"
 import { IoPauseSharp } from "react-icons/io5"
 import { useEffect, useState } from "react"
@@ -9,10 +8,9 @@ type PlayerProps = {
         nome: string
         url: string
     }
-    data: DataType | undefined
 }
 
-function Player({ musicaPrincipal, data }: PlayerProps) {
+function Player({ musicaPrincipal }: PlayerProps) {
     const playingSongMain = useConfigStoreSpotify(state => state.playingSongMain)
     const setPlayingSongMain = useConfigStoreSpotify(state => state.setPlayingSongMain)
 

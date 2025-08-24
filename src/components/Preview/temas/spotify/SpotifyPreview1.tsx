@@ -52,7 +52,7 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
                 <Comentarios1 comentarios={model.comentarios} />
             </div>
             <div className="sticky -bottom-4 z-10">
-                <Player musicaPrincipal={model.musicaPrincipal} data={model.data} />
+                <Player musicaPrincipal={model.musicaPrincipal} />
             </div>
         </div>
     )
