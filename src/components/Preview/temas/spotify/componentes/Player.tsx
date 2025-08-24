@@ -33,7 +33,7 @@ function Player({ musicaPrincipal, data }: PlayerProps) {
         setPlayingSongMain(!playingSongMain)
     }
 
-    if ((!musicaPrincipal || !musicaPrincipal?.url) && !data) return <></>
+    if ((!musicaPrincipal || !musicaPrincipal?.url)) return <></>
 
     return (
         <div className="flex flex-col gap-4 items-center justify-center text-white py-4">

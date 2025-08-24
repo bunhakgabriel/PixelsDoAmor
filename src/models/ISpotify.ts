@@ -57,5 +57,5 @@ export const defaultValueSpotifyObject: ISpotifyAniversario = {
         habilitado: false,
         listaComentarios: []
     },
-    data: 'undefined'
+    data: ''
 }
