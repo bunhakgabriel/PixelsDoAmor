@@ -5,13 +5,13 @@ import Player from "./componentes/Player";
 import type { ISpotifyAniversario } from "../../../../models/ISpotify";
 import MensagemEspecial from "./componentes/MensagemEspecial";
 import Comentarios1 from "./componentes/Comentarios1";
+import { converterData } from "../../../../utils/converterData";
 
 type SpotifyTemaProps = {
     model: ISpotifyAniversario
 }
 
 function SpotifyTema1({ model }: SpotifyTemaProps) {
-
     const backgroundsPage = [
         'bg-gradient-to-b from-[#2a2a2a] to-[#121212]',
         'bg-gradient-to-b from-[#3e3e3e] to-[#121212]',
@@ -33,10 +33,18 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
                     </div>
                 </div>
                 <div className="flex flex-col gap-4">
+
                     <div className="">
                         <img className="w-full object-cover" src={model.fotoPrincipal} />
                     </div>
-
+                    <div>
+                        <h1>
+                            {model.data?.length == 10 && converterData(model.data) != '' && (
+                                <div className="text-center">
+                                    <p className="text-xl font-semibold mb-1 edu-nsw-act-cursive">{converterData(model.data)} de pura música!</p>
+                                </div>
+                            )}</h1>
+                    </div>
                     <PlaylistAniversario model={model} />
                 </div>
                 <MensagemEspecial model={model.mensagemEspecial} />

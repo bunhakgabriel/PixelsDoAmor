@@ -16,20 +16,13 @@ export interface ISpotifyAniversario {
     }
     albumMemorias: string[]
     comentarios: Comentarios
-    data?: DataType | undefined
+    data?: string
 }
 
 export interface Comentarios {
     habilitado: boolean
     listaComentarios: Comentario[]
 }
-
-export interface DataType {
-    valor?: string
-    formato?: 'completo' | 'anos' | 'dias' | 'meses'
-    texto?: string
-}
-
 
 export interface Resposta {
     id: number;
@@ -64,5 +57,5 @@ export const defaultValueSpotifyObject: ISpotifyAniversario = {
         habilitado: false,
         listaComentarios: []
     },
-    data: undefined
+    data: 'undefined'
 }

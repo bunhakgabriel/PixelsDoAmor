@@ -76,11 +76,6 @@ function Player({ musicaPrincipal, data }: PlayerProps) {
                         </svg>
                     </button>
                 </div>
-                {data && (
-                    <div className="text-center">
-                        <p className="text-xl font-semibold mb-1">{data.texto} de pura música</p>
-                    </div>
-                )}
             </div>
         </div>
     )
