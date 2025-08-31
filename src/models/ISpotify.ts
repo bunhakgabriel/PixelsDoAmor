@@ -1,7 +1,7 @@
 export interface ISpotifyAniversario {
     titulo: string
     nome?: string
-    fotoPrincipal: string
+    fotoPrincipal: Imagem
     musicas: {
         nome: string
         url: string
@@ -39,10 +39,19 @@ export interface Comentario {
     respostas: Resposta[];
 }
 
+export interface Imagem {
+    imagem: string | File
+    previewImagem: string
+}
+
+
 export const defaultValueSpotifyObject: ISpotifyAniversario = {
     titulo: '',
     nome: '',
-    fotoPrincipal: '',
+    fotoPrincipal: {
+        imagem: '',
+        previewImagem: ''
+    },
     musicas: [],
     musicaPrincipal: {
         nome: '',

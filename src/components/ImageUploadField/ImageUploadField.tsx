@@ -1,8 +1,8 @@
 import { Controller, type FieldValues, type Path, type PathValue, useFormContext } from "react-hook-form"
 import { BsUpload } from "react-icons/bs"
-import { converteFileBase64 } from "../../utils/converteFileBase64.ts"
 import { style } from "../../utils/classesCssGlobais.ts"
 import clsx from "clsx"
+import type { Imagem } from "../../models/ISpotify.ts"
 
 type ImageUploadFieldProps<T extends FieldValues> = {
   name: Path<T>
@@ -13,16 +13,16 @@ type ImageUploadFieldProps<T extends FieldValues> = {
 
 function ImageUploadField<T extends FieldValues>({ name, label, height, width }: ImageUploadFieldProps<T>) {
   const { control, watch, setValue } = useFormContext<T>()
-  const currentValue = watch(name)
+  const currentValue: Imagem = watch(name)
 
   return (
     <div>
       <p className={`${style.classLabel} block text-sm font-medium text-gray-700 mb-2`}>{label}</p>
 
-      {currentValue ? (
+      {currentValue.previewImagem ? (
         <div className="relative">
           <img
-            src={currentValue as string}
+            src={currentValue.previewImagem}
             alt="Imagem"
             className={clsx('object-cover rounded-lg border-4 border-blue-100',
               width || 'w-full',
@@ -31,7 +31,10 @@ function ImageUploadField<T extends FieldValues>({ name, label, height, width }:
           />
           <button
             type="button"
-            onClick={() => setValue(name, '' as any)}
+            onClick={() => setValue(name, {
+              imagem: '',
+              previewImagem: ''
+            } as any)}
             className="cursor-pointer absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
           >
             ✕
@@ -59,9 +62,16 @@ function ImageUploadField<T extends FieldValues>({ name, label, height, width }:
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={async e => {
-                  const base64 = await converteFileBase64(e)
-                  field.onChange(base64)
+                onChange={e => {
+                  if (!e.target.files) return
+                  if (e.target.files[0] instanceof File) {
+                    const imagem = e.target.files[0]
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                      field.onChange({ imagem: imagem, previewImagem: reader.result })
+                    }
+                    reader.readAsDataURL(imagem)
+                  }
                 }}
               />
             </div>

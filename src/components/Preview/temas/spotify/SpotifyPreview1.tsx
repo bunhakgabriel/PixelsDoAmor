@@ -35,7 +35,7 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
                 <div className="flex flex-col gap-4">
 
                     <div className="">
-                        <img className="w-full object-cover" src={model.fotoPrincipal} />
+                        <img className="w-full object-cover" src={model.fotoPrincipal.imagem instanceof File ? model.fotoPrincipal.previewImagem : model.fotoPrincipal.imagem} />
                     </div>
                     <div>
                         <h1>
