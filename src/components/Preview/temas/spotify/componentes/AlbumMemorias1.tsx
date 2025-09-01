@@ -4,9 +4,10 @@ import { Navigation, Autoplay } from "swiper/modules";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import 'swiper/swiper-bundle.css';
 import { BsImage } from "react-icons/bs";
+import type { Imagem } from "../../../../../models/ISpotify";
 
 type AlbumMemoriasProps = {
-    fotos: string[]
+    fotos: Imagem[]
 }
 
 function AlbumMemorias1({ fotos }: AlbumMemoriasProps) {
@@ -64,7 +65,7 @@ function AlbumMemorias1({ fotos }: AlbumMemoriasProps) {
                                     className="bg-[#1e1e1e] rounded-xl overflow-hidden shadow-md"
                                 >
                                     <img
-                                        src={foto}
+                                        src={foto.imagem instanceof File ? foto.previewImagem : foto.imagem}
                                         className="w-full h-40 md:h-48 object-cover"
                                     />
                                 </div>

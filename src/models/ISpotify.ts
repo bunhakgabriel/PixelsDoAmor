@@ -14,7 +14,7 @@ export interface ISpotifyAniversario {
         autor?: string
         mensagem: string
     }
-    albumMemorias: string[]
+    albumMemorias: Imagem[]
     comentarios: Comentarios
     data?: string
 }

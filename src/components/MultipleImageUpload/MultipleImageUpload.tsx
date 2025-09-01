@@ -1,7 +1,7 @@
-import { useFieldArray, useFormContext, type ArrayPath, type FieldValues, type Path, type UseFormReturn } from 'react-hook-form'
-import { converteFileBase64 } from '../../utils/converteFileBase64'
+import { useFieldArray, useFormContext, type FieldValues, type Path, } from 'react-hook-form'
 import { style } from '../../utils/classesCssGlobais'
 import { IoAdd } from 'react-icons/io5'
+import type { Imagem } from '../../models/ISpotify'
 
 type MultipleImageUploadProps<T extends FieldValues> = {
   name: Path<T>
@@ -10,16 +10,23 @@ type MultipleImageUploadProps<T extends FieldValues> = {
 
 function MultipleImageUpload<T extends FieldValues>({ name, label }: MultipleImageUploadProps<T>) {
   const { control, watch } = useFormContext<T>()
-  const imagens = watch(name) as string[] || []
+  const imagens = watch(name) as Imagem[] || []
 
-  const { append, remove } = useFieldArray({
+  const { append, remove } = useFieldArray<T>({
     control,
-    name: name as ArrayPath<T>
+    name: name as any
   })
 
   const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const base64 = await converteFileBase64(e)
-    append(base64 as any)
+    if (!e.target.files) return
+    if (e.target.files[0] instanceof File) {
+      const imagem = e.target.files[0]
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        append({ imagem: imagem, previewImagem: reader.result } as any)
+      }
+      reader.readAsDataURL(imagem)
+    }
   }
 
   return (
@@ -44,7 +51,7 @@ function MultipleImageUpload<T extends FieldValues>({ name, label }: MultipleIma
         </div>
         {imagens.map((img, index) => (
           <div key={index} className="relative w-21 h-21 sm:w-24 sm:h-24 md:w-28 md:h-28">
-            <img src={img} className="object-cover w-full h-full rounded border" alt={`Imagem ${index}`} />
+            <img src={img.previewImagem} className="object-cover w-full h-full rounded border" alt={`Imagem ${index}`} />
             <button
               type="button"
               onClick={() => remove(index)}
