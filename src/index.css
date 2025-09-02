@@ -34,3 +34,12 @@ body {
   font-weight: 700;
   font-style: normal;
 }
+
+.ReactModal__Overlay {
+  padding: 0px !important;
+}
+
+.ReactModal__Content {
+  padding: 0px !important;
+  inset: 10px !important;
+}

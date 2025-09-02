@@ -3,12 +3,16 @@ import { MdOutlineHome } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { useState } from "react";
 import clsx from "clsx";
+import { useConfigStoreSpotify } from "../../store/useConfigStoreSpotify";
 
 function Header() {
     const [currentPage] = useState<string>('home')
+    const previewCartaoSpotify = useConfigStoreSpotify(state => state.previewCartao)
 
     return (
-        <header className="z-50 fixed w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
+        <header className={clsx('z-50 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg', {
+            'fixed': !previewCartaoSpotify
+        })}>
             <div className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">

@@ -3,13 +3,16 @@ import type { ISpotifyAniversario } from "../../models/ISpotify"
 export const dadosPreviewSpotify: ISpotifyAniversario = {
     titulo: 'Nosso amor!',
     nome: 'Julia da Silva',
-    fotoPrincipal: 'https://m.media-amazon.com/images/I/81z1Js7n8PL._UF350,350_QL80_.jpg',
+    fotoPrincipal: {
+        imagem: 'https://m.media-amazon.com/images/I/81z1Js7n8PL._UF350,350_QL80_.jpg',
+        previewImagem: ''
+    },
     musicas: [
-        { nome: 'spinning-head', url: '2:08' },
-        { nome: 'If You Want - Ariel Shalom Remix', url: '2:08' },
-        { nome: 'inside-you', url: '2:08' },
-        { nome: 'leva-eternity', url: '2:08' },
-        { nome: 'Pull Me Closer GOOD Remix', url: '2:08' },
+        { nome: 'Ellie Goulding - Burn (Official Video)', url: 'https://www.youtube.com/embed/CGyEd0aKWZE' },
+        { nome: 'Ellie Goulding - Burn (Official Video)', url: 'https://www.youtube.com/embed/CGyEd0aKWZE' },
+        { nome: 'Ellie Goulding - Burn (Official Video)', url: 'https://www.youtube.com/embed/CGyEd0aKWZE' },
+        { nome: 'Ellie Goulding - Burn (Official Video)', url: 'https://www.youtube.com/embed/CGyEd0aKWZE' },
+        { nome: 'Ellie Goulding - Burn (Official Video)', url: 'https://www.youtube.com/embed/CGyEd0aKWZE' },
     ],
     mensagemEspecial: {
         autor: 'Gabriel Bunhak',
@@ -20,15 +23,36 @@ export const dadosPreviewSpotify: ISpotifyAniversario = {
           Parabéns pelo seu aniversário! 🎵🎉`
     },
     albumMemorias: [
-        'https://img.freepik.com/fotos-gratis/pessoas-da-vida-noturna-a-divertir-se-em-bares-e-clubes_23-2149088602.jpg?semt=ais_hybrid&w=740',
-        'https://images.squarespace-cdn.com/content/v1/5db9a570d2e92960a6db994f/2caa3c25-c67c-43af-8374-16ca4115db2d/DMS_1644.jpg',
-        'https://st3.depositphotos.com/1594308/13058/i/450/depositphotos_130582160-stock-photo-people-having-party-in-night.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQAMxfhm62lq97NphbabkXf6SueStIT7gsog&s',
-        'https://www.guiadasemana.com.br/contentFiles/system/pictures/2015/3/290713/original/selfie.jpg',
-        'https://m.media-amazon.com/images/I/81z1Js7n8PL._UF350,350_QL80_.jpg'
+        {
+            imagem: 'https://img.freepik.com/fotos-gratis/pessoas-da-vida-noturna-a-divertir-se-em-bares-e-clubes_23-2149088602.jpg?semt=ais_hybrid&w=740',
+            previewImagem: ''
+        },
+        {
+            imagem: 'https://m.media-amazon.com/images/I/81z1Js7n8PL._UF350,350_QL80_.jpg',
+            previewImagem: ''
+        },
+        {
+            imagem: 'https://images.squarespace-cdn.com/content/v1/5db9a570d2e92960a6db994f/2caa3c25-c67c-43af-8374-16ca4115db2d/DMS_1644.jpg',
+            previewImagem: ''
+        },
+        {
+            imagem: 'https://www.guiadasemana.com.br/contentFiles/system/pictures/2015/3/290713/original/selfie.jpg',
+            previewImagem: ''
+        },
+        {
+            imagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQAMxfhm62lq97NphbabkXf6SueStIT7gsog&s',
+            previewImagem: ''
+        },
+        {
+            imagem: 'https://st3.depositphotos.com/1594308/13058/i/450/depositphotos_130582160-stock-photo-people-having-party-in-night.jpg',
+            previewImagem: ''
+        }
     ],
-    data: undefined,
-    comentarios: undefined,
+    data: '',
+    comentarios: {
+        habilitado: false,
+        listaComentarios: []
+    },
     musicaPrincipal: {
         nome: '',
         url: ''

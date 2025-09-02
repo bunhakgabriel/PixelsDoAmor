@@ -33,10 +33,10 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="sm:w-2/6">
-                        <img className="w-full object-cover" src={model.fotoPrincipal} />
+                        <img className="w-full object-cover" src={model.fotoPrincipal.imagem instanceof File ? model.fotoPrincipal.previewImagem : model.fotoPrincipal.imagem} />
                     </div>
 
-                    <PlaylistAniversario musicas={model.musicas} />
+                    <PlaylistAniversario model={model} />
                 </div>
                 <MensagemEspecial model={model.mensagemEspecial} />
                 <AlbumMemorias fotos={model.albumMemorias} />

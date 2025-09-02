@@ -11,6 +11,9 @@ import SpotifyTema1 from "../../../../components/Preview/temas/spotify/SpotifyPr
 import QuartaEtapa from "./etapas/QuartaEtapa"
 import QuintaEtapa from "./etapas/QuintaEtapa"
 import SextaEtapa from "./etapas/SextaEtapa"
+import Modal from "react-modal"
+import { useConfigStoreSpotify } from "../../../../store/useConfigStoreSpotify"
+import Preview from "../../../../components/Preview/Preview"
 
 
 const etapas = ['', '', '', '', '', '']
@@ -21,6 +24,7 @@ function SpotifyForm() {
     })
     const { control } = form
 
+    const { previewCartao, setPreviewCartao } = useConfigStoreSpotify()
     const [etapaAtual, setEtapaAtual] = useState(0)
     const model = useWatch({ control });
 
@@ -75,11 +79,24 @@ function SpotifyForm() {
                         onClick={avancarEtapa}
                         element="button"
                     />
+                    <button onClick={() => setPreviewCartao(true)} className="cursor-pointer border">Preview</button>
                 </div>
 
                 <div className="w-full sm:w-[500px] lg:w-[2/5]">
                     <SpotifyTema1 model={model} />
                 </div>
+
+                <Modal isOpen={previewCartao} onRequestClose={() => setPreviewCartao(false)}>
+                    <button
+                        type="button"
+                        onClick={() => setPreviewCartao(false)}
+                        className="fixed cursor-pointer w-10 top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                    >
+                        X
+                    </button>
+                    <Preview />
+                    {/* <SpotifyTema1 model={model} /> */}
+                </Modal>
 
             </div>
         </FormProvider>
