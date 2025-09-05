@@ -41,5 +41,5 @@ body {
 
 .ReactModal__Content {
   padding: 0px !important;
-  inset: 10px !important;
+  inset: 0px !important;
 }

@@ -82,9 +82,11 @@ function SpotifyForm() {
                     <button onClick={() => setPreviewCartao(true)} className="cursor-pointer border">Preview</button>
                 </div>
 
-                <div className="w-full sm:w-[500px] lg:w-[2/5]">
-                    <SpotifyTema1 model={model} />
-                </div>
+                {!previewCartao && (
+                    <div className="w-full sm:w-[500px] lg:w-[2/5]">
+                        <SpotifyTema1 variant="preview" model={model} />
+                    </div>
+                )}
 
                 <Modal isOpen={previewCartao} onRequestClose={() => setPreviewCartao(false)}>
                     <button
@@ -94,8 +96,8 @@ function SpotifyForm() {
                     >
                         X
                     </button>
-                    <Preview />
-                    {/* <SpotifyTema1 model={model} /> */}
+                    {/* <Preview /> */}
+                    <SpotifyTema1 variant="modal" model={model} />
                 </Modal>
 
             </div>

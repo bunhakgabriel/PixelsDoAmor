@@ -6,12 +6,24 @@ import type { ISpotifyAniversario } from "../../../../models/ISpotify";
 import MensagemEspecial from "./componentes/MensagemEspecial";
 import Comentarios1 from "./componentes/Comentarios1";
 import { converterData } from "../../../../utils/converterData";
+import clsx from "clsx";
 
 type SpotifyTemaProps = {
     model: ISpotifyAniversario
+    variant: 'preview' | 'modal' | 'page'
 }
 
-function SpotifyTema1({ model }: SpotifyTemaProps) {
+function DataEspecial({ model, className }: { model: ISpotifyAniversario, className?: string }) {
+    return (
+        <div className={`${className}`}>
+                {model.data?.length == 10 && converterData(model.data) != '' && (
+                        <p className="text-xl font-semibold mb-1 edu-nsw-act-cursive text-center">{converterData(model.data)} de pura música!</p>
+                )}
+        </div>
+    )
+}
+
+function SpotifyTema1({ model, variant }: SpotifyTemaProps) {
     const backgroundsPage = [
         'bg-gradient-to-b from-[#2a2a2a] to-[#121212]',
         'bg-gradient-to-b from-[#3e3e3e] to-[#121212]',
@@ -21,8 +33,11 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
     ]
 
     return (
-        <div className={`${backgroundsPage[2]} relative rounded-2xl text-white max-h-[500px] overflow-y-scroll`}>
-            <div className="flex flex-col gap-6 p-4">
+        <div className={clsx(`${backgroundsPage[4]} text-white`, {
+            'relative rounded-2xl max-h-[500px] overflow-y-scroll': variant == 'preview',
+            'min-h-screen': variant == 'modal'
+        })}>
+            <div className="flex flex-col gap-10 p-4">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold">{model.titulo || ''}</h1>
@@ -32,23 +47,23 @@ function SpotifyTema1({ model }: SpotifyTemaProps) {
                         <IoPlayOutline className="w-6 h-6 text-green-500" />
                     </div>
                 </div>
-                <div className="flex flex-col gap-4">
 
-                    <div className="">
-                        <img className="w-full object-cover" src={model.fotoPrincipal.imagem instanceof File ? model.fotoPrincipal.previewImagem : model.fotoPrincipal.imagem} />
+                <div className={clsx('flex flex-col gap-4', {
+                    'lg:flex-row': variant == 'modal'
+                })}>
+                    <div className={clsx('flex flex-col gap-4', {
+                        'lg:w-3/6': variant == 'modal'
+                    })}>
+                        <DataEspecial model={model} className={`${variant == 'preview' ? 'hidden' : 'hidden md:block'}`} />
+                        <div>
+                            <img className="w-full max-h-[350px] object-cover" src={model.fotoPrincipal.imagem instanceof File ? model.fotoPrincipal.previewImagem : model.fotoPrincipal.imagem} />
+                        </div>
+                        <DataEspecial model={model} className={`${variant == 'preview' ? 'block' : 'md:hidden'}`} />
                     </div>
-                    <div>
-                        <h1>
-                            {model.data?.length == 10 && converterData(model.data) != '' && (
-                                <div className="text-center">
-                                    <p className="text-xl font-semibold mb-1 edu-nsw-act-cursive">{converterData(model.data)} de pura música!</p>
-                                </div>
-                            )}</h1>
-                    </div>
-                    <PlaylistAniversario model={model} />
+                    <PlaylistAniversario variant={variant} model={model} />
                 </div>
                 <MensagemEspecial model={model.mensagemEspecial} />
-                <AlbumMemorias1 fotos={model.albumMemorias} />
+                <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
                 <Comentarios1 comentarios={model.comentarios} />
             </div>
             <div className="sticky -bottom-4 z-10">

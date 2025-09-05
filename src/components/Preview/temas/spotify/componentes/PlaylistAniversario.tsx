@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { FaYoutube, FaPause } from 'react-icons/fa'
 import type { ISpotifyAniversario } from '../../../../../models/ISpotify'
 import { useConfigStoreSpotify } from '../../../../../store/useConfigStoreSpotify'
+import clsx from 'clsx'
 
 type Props = {
   model: ISpotifyAniversario
+  variant: 'preview' | 'modal' | 'page'
 }
 
-export default function ListaMusicas({ model }: Props) {
+export default function ListaMusicas({ model, variant }: Props) {
   const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(null)
 
   const playingSongMain = useConfigStoreSpotify(state => state.playingSongMain)
@@ -23,7 +25,7 @@ export default function ListaMusicas({ model }: Props) {
   }
 
   useEffect(() => {
-    if(playingSongMain) pausar()
+    if (playingSongMain) pausar()
   }, [playingSongMain])
 
   // const cores = [
@@ -37,7 +39,9 @@ export default function ListaMusicas({ model }: Props) {
   if ((!model.musicas || model.musicas?.length == 0) && !model.musicaPrincipal.nome) return <></>
 
   return (
-    <div className="flex flex-col gap-4 w-full rounded-xl bg-[#121212] p-4">
+    <div className={clsx("flex flex-col gap-4 w-full rounded-xl bg-[#121212] p-4", {
+      'lg:relative': variant != 'preview'
+    })}>
       <h2 className="text-xl sm:text-2xl font-bold flex justify-between items-center gap-2">
         Playlist <span className="text-green-400">🎵</span>
       </h2>
@@ -89,7 +93,11 @@ export default function ListaMusicas({ model }: Props) {
       </div>
 
       {/* Iframe do vídeo no topo */}
-      <div className={`${musicaTocandoIndex !== null ? 'w-full  md:h-64' : 'w-0 h-0 hidden'}`}>
+      <div className={clsx('', {
+        'w-0 h-0 hidden': musicaTocandoIndex == null,
+        'w-full md:h-64': variant == 'preview' && musicaTocandoIndex !== null,
+        'max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]': variant != 'preview' && musicaTocandoIndex !== null,
+      })}>
         {musicaTocandoIndex !== null && (
           <iframe
             className="w-full h-full"
@@ -100,7 +108,11 @@ export default function ListaMusicas({ model }: Props) {
           ></iframe>
         )}
       </div>
-      <div className={`${playingSongMain ? 'w-full  md:h-64' : 'w-0 h-0 hidden'}`}>
+      <div className={clsx('', {
+        'w-0 h-0 hidden': !playingSongMain,
+        'w-full md:h-64': variant == 'preview' && playingSongMain,
+        'max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]': variant != 'preview' && playingSongMain,
+      })}>
         {playingSongMain && (
           <iframe
             className="w-full h-full"

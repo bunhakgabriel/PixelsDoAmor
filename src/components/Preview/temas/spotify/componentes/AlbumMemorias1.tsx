@@ -5,12 +5,47 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import 'swiper/swiper-bundle.css';
 import { BsImage } from "react-icons/bs";
 import type { Imagem } from "../../../../../models/ISpotify";
+import clsx from "clsx";
 
 type AlbumMemoriasProps = {
     fotos: Imagem[]
+    variant: 'preview' | 'modal' | 'page'
 }
 
-function AlbumMemorias1({ fotos }: AlbumMemoriasProps) {
+const configSwipperPreview = {
+    300: {
+        slidesPerView: 1.2,
+    },
+    400: {
+        slidesPerView: 1.4,
+    },
+    500: {
+        slidesPerView: 1.6,
+    }
+}
+const configSwipperModal = {
+    ...configSwipperPreview,
+    600: {
+        slidesPerView: 2.3,
+    },
+    700: {
+        slidesPerView: 2.4,
+    },
+    900: {
+        slidesPerView: 3.1,
+    },
+    1024: {
+        spaceBetween: 20,
+        slidesPerView: 3.3
+    },
+    1300: {
+        spaceBetween: 20,
+        slidesPerView: 4.1
+    },
+}
+
+function AlbumMemorias1({ fotos, variant }: AlbumMemoriasProps) {
+    const configSwiper = variant == 'preview' || variant == 'page' ? configSwipperPreview : configSwipperModal
     let passar: SwiperType;
 
     const scrollLeft = () => {
@@ -21,7 +56,7 @@ function AlbumMemorias1({ fotos }: AlbumMemoriasProps) {
         passar?.slideNext();
     };
 
-    if(!fotos || fotos.length == 0) return <></>
+    if (!fotos || fotos.length == 0) return <></>
 
     return (
         <div className="text-white font-sans">
@@ -42,22 +77,12 @@ function AlbumMemorias1({ fotos }: AlbumMemoriasProps) {
                 <div>
                     <Swiper
                         spaceBetween={15}
-                        slidesPerView={4.4}
+                        slidesPerView={1.6}
                         onSwiper={(swiper) => (passar = swiper)}
                         autoplay={{ delay: 3000, disableOnInteraction: false }}
                         loop={true}
                         modules={[Navigation, Autoplay]}
-                        breakpoints={{
-                            300: {
-                                slidesPerView: 1.2,
-                            },
-                            400: {
-                                slidesPerView: 1.4,
-                            },
-                            500: {
-                                slidesPerView: 1.6,
-                            }
-                        }}
+                        breakpoints={{...configSwiper}}
                     >
                         {fotos.map((foto, index) => (
                             <SwiperSlide key={index}>
@@ -66,7 +91,9 @@ function AlbumMemorias1({ fotos }: AlbumMemoriasProps) {
                                 >
                                     <img
                                         src={foto.imagem instanceof File ? foto.previewImagem : foto.imagem}
-                                        className="w-full h-40 md:h-48 object-cover"
+                                        className={clsx('w-full object-cover h-44 md:h-48',{
+                                            'lg:h-58': variant != 'preview'
+                                        })}
                                     />
                                 </div>
                             </SwiperSlide>
