@@ -1,5 +1,4 @@
 import { IoPlayOutline } from "react-icons/io5";
-import PlaylistAniversario from "./componentes/PlaylistAniversario";
 import AlbumMemorias from "./componentes/AlbumMemorias";
 import Comentarios from "./componentes/Comentarios";
 import type { ISpotifyAniversario } from "../../../../models/ISpotify";
@@ -36,7 +35,7 @@ function SpotifyTema({ model }: SpotifyTemaProps) {
                         <img className="w-full object-cover" src={model.fotoPrincipal.imagem instanceof File ? model.fotoPrincipal.previewImagem : model.fotoPrincipal.imagem} />
                     </div>
 
-                    <PlaylistAniversario model={model} />
+                    {/* <PlaylistAniversario model={model} /> */}
                 </div>
                 <MensagemEspecial model={model.mensagemEspecial} />
                 <AlbumMemorias fotos={model.albumMemorias} />

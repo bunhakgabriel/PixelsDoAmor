@@ -1,5 +1,3 @@
-import { FaRegCommentDots } from "react-icons/fa";
-
 type mensagemParabensProps = {
   model: {
     autor?: string

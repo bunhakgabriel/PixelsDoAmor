@@ -13,8 +13,6 @@ import QuintaEtapa from "./etapas/QuintaEtapa"
 import SextaEtapa from "./etapas/SextaEtapa"
 import Modal from "react-modal"
 import { useConfigStoreSpotify } from "../../../../store/useConfigStoreSpotify"
-import Preview from "../../../../components/Preview/Preview"
-
 
 const etapas = ['', '', '', '', '', '']
 
@@ -26,7 +24,7 @@ function SpotifyForm() {
 
     const { previewCartao, setPreviewCartao } = useConfigStoreSpotify()
     const [etapaAtual, setEtapaAtual] = useState(0)
-    const model = useWatch({ control });
+    const model = useWatch<ISpotifyAniversario>({ control }) as ISpotifyAniversario
 
     async function avancarEtapa() {
         setEtapaAtual(prev => prev + 1)
@@ -84,7 +82,7 @@ function SpotifyForm() {
 
                 {!previewCartao && (
                     <div className="w-full sm:w-[500px] lg:w-[2/5]">
-                        <SpotifyTema1 variant="preview" model={model} />
+                        <SpotifyTema1 variant="preview" model={model || defaultValueSpotifyObject} />
                     </div>
                 )}
 
@@ -97,7 +95,7 @@ function SpotifyForm() {
                         X
                     </button>
                     {/* <Preview /> */}
-                    <SpotifyTema1 variant="modal" model={model} />
+                    <SpotifyTema1 variant="modal" model={model || defaultValueSpotifyObject} />
                 </Modal>
 
             </div>
