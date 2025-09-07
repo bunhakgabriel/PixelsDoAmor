@@ -1,21 +1,35 @@
 import { useState } from 'react'
 import { type Path, type FieldValues, useFormContext } from 'react-hook-form'
 import { style } from '../../utils/classesCssGlobais'
+import MsgErrorInput from '../MsgErrorInput/MsgErrorInput'
+import { toast } from 'react-toastify';
 
-type YouTubeSearchProps<T extends FieldValues> = {
-  name: Path<T>
-  label: string
-  apiKey: string
-  type: 'list' | 'item'
-}
+type YouTubeSearchPropsBase<T extends FieldValues> = {
+  name: Path<T>;
+  label: string;
+  apiKey: string;
+};
 
-function YouTubeSearch<T extends FieldValues>({
-  name,
-  label,
-  apiKey,
-  type
-}: YouTubeSearchProps<T>) {
-  const { setValue, watch } = useFormContext<T>()
+type YouTubeSearchPropsList<T extends FieldValues> = YouTubeSearchPropsBase<T> & {
+  type: 'list';
+  maxMusicas: number;
+};
+
+type YouTubeSearchPropsItem<T extends FieldValues> = YouTubeSearchPropsBase<T> & {
+  type: 'item';
+};
+
+export type YouTubeSearchProps<T extends FieldValues> =
+  | YouTubeSearchPropsList<T>
+  | YouTubeSearchPropsItem<T>;
+
+function YouTubeSearch<T extends FieldValues>(
+  props: YouTubeSearchProps<T>
+) {
+  const { name, label, apiKey, type } = props;
+  const maxMusicas = type === 'list' ? (props as YouTubeSearchPropsList<T>).maxMusicas : undefined;
+  const { setValue, watch, formState: { errors }, trigger } = useFormContext<T>()
+  const fieldError = (errors[name] as any)
 
   const selectedValue = watch(name)
   const selectedVideos =
@@ -51,13 +65,24 @@ function YouTubeSearch<T extends FieldValues>({
     }
   }
 
+  function limparBusca() {
+    setResults([])
+    setQuery('')
+  }
+
   function handleSelect(videoId: string, title: string) {
     const embedUrl = `https://www.youtube.com/embed/${videoId}`
 
     if (type === 'list') {
       const currentList = selectedVideos as { nome: string; url: string }[]
-      if (currentList.length >= 5) {
-        setError('Você só pode adicionar até 5 músicas.')
+      if (maxMusicas && currentList.length >= maxMusicas) {
+        toast.error('Você só pode adicionar até ' + maxMusicas + ' músicas.')
+        limparBusca()
+        return
+      }
+      if (currentList.some(item => item.nome == title)) {
+        toast.error('Essa música já foi adicionada!')
+        limparBusca()
         return
       }
       const novoArray = [...currentList, { nome: title, url: embedUrl }]
@@ -66,8 +91,8 @@ function YouTubeSearch<T extends FieldValues>({
       setValue(name, { nome: title, url: embedUrl } as any)
     }
 
-    setResults([])
-    setQuery('')
+    limparBusca()
+    trigger(name)
   }
 
   function handleRemove(index?: number) {
@@ -88,18 +113,23 @@ function YouTubeSearch<T extends FieldValues>({
       <label className={`${style.classLabel} text-sm font-medium text-gray-700`}>{label}</label>
 
       <div className="flex gap-2">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar no YouTube"
-          className="border border-gray-300 rounded px-3 py-2 w-full"
-        />
+        <div className='w-full'>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar no YouTube"
+            className={`${fieldError ? style.error : ''} border border-gray-300 rounded px-3 py-2 w-full`}
+          />
+          <div className='h-[20px]'>
+            {fieldError && <MsgErrorInput msg={fieldError.message || ''} />}
+          </div>
+        </div>
         <button
           type="button"
           onClick={handleSearch}
           disabled={loading || !query}
-          className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600 h-[42px]"
         >
           {loading ? 'Buscando...' : 'Buscar'}
         </button>
@@ -143,7 +173,10 @@ function YouTubeSearch<T extends FieldValues>({
               />
               <button
                 type="button"
-                onClick={() => handleRemove(index)}
+                onClick={() => {
+                  handleRemove(index)
+                  trigger(name)
+                }}
                 className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs rounded hover:bg-red-600"
               >
                 X
@@ -164,7 +197,10 @@ function YouTubeSearch<T extends FieldValues>({
           />
           <button
             type="button"
-            onClick={() => handleRemove()}
+            onClick={() => {
+              handleRemove()
+              trigger(name)
+            }}
             className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs rounded hover:bg-red-600"
           >
             X

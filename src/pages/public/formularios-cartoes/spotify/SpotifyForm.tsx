@@ -12,22 +12,37 @@ import QuartaEtapa from "./etapas/QuartaEtapa"
 import QuintaEtapa from "./etapas/QuintaEtapa"
 import SextaEtapa from "./etapas/SextaEtapa"
 import Modal from "react-modal"
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useConfigStoreSpotify } from "../../../../store/useConfigStoreSpotify"
+import { SpotifySchema } from "./schema/SpotifySchema"
 
 const etapas = ['', '', '', '', '', '']
 
 function SpotifyForm() {
     const form = useForm<ISpotifyAniversario>({
-        defaultValues: defaultValueSpotifyObject
+        defaultValues: defaultValueSpotifyObject,
+        resolver: yupResolver(SpotifySchema),
+        mode: 'onChange'
     })
-    const { control } = form
+    const { control, trigger } = form
 
     const { previewCartao, setPreviewCartao } = useConfigStoreSpotify()
     const [etapaAtual, setEtapaAtual] = useState(0)
     const model = useWatch<ISpotifyAniversario>({ control }) as ISpotifyAniversario
 
     async function avancarEtapa() {
-        setEtapaAtual(prev => prev + 1)
+        const camposPorEtapa: (keyof ISpotifyAniversario)[][] = [
+            ['titulo', 'nome'],
+            ['fotoPrincipal', 'data'],
+            ['musicas']
+        ]
+
+        const camposDaEtapaAtual = camposPorEtapa[etapaAtual]
+        const valido = await trigger(camposDaEtapaAtual)
+
+        if (valido) {
+            setEtapaAtual(prev => prev + 1)
+        }
     }
 
     function voltarEtapa() {

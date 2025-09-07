@@ -1,36 +1,54 @@
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import ImageUploadField from "../../../../../components/ImageUploadField/ImageUploadField";
 import type { ISpotifyAniversario } from "../../../../../models/ISpotify";
 import { style } from "../../../../../utils/classesCssGlobais";
+import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput";
+import useMask from "../../../../../hooks/useMask";
 
 function SegundaEtapa() {
-  const { register } = useFormContext<ISpotifyAniversario>()
+  const { formState: { errors }, control } = useFormContext<ISpotifyAniversario>()
+  const { mask } = useMask()
 
   return (
     <div className="flex flex-col gap-8">
-      <ImageUploadField<ISpotifyAniversario>
-        name="fotoPrincipal"
-        label="Foto principal"
-        width="w-full"
-        height="h-[300px]"
-      />
+      <div>
+        <ImageUploadField<ISpotifyAniversario>
+          name="fotoPrincipal"
+          label="Foto principal"
+          width="w-full"
+          height="h-[300px]"
+        />
+        {errors.fotoPrincipal && <MsgErrorInput msg={errors?.fotoPrincipal?.imagem?.message || ''} />}
+      </div>
       <div className="flex flex-col gap-2">
-        <div>
-          <label htmlFor="data" className={`${style.classLabel}`}>
-            Data
-          </label>
-          <input
-            type="text"
-            id="data"
-            className={`${style.classInput}`}
-            {...register('data')}
-            placeholder="Ex: 08/05/2002"
+          <Controller
+            control={control}
+            name="data"
+            defaultValue=""
+            render={({ field }) => (
+              <div>
+                <label htmlFor="data" className={`${style.classLabel}`}>
+                  Data
+                </label>
+                <input
+                  type="text"
+                  id="data"
+                  className={`${style.classInput}`}
+                  value={field.value}
+                  onBlur={field.onBlur}
+                  onChange={e => field.onChange(mask(e.target.value, 'date'))}
+                  placeholder="Ex: 08/05/2002"
+                />
+              </div>
+            )}
           />
+          <div>
+            {errors.data && <MsgErrorInput msg={errors.data.message || ''} />}
+          </div>
           <span className="text-[12px] sm:text-sm text-gray-600">
-            Aqui você pode colocar uma data de aniversário, aniversário de casamento, aniversário de namoro, ou uma data marcante para você ou para a pessoa presenteada.
+            Campo opcional, aqui você pode colocar uma data de aniversário, aniversário de casamento, aniversário de namoro, ou uma data marcante para você ou para a pessoa presenteada.
           </span>
         </div>
-      </div>
     </div>
   )
 }

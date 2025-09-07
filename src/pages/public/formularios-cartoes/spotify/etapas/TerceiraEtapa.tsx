@@ -6,8 +6,9 @@ function TerceiraEtapa() {
     <div>
       <YouTubeSearch<ISpotifyAniversario>
         type="list"
+        maxMusicas={4}
         name="musicas"
-        label="Escolha até 5 músicas"
+        label="Escolha até 4 músicas"
         apiKey={'AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo'}
       />
     </div>

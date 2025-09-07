@@ -1,9 +1,22 @@
 import { Outlet } from "react-router-dom"
 import Header from "./components/Header/Header"
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000} // tempo em ms
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Header />
       <div className="h-[68px] sm:h-[72px] bg-black"></div>
       <Outlet />

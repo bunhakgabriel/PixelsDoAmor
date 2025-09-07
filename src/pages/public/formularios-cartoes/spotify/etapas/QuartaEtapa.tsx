@@ -1,9 +1,11 @@
+import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput"
 import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
 import { style } from "../../../../../utils/classesCssGlobais"
 import { useFormContext } from "react-hook-form"
 
 function QuartaEtapa() {
-    const { register } = useFormContext<ISpotifyAniversario>()
+    const { register, formState: { errors } } = useFormContext<ISpotifyAniversario>()
+    const fieldError = errors.mensagemEspecial?.mensagem
 
     return (
         <div>
@@ -13,10 +15,14 @@ function QuartaEtapa() {
                 </label>
                 <textarea
                     id="titulo"
-                    className={style.classInput}
+                    className={`${fieldError ? style.error : ''} ${style.classInput}`}
                     placeholder="Ex: Que seu dia seja repleto de alegria e momentos inesquecíveis!"
                     {...register('mensagemEspecial.mensagem')}
+                    maxLength={1000}
                 />
+                <div className="h-[22px]">
+                    {fieldError && <MsgErrorInput msg={fieldError.message || ''} />}
+                </div>
             </div>
             <div>
                 <label htmlFor="titulo" className={`${style.classLabel}`}>

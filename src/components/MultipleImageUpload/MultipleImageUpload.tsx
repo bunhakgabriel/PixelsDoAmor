@@ -2,13 +2,15 @@ import { useFieldArray, useFormContext, type FieldValues, type Path, } from 'rea
 import { style } from '../../utils/classesCssGlobais'
 import { IoAdd } from 'react-icons/io5'
 import type { Imagem } from '../../models/ISpotify'
+import { toast } from 'react-toastify'
 
 type MultipleImageUploadProps<T extends FieldValues> = {
   name: Path<T>
   label: string
+  maxImages: number
 }
 
-function MultipleImageUpload<T extends FieldValues>({ name, label }: MultipleImageUploadProps<T>) {
+function MultipleImageUpload<T extends FieldValues>({ name, label, maxImages }: MultipleImageUploadProps<T>) {
   const { control, watch } = useFormContext<T>()
   const imagens = watch(name) as Imagem[] || []
 
@@ -21,9 +23,20 @@ function MultipleImageUpload<T extends FieldValues>({ name, label }: MultipleIma
     if (!e.target.files) return
     if (e.target.files[0] instanceof File) {
       const imagem = e.target.files[0]
+      if(imagens.some(img => {
+        if(img.imagem instanceof File && img.imagem.name == imagem.name){
+          return true
+        }
+        return false
+      })){
+        toast.error('Essa imagem já foi adicionada!')
+        e.target.value = ''
+        return
+      }
       const reader = new FileReader()
       reader.onloadend = () => {
         append({ imagem: imagem, previewImagem: reader.result } as any)
+        e.target.value = ''
       }
       reader.readAsDataURL(imagem)
     }

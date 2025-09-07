@@ -3,9 +3,10 @@ import ButtonUi from "../../../../../components/ButtonUi/ButtonUi"
 import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
 import { style } from "../../../../../utils/classesCssGlobais"
 import { useFormContext } from "react-hook-form"
+import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput"
 
 function PrimeiraEtapa() {
-    const { register } = useFormContext<ISpotifyAniversario>()
+    const { register, formState: { errors } } = useFormContext<ISpotifyAniversario>()
 
     return (
         <div className="flex gap-6 flex-col">
@@ -14,18 +15,24 @@ function PrimeiraEtapa() {
                     Titulo do cartão *
                 </label>
                 <div className="flex gap-2">
-                    <input
-                        type="text"
-                        id="titulo"
-                        className={style.classInput}
-                        placeholder="Ex: Para alguém especial!"
-                        {...register('titulo')}
-                    />
+                    <div className="w-full">
+                        <input
+                            type="text"
+                            id="titulo"
+                            className={`${style.classInput} ${errors.titulo ? style.error : ''}`}
+                            placeholder="Ex: Para alguém especial!"
+                            {...register('titulo')}
+                        />
+                        <div className="h-[20px]">
+                            {errors.titulo && <MsgErrorInput msg={errors.titulo.message || ''} />}
+                        </div>
+                    </div>
+
                     <ButtonUi
                         icon={<HiOutlineSparkles className="hidden sm:block w-5 h-5" />}
                         element="div"
                         text="Gerar IA"
-                        className="max-sm:text-[12px] w-[110px] sm:w-[25%] sm:min-w-[125px]"
+                        className="max-sm:text-[12px] w-[110px] sm:w-[25%] sm:min-w-[125px] h-[45px]"
                     />
                 </div>
             </div>

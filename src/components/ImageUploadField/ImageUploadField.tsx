@@ -12,8 +12,9 @@ type ImageUploadFieldProps<T extends FieldValues> = {
 }
 
 function ImageUploadField<T extends FieldValues>({ name, label, height, width }: ImageUploadFieldProps<T>) {
-  const { control, watch, setValue } = useFormContext<T>()
+  const { control, watch, setValue, formState: { errors }, trigger } = useFormContext<T>()
   const currentValue: Imagem = watch(name)
+  const hasError = (errors[name] as any)?.imagem
 
   return (
     <div>
@@ -31,10 +32,13 @@ function ImageUploadField<T extends FieldValues>({ name, label, height, width }:
           />
           <button
             type="button"
-            onClick={() => setValue(name, {
+            onClick={() => {
+              setValue(name, {
               imagem: '',
               previewImagem: ''
-            } as any)}
+            } as any)
+            trigger(name)
+            }}
             className="cursor-pointer absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
           >
             ✕
@@ -49,13 +53,13 @@ function ImageUploadField<T extends FieldValues>({ name, label, height, width }:
             <div>
               <label
                 htmlFor={`file-${name}`}
-                className={clsx('rounded-lg bg-blue-50 border-2 border-dashed border-blue-300 flex flex-col items-center justify-center cursor-pointer hover:bg-blue-100 transition-colors',
+                className={clsx(`${hasError ? style.error : ''} rounded-lg bg-blue-50 border-2 border-dashed border-blue-300 flex flex-col items-center justify-center cursor-pointer hover:bg-blue-100 transition-colors`,
                   width || 'w-full',
                   height || 'h-48'
                 )}
               >
-                <BsUpload className="h-8 w-8 text-blue-500 mb-2" />
-                <span className="text-sm text-blue-600">Faça upload da imagem</span>
+                <BsUpload className={`${hasError ? 'text-red-500' : 'text-blue-500'} h-8 w-8 mb-2`} />
+                <span className={`${hasError ? 'text-red-500' : 'text-blue-600'} text-sm`}>Faça upload da imagem</span>
               </label>
               <input
                 id={`file-${name}`}
