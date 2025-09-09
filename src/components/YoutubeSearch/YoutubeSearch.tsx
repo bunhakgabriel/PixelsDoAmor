@@ -29,7 +29,15 @@ function YouTubeSearch<T extends FieldValues>(
   const { name, label, apiKey, type } = props;
   const maxMusicas = type === 'list' ? (props as YouTubeSearchPropsList<T>).maxMusicas : undefined;
   const { setValue, watch, formState: { errors }, trigger } = useFormContext<T>()
-  const fieldError = (errors[name] as any)
+  const fieldError = (() => {
+    const err = errors[name] as any;
+    if (!err) return null;
+
+    if (err.nome?.message) return err.nome;
+    if (err.url?.message) return err.url;
+
+    return err;
+  })()
 
   const selectedValue = watch(name)
   const selectedVideos =

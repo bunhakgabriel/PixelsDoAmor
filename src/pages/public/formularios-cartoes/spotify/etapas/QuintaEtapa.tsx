@@ -5,9 +5,9 @@ function QuintaEtapa() {
     return (
         <div>
             <MultipleImageUpload<ISpotifyAniversario> 
-                maxImages={8}
+                maxImages={6}
                 name="albumMemorias"
-                label="Selecione até 8 imagens"
+                label="Selecione até 6 imagens"
             />
         </div>
     )

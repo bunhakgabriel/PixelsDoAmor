@@ -24,7 +24,7 @@ function SextaEtapa() {
                     </label>
                 </div>
                 <span className="text-[12px] sm:text-sm text-gray-600">
-                    Ao habilitar você permite que seus amigos e outros visitantes da web page deixem suas mensagens,
+                    Campo opcional, ao habilitar você permite que seus amigos e outros visitantes da web page deixem suas mensagens,
                     comentarios e interajam com a página, você como administrador pode a qualquer momento desabilitar
                     essa opção e excluir comentários indesejados.
                 </span>

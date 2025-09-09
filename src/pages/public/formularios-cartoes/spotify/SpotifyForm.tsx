@@ -34,7 +34,9 @@ function SpotifyForm() {
         const camposPorEtapa: (keyof ISpotifyAniversario)[][] = [
             ['titulo', 'nome'],
             ['fotoPrincipal', 'data'],
-            ['musicas']
+            ['musicas'],
+            ['mensagemEspecial'],
+            ['albumMemorias']
         ]
 
         const camposDaEtapaAtual = camposPorEtapa[etapaAtual]
