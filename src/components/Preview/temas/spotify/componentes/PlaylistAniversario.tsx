@@ -1,32 +1,38 @@
-import { useEffect, useState } from 'react'
-import { FaYoutube, FaPause } from 'react-icons/fa'
-import type { ISpotifyAniversario } from '../../../../../models/ISpotify'
-import { useConfigStoreSpotify } from '../../../../../store/useConfigStoreSpotify'
-import clsx from 'clsx'
+import clsx from "clsx";
+import { useEffect, useState } from "react";
+import { FaPause, FaYoutube } from "react-icons/fa";
+import type { ISpotifyModel } from "../../../../../models/ISpotify";
+import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify";
 
 type Props = {
-  model: ISpotifyAniversario
-  variant: 'preview' | 'modal' | 'page'
-}
+  model: ISpotifyModel;
+  variant: "preview" | "modal" | "page";
+};
 
 export default function ListaMusicas({ model, variant }: Props) {
-  const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(null)
+  const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(
+    null
+  );
 
-  const playingSongMain = useConfigStoreSpotify(state => state.playingSongMain)
-  const setPlayingSongMain = useConfigStoreSpotify(state => state.setPlayingSongMain)
+  const playingSongMain = useConfigStoreSpotify(
+    (state) => state.playingSongMain
+  );
+  const setPlayingSongMain = useConfigStoreSpotify(
+    (state) => state.setPlayingSongMain
+  );
 
   const tocar = (index: number) => {
-    setPlayingSongMain(false)
-    setMusicaTocandoIndex(index)
-  }
+    setPlayingSongMain(false);
+    setMusicaTocandoIndex(index);
+  };
 
   const pausar = () => {
-    setMusicaTocandoIndex(null)
-  }
+    setMusicaTocandoIndex(null);
+  };
 
   useEffect(() => {
-    if (playingSongMain) pausar()
-  }, [playingSongMain])
+    if (playingSongMain) pausar();
+  }, [playingSongMain]);
 
   // const cores = [
   //   'from-green-400 to-green-600',
@@ -36,18 +42,29 @@ export default function ListaMusicas({ model, variant }: Props) {
   //   'from-red-400 to-red-600'
   // ]
 
-  if ((!model.musicas || model.musicas?.length == 0) && !model.musicaPrincipal.nome) return <></>
+  if (
+    (!model.musicas || model.musicas?.length == 0) &&
+    !model.musicaPrincipal.nome
+  )
+    return <></>;
 
   return (
-    <div className={clsx("flex flex-col gap-4 w-full rounded-xl bg-[#121212] p-4", {
-      'lg:relative': variant != 'preview'
-    })}>
+    <div
+      className={clsx(
+        "flex flex-col gap-4 w-full rounded-xl bg-[#121212] p-4",
+        {
+          "lg:relative": variant != "preview",
+        }
+      )}
+    >
       <h2 className="text-xl sm:text-2xl font-bold flex justify-between items-center gap-2">
         Playlist <span className="text-green-400">🎵</span>
       </h2>
 
       {/* Lista de músicas */}
-      <div className="space-y-4"> {/* padding-top para não esconder a lista */}
+      <div className="space-y-4">
+        {" "}
+        {/* padding-top para não esconder a lista */}
         {model.musicas.map((musica, index) => (
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -64,7 +81,9 @@ export default function ListaMusicas({ model, variant }: Props) {
                 )}
               </button>
               <p className="font-semibold max-sm:text-[12px]">
-                {musica.nome.length > 66 ? musica.nome.slice(0, 63) + '...' : musica.nome}
+                {musica.nome.length > 66
+                  ? musica.nome.slice(0, 63) + "..."
+                  : musica.nome}
               </p>
             </div>
           </div>
@@ -73,9 +92,7 @@ export default function ListaMusicas({ model, variant }: Props) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() =>
-                  setPlayingSongMain(!playingSongMain)
-                }
+                onClick={() => setPlayingSongMain(!playingSongMain)}
                 className={`cursor-pointer min-w-10 h-10 rounded bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center`}
               >
                 {playingSongMain ? (
@@ -85,7 +102,9 @@ export default function ListaMusicas({ model, variant }: Props) {
                 )}
               </button>
               <p className="font-semibold max-sm:text-[12px]">
-                {model.musicaPrincipal.nome.length > 66 ? model.musicaPrincipal.nome.slice(0, 63) + '...' : model.musicaPrincipal.nome}
+                {model.musicaPrincipal.nome.length > 66
+                  ? model.musicaPrincipal.nome.slice(0, 63) + "..."
+                  : model.musicaPrincipal.nome}
               </p>
             </div>
           </div>
@@ -93,11 +112,14 @@ export default function ListaMusicas({ model, variant }: Props) {
       </div>
 
       {/* Iframe do vídeo no topo */}
-      <div className={clsx('', {
-        'w-0 h-0 hidden': musicaTocandoIndex == null,
-        'w-full md:h-64': variant == 'preview' && musicaTocandoIndex !== null,
-        'max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]': variant != 'preview' && musicaTocandoIndex !== null,
-      })}>
+      <div
+        className={clsx("", {
+          "w-0 h-0 hidden": musicaTocandoIndex == null,
+          "w-full md:h-64": variant == "preview" && musicaTocandoIndex !== null,
+          "max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]":
+            variant != "preview" && musicaTocandoIndex !== null,
+        })}
+      >
         {musicaTocandoIndex !== null && (
           <iframe
             className="w-full h-full"
@@ -108,11 +130,14 @@ export default function ListaMusicas({ model, variant }: Props) {
           ></iframe>
         )}
       </div>
-      <div className={clsx('', {
-        'w-0 h-0 hidden': !playingSongMain,
-        'w-full md:h-64': variant == 'preview' && playingSongMain,
-        'max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]': variant != 'preview' && playingSongMain,
-      })}>
+      <div
+        className={clsx("", {
+          "w-0 h-0 hidden": !playingSongMain,
+          "w-full md:h-64": variant == "preview" && playingSongMain,
+          "max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]":
+            variant != "preview" && playingSongMain,
+        })}
+      >
         {playingSongMain && (
           <iframe
             className="w-full h-full"
@@ -124,5 +149,5 @@ export default function ListaMusicas({ model, variant }: Props) {
         )}
       </div>
     </div>
-  )
+  );
 }

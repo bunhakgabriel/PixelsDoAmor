@@ -1,76 +1,108 @@
-import { IoPlayOutline } from "react-icons/io5";
-import PlaylistAniversario from "./componentes/PlaylistAniversario";
-import AlbumMemorias1 from "./componentes/AlbumMemorias1";
-import Player from "./componentes/Player";
-import type { ISpotifyAniversario } from "../../../../models/ISpotify";
-import MensagemEspecial from "./componentes/MensagemEspecial";
-import Comentarios1 from "./componentes/Comentarios1";
-import { converterData } from "../../../../utils/converterData";
 import clsx from "clsx";
+import { IoPlayOutline } from "react-icons/io5";
+import type { ISpotifyModel } from "../../../../models/ISpotify";
+import { converterData } from "../../../../utils/converterData";
+import AlbumMemorias1 from "./componentes/AlbumMemorias1";
+import Comentarios1 from "./componentes/Comentarios1";
+import MensagemEspecial from "./componentes/MensagemEspecial";
+import Player from "./componentes/Player";
+import PlaylistAniversario from "./componentes/PlaylistAniversario";
 
 type SpotifyTemaProps = {
-    model: ISpotifyAniversario
-    variant: 'preview' | 'modal' | 'page'
-}
+  model: ISpotifyModel;
+  variant: "preview" | "modal" | "page";
+};
 
-function DataEspecial({ model, className }: { model: ISpotifyAniversario, className?: string }) {
-    return (
-        <div className={`${className}`}>
-                {model.data?.length == 10 && converterData(model.data) != '' && (
-                        <p className="text-xl font-semibold mb-1 edu-nsw-act-cursive text-center">{converterData(model.data)} de pura música!</p>
-                )}
-        </div>
-    )
+function DataEspecial({
+  model,
+  className,
+}: {
+  model: ISpotifyModel;
+  className?: string;
+}) {
+  return (
+    <div className={`${className}`}>
+      {model.data?.length == 10 && converterData(model.data) != "" && (
+        <p className="text-xl font-semibold mb-1 edu-nsw-act-cursive text-center">
+          {converterData(model.data)} de pura música!
+        </p>
+      )}
+    </div>
+  );
 }
 
 function SpotifyTema1({ model, variant }: SpotifyTemaProps) {
-    const backgroundsPage = [
-        'bg-gradient-to-b from-[#2a2a2a] to-[#121212]',
-        'bg-gradient-to-b from-[#3e3e3e] to-[#121212]',
-        'bg-gradient-to-br from-[#1DB954] to-[#1F1B24]',
-        'bg-gradient-to-b from-[#2D2D2D] to-[#7a00ff]',
-        'bg-gradient-to-b from-[#1DB954] to-[#121212]'
-    ]
+  const backgroundsPage = [
+    "bg-gradient-to-b from-[#2a2a2a] to-[#121212]",
+    "bg-gradient-to-b from-[#3e3e3e] to-[#121212]",
+    "bg-gradient-to-br from-[#1DB954] to-[#1F1B24]",
+    "bg-gradient-to-b from-[#2D2D2D] to-[#7a00ff]",
+    "bg-gradient-to-b from-[#1DB954] to-[#121212]",
+  ];
 
-    return (
-        <div className={clsx(`${backgroundsPage[4]} text-white`, {
-            'relative rounded-2xl max-h-[500px] overflow-y-scroll': variant == 'preview',
-            'min-h-screen': variant == 'modal'
-        })}>
-            <div className="flex flex-col gap-10 p-4">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold">{model.titulo || ''}</h1>
-                        <p className="text-green-200">Playlist especial {model.nome ? `para ${model.nome}` : ''}</p>
-                    </div>
-                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                        <IoPlayOutline className="w-6 h-6 text-green-500" />
-                    </div>
-                </div>
-
-                <div className={clsx('flex flex-col gap-4', {
-                    'lg:flex-row': variant == 'modal'
-                })}>
-                    <div className={clsx('flex flex-col gap-4', {
-                        'lg:w-3/6': variant == 'modal'
-                    })}>
-                        <DataEspecial model={model} className={`${variant == 'preview' ? 'hidden' : 'hidden md:block'}`} />
-                        <div>
-                            <img className="w-full max-h-[350px] object-cover" src={model.fotoPrincipal.imagem instanceof File ? model.fotoPrincipal.previewImagem : model.fotoPrincipal.imagem} />
-                        </div>
-                        <DataEspecial model={model} className={`${variant == 'preview' ? 'block' : 'md:hidden'}`} />
-                    </div>
-                    <PlaylistAniversario variant={variant} model={model} />
-                </div>
-                <MensagemEspecial model={model.mensagemEspecial} />
-                <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
-                <Comentarios1 comentarios={model.comentarios} />
-            </div>
-            <div className="sticky -bottom-4 z-10">
-                <Player musicaPrincipal={model.musicaPrincipal} />
-            </div>
+  return (
+    <div
+      className={clsx(`${backgroundsPage[4]} text-white`, {
+        "relative rounded-2xl max-h-[500px] overflow-y-scroll":
+          variant == "preview",
+        "min-h-screen": variant == "modal",
+      })}
+    >
+      <div className="flex flex-col gap-10 p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">{model.titulo || ""}</h1>
+            <p className="text-green-200">
+              Playlist especial {model.nome ? `para ${model.nome}` : ""}
+            </p>
+          </div>
+          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+            <IoPlayOutline className="w-6 h-6 text-green-500" />
+          </div>
         </div>
-    )
+
+        <div
+          className={clsx("flex flex-col gap-4", {
+            "lg:flex-row": variant == "modal",
+          })}
+        >
+          <div
+            className={clsx("flex flex-col gap-4", {
+              "lg:w-3/6": variant == "modal",
+            })}
+          >
+            <DataEspecial
+              model={model}
+              className={`${
+                variant == "preview" ? "hidden" : "hidden md:block"
+              }`}
+            />
+            <div>
+              <img
+                className="w-full max-h-[350px] object-cover"
+                src={
+                  model.fotoPrincipal.imagem instanceof File
+                    ? model.fotoPrincipal.previewImagem
+                    : model.fotoPrincipal.imagem
+                }
+              />
+            </div>
+            <DataEspecial
+              model={model}
+              className={`${variant == "preview" ? "block" : "md:hidden"}`}
+            />
+          </div>
+          <PlaylistAniversario variant={variant} model={model} />
+        </div>
+        <MensagemEspecial model={model.mensagemEspecial} />
+        <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
+        <Comentarios1 comentarios={model.comentarios} />
+      </div>
+      <div className="sticky -bottom-4 z-10">
+        <Player musicaPrincipal={model.musicaPrincipal} />
+      </div>
+    </div>
+  );
 }
 
 export default SpotifyTema1;

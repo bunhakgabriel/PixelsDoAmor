@@ -1,16 +1,16 @@
-import MultipleImageUpload from "../../../../../components/MultipleImageUpload/MultipleImageUpload"
-import type { ISpotifyAniversario } from "../../../../../models/ISpotify"
+import MultipleImageUpload from "../../../../../components/MultipleImageUpload/MultipleImageUpload";
+import type { ISpotifyModel } from "../../../../../models/ISpotify";
 
 function QuintaEtapa() {
-    return (
-        <div>
-            <MultipleImageUpload<ISpotifyAniversario> 
-                maxImages={6}
-                name="albumMemorias"
-                label="Selecione até 6 imagens"
-            />
-        </div>
-    )
+  return (
+    <div>
+      <MultipleImageUpload<ISpotifyModel>
+        maxImages={6}
+        name="albumMemorias"
+        label="Selecione até 6 imagens"
+      />
+    </div>
+  );
 }
 
-export default QuintaEtapa
+export default QuintaEtapa;
