@@ -94,7 +94,7 @@ function SpotifyForm() {
           </form>
           <ButtonUi
             className="w-[100%] h-[40px] sm:my-4"
-            text="Próximo"
+            text={etapaAtual == 5 ? "Salvar" : "Próximo"}
             onClick={avancarEtapa}
             element="button"
           />
