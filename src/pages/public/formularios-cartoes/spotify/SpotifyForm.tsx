@@ -18,6 +18,10 @@ import SegundaEtapa from "./etapas/SegundaEtapa";
 import SextaEtapa from "./etapas/SextaEtapa";
 import TerceiraEtapa from "./etapas/TerceiraEtapa";
 import { SpotifySchema } from "./schema/SpotifySchema";
+import { useMutation } from '@tanstack/react-query'
+import { SpotifyService } from "../../../../services/spotify-service";
+import { toast } from "react-toastify";
+import Loading from "../../../../components/Loading/Loading";
 
 const etapas = ["", "", "", "", "", ""];
 
@@ -28,6 +32,18 @@ function SpotifyForm() {
     mode: "onChange",
   });
   const { control, trigger } = form;
+
+  const mutation = useMutation({
+    mutationFn: () => SpotifyService.postCartao(model),
+    onSuccess: (data) => {
+      console.log('Save data: ', data)
+      toast.success('Cartão salvo com sucesso!')
+    },
+    onError: (error) => {
+      console.log('Erro ao salvar: ', error)
+      toast.error('Erro ao salvar cartão!')
+    }
+  })
 
   const { previewCartao, setPreviewCartao } = useConfigStoreSpotify();
   const [etapaAtual, setEtapaAtual] = useState(0);
@@ -40,14 +56,20 @@ function SpotifyForm() {
       ["musicas"],
       ["mensagemEspecial"],
       ["albumMemorias"],
+      ["comentarios", "musicaPrincipal"]
     ];
 
     const camposDaEtapaAtual = camposPorEtapa[etapaAtual];
     const valido = await trigger(camposDaEtapaAtual);
 
     if (valido) {
-      setEtapaAtual((prev) => prev + 1);
+      if (etapaAtual == 5) {
+        mutation.mutate()
+      } else {
+        setEtapaAtual((prev) => prev + 1);
+      }
     }
+
   }
 
   function voltarEtapa() {
@@ -57,6 +79,10 @@ function SpotifyForm() {
   useEffect(() => {
     console.log(model);
   }, [model]);
+
+  if(mutation.isPending){
+    return <Loading text="Aguarde alguns instantes enquanto sua página é criada..." size={60} />
+  }
 
   return (
     <FormProvider {...form}>
