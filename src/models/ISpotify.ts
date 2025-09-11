@@ -1,4 +1,5 @@
 export interface ISpotifyModel {
+  id: string;
   titulo: string;
   nome?: string;
   fotoPrincipal: Imagem;
@@ -45,6 +46,7 @@ export interface Imagem {
 }
 
 export const defaultValueSpotifyObject: ISpotifyModel = {
+  id: "",
   titulo: "",
   nome: "",
   fotoPrincipal: {

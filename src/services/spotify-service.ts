@@ -1,46 +1,59 @@
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import type { ISpotifyModel } from "../models/ISpotify";
-import { storage } from "../firebase/firebase-config";
+import { firestore, storage } from "../firebase/firebase-config";
+import { doc, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid'
 
 export const SpotifyService = {
   postCartao: async (data: ISpotifyModel) => {
-    console.log("Data received:", data);
-
+    const idDocumento = uuidv4();
     const uploadedRefs: any[] = [];
 
     try {
-      const idPrincipal = uuidv4();
-      console.log('id: ', idPrincipal)
-      // upload da fotoPrincipal
+      // 1. upload da fotoPrincipal
       const fotoPrincipalFile = data.fotoPrincipal.imagem as File;
-      const fotoPrincipalRef = ref(storage, `${idPrincipal}/fotoPrincipal_${Date.now()}_${fotoPrincipalFile.name}`);
-      const fotoPrincipalSnapshot = await uploadBytes(fotoPrincipalRef, fotoPrincipalFile);
+      const fotoPrincipalRef = ref(
+        storage,
+        `${idDocumento}/fotoPrincipal_${Date.now()}_${fotoPrincipalFile.name}`
+      );
+      const fotoPrincipalSnapshot = await uploadBytes(
+        fotoPrincipalRef,
+        fotoPrincipalFile
+      );
       uploadedRefs.push(fotoPrincipalRef);
       const fotoPrincipalUrl = await getDownloadURL(fotoPrincipalSnapshot.ref);
 
-      // upload das imagens do albumMemorias em paralelo
+      // 2. upload das imagens do albumMemorias em paralelo
       const albumPromises = data.albumMemorias.map(async (item, index) => {
         const file = item.imagem as File;
-        const fileRef = ref(storage, `${idPrincipal}/album_${Date.now()}_${index}_${file.name}`);
+        const fileRef = ref(
+          storage,
+          `${idDocumento}/album_${Date.now()}_${index}_${file.name}`
+        );
         const snapshot = await uploadBytes(fileRef, file);
         uploadedRefs.push(fileRef);
         const url = await getDownloadURL(snapshot.ref);
 
-        return { ...item, url };
+        return { imagem: url, previewImagem: "" };
       });
 
       const albumComUrls = await Promise.all(albumPromises);
 
-      // se chegou aqui, deu tudo certo
-      return {
+      // 3. objeto final com URLs
+      const dataFinal: ISpotifyModel = {
         ...data,
-        fotoPrincipal: { ...data.fotoPrincipal, url: fotoPrincipalUrl },
+        id: idDocumento,
+        fotoPrincipal: { imagem: fotoPrincipalUrl, previewImagem: "" },
         albumMemorias: albumComUrls,
       };
 
+      // 4. salva no Firestore
+      await setDoc(doc(firestore, "cartoes-spotify", dataFinal.id), dataFinal);
+
+      // 5. retorna objeto salvo
+      return dataFinal;
     } catch (error) {
-      console.error("Erro ao salvar imagens, revertendo uploads:", error);
+      console.error("Erro ao salvar, revertendo uploads:", error);
 
       // rollback: deletar tudo que já foi enviado
       await Promise.all(
@@ -53,9 +66,8 @@ export const SpotifyService = {
         })
       );
 
-      throw error; // propaga o erro para quem chamou
+      throw error; // repassa o erro para o chamador
     }
-
   },
   getCartao: async (id: number): Promise<ISpotifyModel> => {
     console.log("Fetching data for ID:", id);

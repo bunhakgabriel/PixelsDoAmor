@@ -2,6 +2,7 @@ import App from "../App";
 import Preview from "../components/Preview/Preview";
 import SpotifyForm from "../pages/public/formularios-cartoes/spotify/SpotifyForm";
 import Home from "../pages/public/Home/Home";
+import Parabens from "../pages/public/Parabens/Parabens";
 
 const routes = [
     {
@@ -20,6 +21,10 @@ const routes = [
             {
                 path: '/form-cadastro-spotify',
                 element: <SpotifyForm />
+            },
+            {
+                path: '/parabens/:encodedUrl',
+                element: <Parabens />
             },
         ]
     }

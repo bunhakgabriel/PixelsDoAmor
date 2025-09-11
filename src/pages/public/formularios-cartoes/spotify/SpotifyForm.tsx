@@ -22,7 +22,7 @@ import { useMutation } from '@tanstack/react-query'
 import { SpotifyService } from "../../../../services/spotify-service";
 import { toast } from "react-toastify";
 import Loading from "../../../../components/Loading/Loading";
-
+import { useNavigate } from "react-router-dom";
 const etapas = ["", "", "", "", "", ""];
 
 function SpotifyForm() {
@@ -32,16 +32,17 @@ function SpotifyForm() {
     mode: "onChange",
   });
   const { control, trigger } = form;
+  const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: () => SpotifyService.postCartao(model),
+    mutationFn: () =>  SpotifyService.postCartao(model),
     onSuccess: (data) => {
-      console.log('Save data: ', data)
-      toast.success('Cartão salvo com sucesso!')
+      const encodedUrl = encodeURIComponent(data.id)
+      navigate(`/parabens/${encodedUrl}`)
     },
     onError: (error) => {
       console.log('Erro ao salvar: ', error)
-      toast.error('Erro ao salvar cartão!')
+      toast.error('Erro ao salvar cartão, tente novamente!')
     }
   })
 
@@ -80,7 +81,7 @@ function SpotifyForm() {
     console.log(model);
   }, [model]);
 
-  if(mutation.isPending){
+  if (mutation.isPending) {
     return <Loading text="Aguarde alguns instantes enquanto sua página é criada..." size={60} />
   }
 
