@@ -102,10 +102,10 @@ const Parabens = () => {
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
             </div>
 
-            <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
+            <div className="relative z-10 min-h-screen flex items-center justify-center md:p-6">
                 <div className="max-w-lg w-full">
                     {/* Card principal */}
-                    <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 transform transition-all duration-500 hover:scale-105">
+                    <div className="bg-white/10 md:backdrop-blur-xl md:rounded-3xl p-4 md:p-8 shadow-2xl md:border md:border-white/20">
                         {/* Ícone de sucesso animado */}
                         {/* <div className="text-center mb-8">
                             <div className="relative inline-block">
@@ -120,7 +120,7 @@ const Parabens = () => {
                         </div> */}
 
                         {/* Mensagem de parabéns */}
-                        <div className="text-center mb-8">
+                        <div className="text-center mb-4">
                             <h1 className="text-3xl font-bold text-white mb-4 animate-fade-in">
                                 🎉 Parabéns!
                             </h1>
@@ -133,8 +133,8 @@ const Parabens = () => {
                         </div>
 
                         {/* QR Code */}
-                        <div className="text-center mb-8">
-                            <div className="inline-block p-4 bg-white rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
+                        <div className="text-center mb-4">
+                            <div className="inline-block p-4 bg-white rounded-2xl shadow-lg">
                                 {isLoading ? (
                                     <div className="w-48 h-48 flex items-center justify-center">
                                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
@@ -150,7 +150,7 @@ const Parabens = () => {
                         </div>
 
                         {/* URL do cartão */}
-                        <div className="mb-6">
+                        <div className="mb-4">
                             <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
                                 <p className="text-white/70 text-sm mb-2">Link do seu cartão:</p>
                                 <div className="flex items-center gap-2 text-white text-sm font-mono break-all">
