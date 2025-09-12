@@ -98,7 +98,10 @@ function SpotifyTema1({ model, variant }: SpotifyTemaProps) {
         <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
         <Comentarios1 comentarios={model.comentarios} />
       </div>
-      <div className="sticky -bottom-4 z-10">
+      <div className={clsx('', {
+        'sticky -bottom-4 z-10': variant != 'page',
+        'fixed w-full -bottom-5 z-10': variant == 'page',
+      })}>
         <Player musicaPrincipal={model.musicaPrincipal} />
       </div>
     </div>

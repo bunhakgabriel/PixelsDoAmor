@@ -2,6 +2,7 @@ import App from "../App";
 import Preview from "../components/Preview/Preview";
 import SpotifyForm from "../pages/public/formularios-cartoes/spotify/SpotifyForm";
 import Home from "../pages/public/Home/Home";
+import PageCartao from "../pages/public/page-cartao/PageCartao";
 import Parabens from "../pages/public/Parabens/Parabens";
 
 const routes = [
@@ -27,6 +28,10 @@ const routes = [
                 element: <Parabens />
             },
         ]
+    },
+    {
+        path: '/cartao-digital/:identCartao',
+        element: <PageCartao />
     }
 ]
 

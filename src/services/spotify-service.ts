@@ -1,7 +1,7 @@
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import type { ISpotifyModel } from "../models/ISpotify";
 import { firestore, storage } from "../firebase/firebase-config";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid'
 
 export const SpotifyService = {
@@ -69,8 +69,14 @@ export const SpotifyService = {
       throw error; // repassa o erro para o chamador
     }
   },
-  getCartao: async (id: number): Promise<ISpotifyModel> => {
-    console.log("Fetching data for ID:", id);
-    return {} as ISpotifyModel;
+  getCartao: async (id: string): Promise<ISpotifyModel> => {
+    try {
+      const docRef = doc(firestore, 'cartoes-spotify', id);
+      const docSnap = await getDoc(docRef);
+      return docSnap.data() as ISpotifyModel;
+    } catch (error) {
+      console.error("Erro ao buscar documento:", error);
+      throw error;
+    }
   },
 };

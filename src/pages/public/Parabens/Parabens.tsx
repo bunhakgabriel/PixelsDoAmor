@@ -15,7 +15,7 @@ const Parabens = () => {
     const [showCopySuccess, setShowCopySuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    const cardUrl = encodedUrl ? decodeURIComponent(encodedUrl) : '';
+    const cardUrl = encodedUrl ? 'https://moments-plataforma.netlify.app/cartao-digital/' + decodeURIComponent(encodedUrl) : '';
 
     useEffect(() => {
         const generateQRCode = async () => {
