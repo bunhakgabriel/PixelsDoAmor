@@ -1,5 +1,5 @@
 export interface ISpotifyModel {
-  id: string;
+  id?: string;
   titulo: string;
   nome?: string;
   fotoPrincipal: Imagem;

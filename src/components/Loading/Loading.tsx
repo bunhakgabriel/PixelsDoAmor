@@ -1,4 +1,4 @@
-import { DotLoader, BounceLoader, BeatLoader } from 'react-spinners';
+import { BeatLoader } from 'react-spinners';
 
 const Loading = ({ text, size }: { text?: string, size: number }) => {
   return (

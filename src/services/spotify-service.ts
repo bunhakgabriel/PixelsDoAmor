@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 export const SpotifyService = {
   postCartao: async (data: ISpotifyModel) => {
     const idDocumento = uuidv4();
+    
     const uploadedRefs: any[] = [];
 
     try {
@@ -48,7 +49,7 @@ export const SpotifyService = {
       };
 
       // 4. salva no Firestore
-      await setDoc(doc(firestore, "cartoes-spotify", dataFinal.id), dataFinal);
+      await setDoc(doc(firestore, "cartoes-spotify", dataFinal.id!), dataFinal);
 
       // 5. retorna objeto salvo
       return dataFinal;

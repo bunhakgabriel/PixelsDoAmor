@@ -37,8 +37,10 @@ function SpotifyForm() {
   const mutation = useMutation({
     mutationFn: () =>  SpotifyService.postCartao(model),
     onSuccess: (data) => {
-      const encodedUrl = encodeURIComponent(data.id)
-      navigate(`/parabens/1${encodedUrl}`)
+      if(data?.id){
+        const encodedUrl = encodeURIComponent(data.id)
+        navigate(`/parabens/1${encodedUrl}`)
+      }
     },
     onError: (error) => {
       console.log('Erro ao salvar: ', error)

@@ -2,7 +2,9 @@ import * as Yup from "yup";
 import type { Imagem, ISpotifyModel } from "../../../../../models/ISpotify";
 import { converterData } from "../../../../../utils/converterData";
 
-export const SpotifySchema: Yup.Schema<ISpotifyModel> = Yup.object({
+export const SpotifySchema: Yup.ObjectSchema<ISpotifyModel> = Yup.object({
+  id: Yup.string().optional(),
+
   titulo: Yup.string().required("Campo obrigatório"),
 
   nome: Yup.string().optional(),
@@ -15,7 +17,7 @@ export const SpotifySchema: Yup.Schema<ISpotifyModel> = Yup.object({
         return true;
       })
       .required("Campo obrigatório"),
-    previewImagem: Yup.string().optional(),
+    previewImagem: Yup.string().required(),
   }).required("Campo obrigatório"),
 
   data: Yup.string()
@@ -27,16 +29,14 @@ export const SpotifySchema: Yup.Schema<ISpotifyModel> = Yup.object({
       return false;
     }),
 
-  musicas: Yup.mixed<{ nome: string; url: string }[]>().test(
-    "not-empty",
-    "Mínimo 2 músicas",
-    (value) => {
+  musicas: Yup.mixed<{ nome: string; url: string }[]>()
+    .required("É necessário informar músicas")
+    .test("not-empty", "Mínimo 2 músicas", (value) => {
       if (value && value.length < 2) {
         return false;
       }
       return true;
-    }
-  ),
+    }),
 
   mensagemEspecial: Yup.object({
     mensagem: Yup.string()
@@ -50,7 +50,7 @@ export const SpotifySchema: Yup.Schema<ISpotifyModel> = Yup.object({
     autor: Yup.string().optional(),
   }).required("Campo obrigatório"),
 
-  albumMemorias: Yup.mixed<Imagem[]>().test(
+  albumMemorias: Yup.mixed<Imagem[]>().required().test(
     "not-empty",
     "Mínimo 3 fotos",
     (value) => {
@@ -69,7 +69,7 @@ export const SpotifySchema: Yup.Schema<ISpotifyModel> = Yup.object({
         return true;
       })
       .required("Escolha uma música principal"),
-    url: Yup.string().test(
+    url: Yup.string().required().test(
       "not-empty",
       "Escolha uma música principal",
       (value) => {
@@ -79,4 +79,9 @@ export const SpotifySchema: Yup.Schema<ISpotifyModel> = Yup.object({
       }
     ),
   }).required("Escolha uma música principal"),
+
+  comentarios: Yup.object({
+    habilitado: Yup.boolean().required(),
+    listaComentarios: Yup.array().min(0).required(),
+  }),
 });
