@@ -1,13 +1,18 @@
-import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import type { ISpotifyModel } from "../models/ISpotify";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
+import type { Comentario, ISpotifyModel } from "../models/ISpotify";
 import { firestore, storage } from "../firebase/firebase-config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { v4 as uuidv4 } from 'uuid'
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
 export const SpotifyService = {
   postCartao: async (data: ISpotifyModel) => {
     const idDocumento = uuidv4();
-    
+
     const uploadedRefs: any[] = [];
 
     try {
@@ -72,11 +77,28 @@ export const SpotifyService = {
   },
   getCartao: async (id: string): Promise<ISpotifyModel> => {
     try {
-      const docRef = doc(firestore, 'cartoes-spotify', id);
+      const docRef = doc(firestore, "cartoes-spotify", id);
       const docSnap = await getDoc(docRef);
       return docSnap.data() as ISpotifyModel;
     } catch (error) {
       console.error("Erro ao buscar documento:", error);
+      throw error;
+    }
+  },
+  postComentario: async (
+    documentoId: string,
+    novoComentario: Comentario
+  ): Promise<void> => {
+    try {
+      const docRef = doc(firestore, "cartoes-spotify", documentoId);
+
+      await updateDoc(docRef, {
+        "comentarios.listaComentarios": arrayUnion(novoComentario),
+      });
+
+      console.log("Comentário adicionado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao adicionar comentário:", error);
       throw error;
     }
   },

@@ -46,6 +46,7 @@ function SpotifyTema1({ model, variant }: SpotifyTemaProps) {
         "relative rounded-2xl max-h-[500px] overflow-y-scroll":
           variant == "preview",
         "min-h-screen": variant == "modal",
+        "mb-[100px]": variant == "page"
       })}
     >
       <div className="flex flex-col gap-10 p-4">
@@ -96,7 +97,7 @@ function SpotifyTema1({ model, variant }: SpotifyTemaProps) {
         </div>
         <MensagemEspecial model={model.mensagemEspecial} />
         <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
-        <Comentarios1 comentarios={model.comentarios} />
+        <Comentarios1 comentarios={model.comentarios} idDocumento={model.id || ''} />
       </div>
       <div className={clsx('', {
         'sticky -bottom-4 z-10': variant != 'page',

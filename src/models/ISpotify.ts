@@ -25,19 +25,10 @@ export interface Comentarios {
   listaComentarios: Comentario[];
 }
 
-export interface Resposta {
-  id: number;
-  autor: string;
-  mensagem: string;
-}
-
 export interface Comentario {
   id: number;
   autor: string;
   mensagem: string;
-  curtidas: number;
-  curtido: boolean;
-  respostas: Resposta[];
 }
 
 export interface Imagem {
