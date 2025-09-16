@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../../components/Loading/Loading";
 import { SpotifyService } from "../../../services/spotify-service";
-import SpotifyTema1 from "../../../components/Preview/temas/spotify/SpotifyPreview1";
+import SpotifyTema from "../../../components/Preview/temas/spotify/SpotifyTema";
 
 function PageCartao() {
     const { identCartao } = useParams();
@@ -26,7 +26,7 @@ function PageCartao() {
     return (
         <div>
             {tipoCartao == '1' && data && (
-                <SpotifyTema1 model={data} variant="page"/>
+                <SpotifyTema model={data} variant="page"/>
             )}
         </div>
     )

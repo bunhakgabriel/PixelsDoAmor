@@ -2,6 +2,7 @@ import { CiCamera, CiHeart } from "react-icons/ci"
 import { FaRegStar } from "react-icons/fa"
 import { IoVideocamOutline } from "react-icons/io5"
 import { LuMusic } from "react-icons/lu"
+import { MdOutlineTextsms } from "react-icons/md"
 
 export const dados = {
         spotify: {
@@ -10,6 +11,7 @@ export const dados = {
             descriptionList: [
                 { icon: <CiHeart className="w-4 h-4 flex-shrink-0" />, text: 'Fotos como capas de álbuns' },
                 { icon: <LuMusic className="w-4 h-4 flex-shrink-0" />, text: 'Trilha sonora personalizada' },
+                { icon: <MdOutlineTextsms className="w-4 h-4 flex-shrink-0" />, text: 'Mensagens personalizadas' },
                 { icon: <FaRegStar className="w-4 h-4 flex-shrink-0" />, text: 'Playlist dos momentos' },
             ]
         },

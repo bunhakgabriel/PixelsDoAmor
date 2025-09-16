@@ -8,7 +8,6 @@ type CardThemeProps = {
 
 function CardTheme({ theme }: CardThemeProps) {
   const navigate = useNavigate();
-
   const goForm = () => {
     if (theme == "spotify") {
       navigate("/form-cadastro-spotify");
@@ -22,7 +21,7 @@ function CardTheme({ theme }: CardThemeProps) {
   return (
     <div
       className={clsx(
-        "relative cursor-pointer bg-gradient-to-br rounded-2xl p-6 sm:p-8 text-white transform hover:scale-105 transition-transform duration-300 shadow-xl",
+        "relative cursor-pointer bg-gradient-to-br rounded-2xl p-6 sm:p-8 text-white transform shadow-xl",
         {
           "from-green-400 to-green-600": theme == "spotify",
           "from-red-500 to-red-700": theme == "netflix",
@@ -30,7 +29,6 @@ function CardTheme({ theme }: CardThemeProps) {
           "opacity-50": isDisabled,
         }
       )}
-      onClick={goForm}
     >
       {/* Faixa diagonal "Em Breve" */}
       {isDisabled && (
@@ -48,7 +46,7 @@ function CardTheme({ theme }: CardThemeProps) {
       <h4 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center">
         {dados[theme].title}
       </h4>
-      <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base">
+      <ul className="flex flex-col items-center space-y-2 sm:space-y-3 text-sm sm:text-base">
         {dados[theme].descriptionList.map((item, index) => (
           <li
             key={index}
@@ -58,6 +56,18 @@ function CardTheme({ theme }: CardThemeProps) {
             <span>{item.text}</span>
           </li>
         ))}
+        <button
+          onClick={goForm}
+          className="active:opacity-0 max-sm:w-[80%] w-full text-center cursor-pointer bg-white text-purple-600 px-3 py-1 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          Criar Meu Cartão
+        </button>
+        <button
+          onClick={() => navigate(`/previa-cartao/${theme}`)}
+          className="active:opacity-0 max-sm:w-[80%] w-full text-center cursor-pointer bg-white text-purple-600 px-3 py-1 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          Ver prévia
+        </button>
       </ul>
     </div>
   );

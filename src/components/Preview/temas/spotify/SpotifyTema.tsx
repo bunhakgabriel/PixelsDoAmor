@@ -31,7 +31,7 @@ function DataEspecial({
   );
 }
 
-function SpotifyTema1({ model, variant }: SpotifyTemaProps) {
+function SpotifyTema({ model, variant }: SpotifyTemaProps) {
   const backgroundsPage = [
     "bg-gradient-to-b from-[#2a2a2a] to-[#121212]",
     "bg-gradient-to-b from-[#3e3e3e] to-[#121212]",
@@ -109,4 +109,4 @@ function SpotifyTema1({ model, variant }: SpotifyTemaProps) {
   );
 }
 
-export default SpotifyTema1;
+export default SpotifyTema;

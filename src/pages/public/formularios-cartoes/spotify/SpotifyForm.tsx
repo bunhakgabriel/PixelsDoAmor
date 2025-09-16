@@ -5,7 +5,7 @@ import { FormProvider, useForm, useWatch } from "react-hook-form";
 import Modal from "react-modal";
 import BackButton from "../../../../components/BackButton/BackButon";
 import ButtonUi from "../../../../components/ButtonUi/ButtonUi";
-import SpotifyTema1 from "../../../../components/Preview/temas/spotify/SpotifyPreview1";
+import SpotifyTema from "../../../../components/Preview/temas/spotify/SpotifyTema";
 import {
   defaultValueSpotifyObject,
   type ISpotifyModel,
@@ -142,7 +142,7 @@ function SpotifyForm() {
 
         {!previewCartao && (
           <div className="w-full sm:w-[500px] lg:w-[2/5]">
-            <SpotifyTema1
+            <SpotifyTema
               variant="preview"
               model={model || defaultValueSpotifyObject}
             />
@@ -161,7 +161,7 @@ function SpotifyForm() {
             X
           </button>
           {/* <Preview /> */}
-          <SpotifyTema1
+          <SpotifyTema
             variant="modal"
             model={model || defaultValueSpotifyObject}
           />
