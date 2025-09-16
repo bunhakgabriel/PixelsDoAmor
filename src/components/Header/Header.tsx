@@ -1,13 +1,24 @@
 import { FiGift } from "react-icons/fi";
 import { MdOutlineHome } from "react-icons/md";
-import { IoAdd } from "react-icons/io5";
 import { useState } from "react";
 import clsx from "clsx";
 import { useConfigStoreSpotify } from "../../store/useConfigStoreSpotify";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Header() {
     const [currentPage] = useState<string>('home')
     const previewCartaoSpotify = useConfigStoreSpotify(state => state.previewCartao)
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleClickHome = () => {
+        if (location.pathname === '/') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            navigate('/');
+        }
+    }
 
     return (
         <header className={clsx('z-50 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg', {
@@ -15,13 +26,13 @@ function Header() {
         })}>
             <div className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2" onClick={handleClickHome} style={{ cursor: 'pointer' }}>
                         <FiGift className="w-6 h-6 sm:w-8 sm:h-8" />
                         <h1 className="text-lg sm:text-2xl font-bold">MoMents</h1>
                     </div>
                     <nav className="flex space-x-2 sm:space-x-4">
                         <button
-                            // onClick={() => onNavigate('home')}
+                            onClick={handleClickHome}
                             className={clsx(
                                 'active:bg-white/20 cursor-pointer flex items-center space-x-1 px-2 py-2 sm:px-4 sm:py-2 rounded-lg transition-colors text-sm sm:text-base',
                                 {
@@ -32,19 +43,6 @@ function Header() {
                         >
                             <MdOutlineHome className="w-5 h-5" />
                             <span className="inline">Início</span>
-                        </button>
-                        <button
-                            // onClick={() => onNavigate('create')}
-                            className={clsx(
-                                'active:bg-white/20 cursor-pointer flex items-center space-x-1 px-2 py-2 sm:px-4 sm:py-2 rounded-lg transition-colors text-sm sm:text-base',
-                                {
-                                    'bg-white/20 text-white': currentPage === 'create',
-                                    'text-white/80 hover:text-white hover:bg-white/10': currentPage !== 'create',
-                                }
-                            )}
-                        >
-                            <IoAdd className="w-5 h-5" />
-                            <span className="inline">Criar</span>
                         </button>
                     </nav>
                 </div>

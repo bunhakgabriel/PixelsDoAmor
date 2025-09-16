@@ -81,6 +81,7 @@ function SpotifyForm() {
   }
 
   function voltarEtapa() {
+    if(etapaAtual === 0) return navigate(-1);
     setEtapaAtual((prev) => prev - 1);
   }
 
