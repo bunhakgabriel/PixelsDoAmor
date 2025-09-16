@@ -1,52 +1,69 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { FaUser, FaEnvelope, FaIdCard } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
 import { useConfigStoreSpotify } from "../../../store/useConfigStoreSpotify";
 import type { ISpotifyModel } from "../../../models/ISpotify";
-
-
-// Tipagem dos dados do formulário
-type PaymentFormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  documentType: "CPF" | "CNPJ";
-  documentNumber: string;
-};
-
-// Schema de validação com Yup
-const schema = yup.object({
-  firstName: yup.string().required("Nome é obrigatório"),
-  lastName: yup.string().required("Sobrenome é obrigatório"),
-  email: yup.string().email("Email inválido").required("Email é obrigatório"),
-  documentType: yup.string().oneOf(["CPF", "CNPJ"]).required("Selecione o tipo de documento"),
-  documentNumber: yup
-    .string()
-    .required("Número do documento é obrigatório")
-    .matches(/^[0-9]+$/, "Apenas números são permitidos"),
-});
+import type {
+  IPagamento,
+  MercadoPagoPagamentoRequest,
+  PixResponse,
+} from "../../../models/IPagamento";
+import { PagamentoSchema } from "./schema/PagamentoSchema";
+import { useMutation } from "@tanstack/react-query";
+import { pagamentoService } from "../../../services/pagamento-service";
+import { toast } from "react-toastify";
 
 export default function PagamentoPage() {
-  const [showPix, setShowPix] = useState(false);
-  const [dataStorage] = useState<ISpotifyModel | object>(JSON.parse(localStorage.getItem('cartao-atual') || "{}"));
+  const [pixBase64, setPixBase64] = useState<string | null>(null);
+  const [pixCode, setPixCode] = useState<string | null>(null);
+  const [dataStorage] = useState<ISpotifyModel | object>(
+    JSON.parse(localStorage.getItem("cartao-atual") || "{}")
+  );
   const { data } = useConfigStoreSpotify();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PaymentFormData>({
-    resolver: yupResolver(schema),
+  } = useForm<IPagamento>({
+    resolver: yupResolver(PagamentoSchema),
   });
 
-  const fakePixKey = "00020126460014br.gov.bcb.pix0114+551199999999520400005303986540518.995802BR5925Cliente Teste de Exemplo6009SAO PAULO62070503***6304ABCD";
+  const mutation = useMutation({
+    mutationFn: (data: MercadoPagoPagamentoRequest) =>
+      pagamentoService.gerarPix(data),
+    onSuccess: (result: PixResponse) => {
+      if (result?.point_of_interaction?.transaction_data?.qr_code_base64) {
+        setPixBase64(
+          result.point_of_interaction.transaction_data.qr_code_base64
+        );
+        setPixCode(result.point_of_interaction.transaction_data.qr_code);
+      } else {
+        toast.error("Não foi possível gerar QR Code Pix, tente novamente!");
+      }
+    },
+    onError: (error) => {
+      console.log("Erro ao salvar: ", error);
+      toast.error("Erro ao gerar QrCode Pix, tente novamente!");
+    },
+  });
 
-  const onSubmit = (data: PaymentFormData) => {
-    console.log("Dados enviados:", data);
-    setShowPix(true); // Exibe a seção com o QRCode
+  const onSubmit = (data: IPagamento) => {
+    const body: MercadoPagoPagamentoRequest = {
+      description: "Pagamento cartão digital",
+      payment_method_id: "pix",
+      payer: {
+        email: data.email,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        identification: {
+          type: data.documentType,
+          number: data.documentNumber,
+        },
+      },
+    };
+    mutation.mutate(body);
   };
 
   useEffect(() => {
@@ -61,16 +78,19 @@ export default function PagamentoPage() {
         <div className="p-6 border-b border-gray-800 bg-gradient-to-r from-blue-600/20 to-purple-600/20">
           <h1 className="text-2xl font-bold text-white">Finalizar Compra</h1>
           <p className="text-gray-400">Plano Básico - Pagamento Único</p>
-          <div className="mt-3 text-3xl font-extrabold text-green-400">R$ 18,99</div>
+          <div className="mt-3 text-3xl font-extrabold text-green-400">
+            R$ 15,90
+          </div>
         </div>
 
-        {!showPix ? (
+        {!pixBase64 ? (
           // Formulário
           <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-6">
             {/* Seção Informações Pessoais */}
             <div>
               <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-                <FaUser className="w-5 h-5 text-blue-400" /> Informações Pessoais
+                <FaUser className="w-5 h-5 text-blue-400" /> Informações
+                Pessoais
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -81,7 +101,11 @@ export default function PagamentoPage() {
                     placeholder="Nome"
                     className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   />
-                  {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>}
+                  {errors.firstName && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.firstName.message}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -91,7 +115,11 @@ export default function PagamentoPage() {
                     placeholder="Sobrenome"
                     className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   />
-                  {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>}
+                  {errors.lastName && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.lastName.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -103,7 +131,11 @@ export default function PagamentoPage() {
                   placeholder="Email"
                   className="w-full pl-10 border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -123,7 +155,11 @@ export default function PagamentoPage() {
                     <option value="CPF">CPF</option>
                     <option value="CNPJ">CNPJ</option>
                   </select>
-                  {errors.documentType && <p className="text-red-500 text-sm mt-1">{errors.documentType.message}</p>}
+                  {errors.documentType && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.documentType.message}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -134,7 +170,9 @@ export default function PagamentoPage() {
                     className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   />
                   {errors.documentNumber && (
-                    <p className="text-red-500 text-sm mt-1">{errors.documentNumber.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.documentNumber.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -153,18 +191,21 @@ export default function PagamentoPage() {
           <div className="p-8 text-center space-y-6">
             <h2 className="text-xl font-bold text-white">Pagamento via PIX</h2>
             <p className="text-gray-400">
-              Escaneie o QR Code com seu aplicativo de banco ou copie a chave PIX abaixo para realizar o pagamento.
+              Escaneie o QR Code com seu aplicativo de banco ou copie a chave
+              PIX abaixo para realizar o pagamento.
             </p>
 
             <div className="flex justify-center">
-              <QRCode value={fakePixKey} size={200} fgColor="#000000" bgColor="#ffffff" />
+              <img src={`data:image/png;base64,${pixBase64}`} alt="QR Code Pix" className="w-48 h-48" />
             </div>
 
             {/* Copia e cola */}
             <div className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
-              <span className="text-gray-300 text-sm truncate">{fakePixKey}</span>
+              <span className="text-gray-300 text-sm truncate">
+                {pixCode}
+              </span>
               <button
-                onClick={() => navigator.clipboard.writeText(fakePixKey)}
+                onClick={() => pixCode && navigator.clipboard.writeText(pixCode)}
                 className="text-blue-400 hover:underline ml-3 text-sm"
               >
                 Copiar
@@ -180,7 +221,9 @@ export default function PagamentoPage() {
         {/* Footer */}
         <div className="p-4 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
           <p className="flex items-center gap-2">🔒 Pagamento 100% seguro</p>
-          <p className="flex items-center gap-2">⚡ Protegido por Mercado Pago</p>
+          <p className="flex items-center gap-2">
+            ⚡ Protegido por Mercado Pago
+          </p>
         </div>
       </div>
     </div>
