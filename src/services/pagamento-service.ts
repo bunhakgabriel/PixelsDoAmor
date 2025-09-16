@@ -6,7 +6,7 @@ import type {
 export const pagamentoService = {
   gerarPix: async (data: MercadoPagoPagamentoRequest): Promise<PixResponse> => {
     try {
-      const response = await fetch("http://192.168.18.88:3000/process_payment", {
+      const response = await fetch("https://servidor-node-6up1.onrender.com/process_payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -22,7 +22,7 @@ export const pagamentoService = {
   consultarPagamento: async (id: string): Promise<string> => {
     try {
         const res = await fetch(
-          `http://192.168.18.88:3000/payment_status/${id}`
+          `https://servidor-node-6up1.onrender.com/payment_status/${id}`
         );
         const data = await res.json();
         return data.status;
