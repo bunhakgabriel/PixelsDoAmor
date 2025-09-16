@@ -4,6 +4,7 @@ import SpotifyForm from "../pages/public/formularios-cartoes/spotify/SpotifyForm
 import Home from "../pages/public/Home/Home";
 import PageCartao from "../pages/public/page-cartao/PageCartao";
 import Parabens from "../pages/public/Parabens/Parabens";
+import PagamentoPage from "../pages/public/pagamento/Pagamento";
 
 const routes = [
     {
@@ -27,6 +28,10 @@ const routes = [
                 path: '/parabens/:encodedUrl',
                 element: <Parabens />
             },
+            {
+                path: '/pagamento',
+                element: <PagamentoPage />
+            }
         ]
     },
     {
