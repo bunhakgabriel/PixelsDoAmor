@@ -1,4 +1,5 @@
 export interface ISpotifyModel {
+  type: "spotify";
   id?: string;
   titulo: string;
   nome?: string;
@@ -18,6 +19,8 @@ export interface ISpotifyModel {
   albumMemorias: Imagem[];
   comentarios: Comentarios;
   data?: string;
+  status: "ativo" | "pendente";
+  dataCriacao: string;
 }
 
 export interface Comentarios {
@@ -37,6 +40,7 @@ export interface Imagem {
 }
 
 export const defaultValueSpotifyObject: ISpotifyModel = {
+  type: "spotify",
   id: "",
   titulo: "",
   nome: "",
@@ -59,4 +63,6 @@ export const defaultValueSpotifyObject: ISpotifyModel = {
     listaComentarios: [],
   },
   data: "",
+  status: "pendente",
+  dataCriacao: new Date().toISOString(),
 };
