@@ -2,8 +2,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaUser, FaEnvelope, FaIdCard } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
+import { useConfigStoreSpotify } from "../../../store/useConfigStoreSpotify";
+import type { ISpotifyModel } from "../../../models/ISpotify";
 
 
 // Tipagem dos dados do formulário
@@ -29,6 +31,8 @@ const schema = yup.object({
 
 export default function PagamentoPage() {
   const [showPix, setShowPix] = useState(false);
+  const [dataStorage] = useState<ISpotifyModel | object>(JSON.parse(localStorage.getItem('cartao-atual') || "{}"));
+  const { data } = useConfigStoreSpotify();
 
   const {
     register,
@@ -44,6 +48,11 @@ export default function PagamentoPage() {
     console.log("Dados enviados:", data);
     setShowPix(true); // Exibe a seção com o QRCode
   };
+
+  useEffect(() => {
+    console.log("Dados storage:", dataStorage);
+    console.log("Dados state:", data);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">

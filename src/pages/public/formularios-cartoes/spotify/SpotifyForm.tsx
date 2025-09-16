@@ -38,8 +38,12 @@ function SpotifyForm() {
     mutationFn: () =>  SpotifyService.postCartao(model),
     onSuccess: (data) => {
       if(data?.id){
-        const encodedUrl = encodeURIComponent(data.id)
-        navigate(`/parabens/1${encodedUrl}`)
+        toast.success('WebPage criada com sucesso, finalize pagamento para continuar!', {autoClose: 5000})
+        setData(data)
+        localStorage.setItem('cartao-atual', JSON.stringify(data))
+        // const encodedUrl = encodeURIComponent(data.id)
+        // navigate(`/parabens/1${encodedUrl}`)
+        navigate(`/pagamento`)
       }
     },
     onError: (error) => {
@@ -48,7 +52,7 @@ function SpotifyForm() {
     }
   })
 
-  const { previewCartao, setPreviewCartao } = useConfigStoreSpotify();
+  const { previewCartao, setPreviewCartao, data, setData } = useConfigStoreSpotify();
   const [etapaAtual, setEtapaAtual] = useState(0);
   const model = useWatch<ISpotifyModel>({ control }) as ISpotifyModel;
 
@@ -66,6 +70,7 @@ function SpotifyForm() {
     const valido = await trigger(camposDaEtapaAtual);
 
     if (valido) {
+      setData(model);
       if (etapaAtual == 5) {
         mutation.mutate()
       } else {
@@ -80,8 +85,8 @@ function SpotifyForm() {
   }
 
   useEffect(() => {
-    console.log(model);
-  }, [model]);
+    console.log("Model atualizado:", data);
+  }, [data]);
 
   if (mutation.isPending) {
     return <Loading text="Aguarde alguns instantes enquanto sua página é criada..." size={60} />
