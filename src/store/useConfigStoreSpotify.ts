@@ -5,6 +5,8 @@ type ConfigStore = {
     setPlayingSongMain: (value: boolean) => void,
     previewCartao: boolean
     setPreviewCartao: (value: boolean) => void
+    realizarPagamento: boolean
+    setRealizarPagamento: (value: boolean) => void
 }
 
 export const useConfigStoreSpotify = create<ConfigStore>((set) => ({
@@ -15,5 +17,9 @@ export const useConfigStoreSpotify = create<ConfigStore>((set) => ({
     previewCartao: false,
     setPreviewCartao: (value: boolean) => {
         set({ previewCartao: value })
+    },
+    realizarPagamento: false,
+    setRealizarPagamento: (value: boolean) => {
+        set({ realizarPagamento: value })
     },
 }))

@@ -8,10 +8,11 @@ import { useConfigStoreSpotify } from "../../store/useConfigStoreSpotify";
 function Header() {
     const [currentPage] = useState<string>('home')
     const previewCartaoSpotify = useConfigStoreSpotify(state => state.previewCartao)
+    const realizarPagamento = useConfigStoreSpotify(state => state.realizarPagamento)
 
     return (
         <header className={clsx('z-50 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg', {
-            'fixed': !previewCartaoSpotify
+            'fixed': !previewCartaoSpotify && !realizarPagamento, 
         })}>
             <div className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">

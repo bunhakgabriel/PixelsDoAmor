@@ -3,6 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaUser, FaEnvelope, FaIdCard } from "react-icons/fa";
 import { useState } from "react";
+import { useConfigStoreSpotify } from "../../../store/useConfigStoreSpotify";
+import { toast } from "react-toastify";
 
 // Tipagem dos dados do formulário
 type PaymentFormData = {
@@ -14,6 +16,7 @@ type PaymentFormData = {
 };
 
 type PixResponse = {
+  id: string;
   point_of_interaction?: {
     transaction_data?: {
       qr_code_base64: string;
@@ -27,7 +30,10 @@ const schema = yup.object({
   firstName: yup.string().required("Nome é obrigatório"),
   lastName: yup.string().required("Sobrenome é obrigatório"),
   email: yup.string().email("Email inválido").required("Email é obrigatório"),
-  documentType: yup.string().oneOf(["CPF", "CNPJ"]).required("Selecione o tipo de documento"),
+  documentType: yup
+    .string()
+    .oneOf(["CPF", "CNPJ"])
+    .required("Selecione o tipo de documento"),
   documentNumber: yup
     .string()
     .required("Número do documento é obrigatório")
@@ -35,9 +41,14 @@ const schema = yup.object({
 });
 
 export default function PagamentoPage() {
-  const [pixBase64, setPixBase64] = useState<string | null>(null)
-  const [pixCode, setPixCode] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [pixBase64, setPixBase64] = useState<string | null>(null);
+  const [pixCode, setPixCode] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [processandoPagamento, setProcessandoPagamento] = useState(false);
+
+  const setRealizarPagamento = useConfigStoreSpotify(
+    (state) => state.setRealizarPagamento
+  );
 
   const {
     register,
@@ -48,11 +59,11 @@ export default function PagamentoPage() {
   });
 
   const onSubmit = async (data: PaymentFormData) => {
-    setLoading(true)
-    setPixBase64(null)
-    setPixCode(null)
+    setLoading(true);
+    setPixBase64(null);
+    setPixCode(null);
 
-     try {
+    try {
       const body = {
         description: "Plano Básico - Pagamento Único",
         paymentMethodId: "pix",
@@ -73,8 +84,11 @@ export default function PagamentoPage() {
       console.log("Pagamento criado:", result);
 
       if (result?.point_of_interaction?.transaction_data?.qr_code_base64) {
-        setPixBase64(result.point_of_interaction.transaction_data.qr_code_base64);
+        setPixBase64(
+          result.point_of_interaction.transaction_data.qr_code_base64
+        );
         setPixCode(result.point_of_interaction.transaction_data.qr_code);
+        startPolling(result.id);
       } else {
         alert("Não foi possível gerar QR Code Pix.");
       }
@@ -86,6 +100,29 @@ export default function PagamentoPage() {
     }
   };
 
+  const startPolling = (paymentId: string) => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/payment_status/${paymentId}`
+        );
+        const data = await res.json();
+        console.log("Status do pagamento:", data.status);
+        console.log('processando pagamento')
+
+        if (data.status === "approved") {
+          clearInterval(interval);
+          setProcessandoPagamento(false);
+          toast.success("✅ Pagamento aprovado com sucesso!");
+          setProcessandoPagamento(false);
+          setRealizarPagamento(false);
+        }
+      } catch (err) {
+        console.error("Erro ao verificar status:", err);
+      }
+    }, 5000); // verifica a cada 5s
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
       <div className="w-full max-w-2xl bg-gray-950/70 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800 overflow-hidden">
@@ -93,108 +130,149 @@ export default function PagamentoPage() {
         <div className="p-6 border-b border-gray-800 bg-gradient-to-r from-blue-600/20 to-purple-600/20">
           <h1 className="text-2xl font-bold text-white">Finalizar Compra</h1>
           <p className="text-gray-400">Plano Básico - Pagamento Único</p>
-          <div className="mt-3 text-3xl font-extrabold text-green-400">R$ 18,99</div>
+          <div className="mt-3 text-3xl font-extrabold text-green-400">
+            R$ 18,99
+          </div>
         </div>
 
         {!pixBase64 ? (
-          <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-6">
-            {/* Seção Informações Pessoais */}
-            <div>
-              <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-                <FaUser className="w-5 h-5 text-blue-400" /> Informações Pessoais
-              </h2>
+          <>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="px-8 pt-8 space-y-6"
+            >
+              {/* Seção Informações Pessoais */}
+              <div>
+                <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
+                  <FaUser className="w-5 h-5 text-blue-400" /> Informações
+                  Pessoais
+                </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <input
-                    type="text"
-                    {...register("firstName")}
-                    placeholder="Nome"
-                    className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
-                  {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      type="text"
+                      {...register("firstName")}
+                      placeholder="Nome"
+                      className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                    {errors.firstName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.firstName.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <input
+                      type="text"
+                      {...register("lastName")}
+                      placeholder="Sobrenome"
+                      className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                    {errors.lastName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.lastName.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
-                <div>
+                <div className="mt-4 relative">
+                  <FaEnvelope className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                   <input
-                    type="text"
-                    {...register("lastName")}
-                    placeholder="Sobrenome"
-                    className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    type="email"
+                    {...register("email")}
+                    placeholder="Email"
+                    className="w-full pl-10 border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   />
-                  {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>}
-                </div>
-              </div>
-
-              <div className="mt-4 relative">
-                <FaEnvelope className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                <input
-                  type="email"
-                  {...register("email")}
-                  placeholder="Email"
-                  className="w-full pl-10 border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
-              </div>
-            </div>
-
-            {/* Seção Documento */}
-            <div>
-              <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-                <FaIdCard className="w-5 h-5 text-green-400" /> Documento
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <select
-                    {...register("documentType")}
-                    className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  >
-                    <option value="">Selecione</option>
-                    <option value="CPF">CPF</option>
-                    <option value="CNPJ">CNPJ</option>
-                  </select>
-                  {errors.documentType && <p className="text-red-500 text-sm mt-1">{errors.documentType.message}</p>}
-                </div>
-
-                <div>
-                  <input
-                    type="text"
-                    {...register("documentNumber")}
-                    placeholder="Número do documento"
-                    className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
-                  {errors.documentNumber && (
-                    <p className="text-red-500 text-sm mt-1">{errors.documentNumber.message}</p>
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
               </div>
-            </div>
 
-            {/* Botão */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition duration-300 flex items-center justify-center gap-2"
-            >
-              {loading ? "Gerando QR Code..." : "💳 Gerar QR Code PIX"}
-            </button>
-          </form>
+              {/* Seção Documento */}
+              <div>
+                <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
+                  <FaIdCard className="w-5 h-5 text-green-400" /> Documento
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <select
+                      {...register("documentType")}
+                      className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    >
+                      <option value="">Selecione</option>
+                      <option value="CPF">CPF</option>
+                      <option value="CNPJ">CNPJ</option>
+                    </select>
+                    {errors.documentType && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.documentType.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <input
+                      type="text"
+                      {...register("documentNumber")}
+                      placeholder="Número do documento"
+                      className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                    {errors.documentNumber && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.documentNumber.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Botão */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition duration-300 flex items-center justify-center gap-2"
+              >
+                {loading ? "Gerando QR Code..." : "💳 Gerar QR Code PIX"}
+              </button>
+            </form>
+            <div className="px-8 py-4">
+              <button
+                onClick={() => setRealizarPagamento(false)}
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition duration-300 flex items-center justify-center gap-2"
+              >
+                Voltar
+              </button>
+            </div>
+          </>
         ) : (
           <div className="p-8 text-center space-y-6">
             <h2 className="text-xl font-bold text-white">Pagamento via PIX</h2>
             <p className="text-gray-400">
-              Escaneie o QR Code com seu aplicativo de banco ou copie a chave PIX abaixo para realizar o pagamento.
+              Escaneie o QR Code com seu aplicativo de banco ou copie a chave
+              PIX abaixo para realizar o pagamento.
             </p>
 
             <div className="flex justify-center">
-              <img src={`data:image/png;base64,${pixBase64}`} alt="QR Code Pix" className="w-52 h-52" />
+              <img
+                src={`data:image/png;base64,${pixBase64}`}
+                alt="QR Code Pix"
+                className="w-52 h-52"
+              />
             </div>
 
             {/* Copia e cola */}
             {pixCode && (
               <div className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
-                <span className="text-gray-300 text-sm truncate">{pixCode}</span>
+                <span className="text-gray-300 text-sm truncate">
+                  {pixCode}
+                </span>
                 <button
                   onClick={() => navigator.clipboard.writeText(pixCode)}
                   className="text-blue-400 hover:underline ml-3 text-sm"
@@ -204,8 +282,10 @@ export default function PagamentoPage() {
               </div>
             )}
 
-            <button className="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition">
-              Já realizei o pagamento
+            <button onClick={() => {
+              toast.success("Aguarde alguns instantes, estamos verificando o pagamento, se demorar mais de um minuto entre em contato com o suporte.", { autoClose: 10000});
+            }} className="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition">
+              {processandoPagamento ? "Aguarde! Processando pagamento..." : "Já realizei o pagamento"}
             </button>
           </div>
         )}
@@ -213,7 +293,9 @@ export default function PagamentoPage() {
         {/* Footer */}
         <div className="p-4 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
           <p className="flex items-center gap-2">🔒 Pagamento 100% seguro</p>
-          <p className="flex items-center gap-2">⚡ Protegido por Mercado Pago</p>
+          <p className="flex items-center gap-2">
+            ⚡ Protegido por Mercado Pago
+          </p>
         </div>
       </div>
     </div>
