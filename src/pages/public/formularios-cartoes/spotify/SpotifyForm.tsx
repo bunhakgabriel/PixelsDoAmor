@@ -23,7 +23,6 @@ import { SpotifyService } from "../../../../services/spotify-service";
 import { toast } from "react-toastify";
 import Loading from "../../../../components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
-import PagamentoPage from "../../pagamento/Pagamento";
 const etapas = ["", "", "", "", "", ""];
 
 function SpotifyForm() {
@@ -49,7 +48,7 @@ function SpotifyForm() {
     }
   })
 
-  const { previewCartao, setPreviewCartao, realizarPagamento, setRealizarPagamento } = useConfigStoreSpotify();
+  const { previewCartao, setPreviewCartao } = useConfigStoreSpotify();
   const [etapaAtual, setEtapaAtual] = useState(0);
   const model = useWatch<ISpotifyModel>({ control }) as ISpotifyModel;
 
@@ -68,8 +67,7 @@ function SpotifyForm() {
 
     if (valido) {
       if (etapaAtual == 5) {
-        // mutation.mutate()
-        setRealizarPagamento(true);
+        mutation.mutate()
       } else {
         setEtapaAtual((prev) => prev + 1);
       }
@@ -137,7 +135,7 @@ function SpotifyForm() {
           </button>
         </div>
 
-        {(!previewCartao && !realizarPagamento) && (
+        {!previewCartao && (
           <div className="w-full sm:w-[500px] lg:w-[2/5]">
             <SpotifyTema1
               variant="preview"
@@ -163,11 +161,6 @@ function SpotifyForm() {
             model={model || defaultValueSpotifyObject}
           />
         </Modal>
-
-        <Modal isOpen={realizarPagamento} onRequestClose={() => setRealizarPagamento(false)}>
-          <PagamentoPage />
-        </Modal>
-
       </div>
     </FormProvider>
   );
