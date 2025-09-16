@@ -84,4 +84,11 @@ export const SpotifySchema: Yup.ObjectSchema<ISpotifyModel> = Yup.object({
     habilitado: Yup.boolean().required(),
     listaComentarios: Yup.array().min(0).required(),
   }),
+
+  type: Yup.mixed<"spotify">().oneOf(["spotify"]).required(),
+
+  status: Yup.mixed<"ativo" | "pendente">()
+    .oneOf(["ativo", "pendente"])
+    .required(),
+  dataCriacao: Yup.string().required(),
 });
