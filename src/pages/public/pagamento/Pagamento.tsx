@@ -13,14 +13,23 @@ import { PagamentoSchema } from "./schema/PagamentoSchema";
 import { useMutation } from "@tanstack/react-query";
 import { pagamentoService } from "../../../services/pagamento-service";
 import { toast } from "react-toastify";
+import ButtonUi from "../../../components/ButtonUi/ButtonUi";
+import { useNavigate } from "react-router-dom";
 
 export default function PagamentoPage() {
+  const [processandoPagamento, setProcessandoPagamento] = useState<{
+    id: string;
+    status: boolean;
+  }>({ id: "", status: false });
   const [pixBase64, setPixBase64] = useState<string | null>(null);
   const [pixCode, setPixCode] = useState<string | null>(null);
-  const [dataStorage] = useState<ISpotifyModel | object>(
-    JSON.parse(localStorage.getItem("cartao-atual") || "{}")
+  const [dataStorage] = useState<ISpotifyModel>(
+    JSON.parse(localStorage.getItem("cartao-atual") || "null")
   );
+  const [timer, setTimer] = useState(60);
+
   const { data } = useConfigStoreSpotify();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -39,6 +48,7 @@ export default function PagamentoPage() {
           result.point_of_interaction.transaction_data.qr_code_base64
         );
         setPixCode(result.point_of_interaction.transaction_data.qr_code);
+        setProcessandoPagamento({ id: result.id, status: true });
       } else {
         toast.error("Não foi possível gerar QR Code Pix, tente novamente!");
       }
@@ -66,10 +76,58 @@ export default function PagamentoPage() {
     mutation.mutate(body);
   };
 
+  const aguardarProcessamentoPagamento = () => {
+    toast.info("Aguarde 1 minuto enquanto processamos seu pagamento... ", {
+      autoClose: 5000,
+    });
+    const toastId = "nao-localizado-pagamento";
+    const cronometro = setInterval(() => {
+      setTimer((prev) => {
+        prev = prev - 1;
+        if (prev === 0) {
+          clearInterval(cronometro);
+          toast.info(
+            "Não localizamos seu pagamento, se você já o realizou, por favor entre em contato com o suporte para liberarmos sua WebPage",
+            { autoClose: 15000, toastId }
+          );
+          return 60;
+        }
+        return prev;
+      });
+    }, 1000);
+  };
+
+  const processarPagamento = () => {
+    const interval = setInterval(async () => {
+      console.log("Iniciando verificação de pagamento a cada 5 segundos...");
+      try {
+        const status = await pagamentoService.consultarPagamento(
+          processandoPagamento.id
+        );
+        if (status === "approved") {
+          clearInterval(interval);
+          toast.success("Pagamento aprovado com sucesso!", {
+            autoClose: 5000,
+          });
+          setTimeout(() => {
+            const encodedUrl = encodeURIComponent(
+              data?.id || dataStorage?.id || ""
+            );
+            navigate(`/parabens/1${encodedUrl}`);
+          }, 5000);
+        }
+      } catch (error) {
+        console.error("Erro ao consultar pagamento:", error);
+      }
+    }, 5000);
+  };
+
   useEffect(() => {
-    console.log("Dados storage:", dataStorage);
-    console.log("Dados state:", data);
-  }, []);
+    console.log("Processando pagamento:", processandoPagamento);
+    if (processandoPagamento.status) {
+      processarPagamento();
+    }
+  }, [processandoPagamento]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
@@ -196,25 +254,38 @@ export default function PagamentoPage() {
             </p>
 
             <div className="flex justify-center">
-              <img src={`data:image/png;base64,${pixBase64}`} alt="QR Code Pix" className="w-48 h-48" />
+              <img
+                src={`data:image/png;base64,${pixBase64}`}
+                alt="QR Code Pix"
+                className="w-48 h-48"
+              />
             </div>
 
             {/* Copia e cola */}
             <div className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
-              <span className="text-gray-300 text-sm truncate">
-                {pixCode}
-              </span>
+              <span className="text-gray-300 text-sm truncate">{pixCode}</span>
               <button
-                onClick={() => pixCode && navigator.clipboard.writeText(pixCode)}
+                onClick={() =>
+                  pixCode && navigator.clipboard.writeText(pixCode)
+                }
                 className="text-blue-400 hover:underline ml-3 text-sm"
               >
                 Copiar
               </button>
             </div>
 
-            <button className="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition">
-              Já realizei o pagamento
-            </button>
+            <ButtonUi
+              className="w-[100%] h-[40px] sm:my-4"
+              text={`${
+                timer < 60
+                  ? `Aguardando confirmação do pagamento... (${timer}s)`
+                  : "Já realizei o pagamento"
+              }`}
+              onClick={() => {
+                if (timer < 60) return;
+                aguardarProcessamentoPagamento();
+              }}
+            />
           </div>
         )}
 

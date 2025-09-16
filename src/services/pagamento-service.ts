@@ -19,4 +19,16 @@ export const pagamentoService = {
       throw error;
     }
   },
+  consultarPagamento: async (id: string): Promise<string> => {
+    try {
+        const res = await fetch(
+          `http://192.168.18.88:3000/payment_status/${id}`
+        );
+        const data = await res.json();
+        return data.status;
+      } catch (error) {
+        console.error("Erro ao verificar status:", error);
+        throw error;
+      }
+  }
 };
