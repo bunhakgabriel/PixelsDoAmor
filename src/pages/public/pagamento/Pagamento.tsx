@@ -3,8 +3,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaUser, FaEnvelope, FaIdCard } from "react-icons/fa";
 import { useState } from "react";
-import QRCode from "react-qr-code";
-
 
 // Tipagem dos dados do formulário
 type PaymentFormData = {
@@ -13,6 +11,15 @@ type PaymentFormData = {
   email: string;
   documentType: "CPF" | "CNPJ";
   documentNumber: string;
+};
+
+type PixResponse = {
+  point_of_interaction?: {
+    transaction_data?: {
+      qr_code_base64: string;
+      qr_code: string;
+    };
+  };
 };
 
 // Schema de validação com Yup
@@ -28,7 +35,9 @@ const schema = yup.object({
 });
 
 export default function PagamentoPage() {
-  const [showPix, setShowPix] = useState(false);
+  const [pixBase64, setPixBase64] = useState<string | null>(null)
+  const [pixCode, setPixCode] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
   const {
     register,
@@ -38,11 +47,43 @@ export default function PagamentoPage() {
     resolver: yupResolver(schema),
   });
 
-  const fakePixKey = "00020126460014br.gov.bcb.pix0114+551199999999520400005303986540518.995802BR5925Cliente Teste de Exemplo6009SAO PAULO62070503***6304ABCD";
+  const onSubmit = async (data: PaymentFormData) => {
+    setLoading(true)
+    setPixBase64(null)
+    setPixCode(null)
 
-  const onSubmit = (data: PaymentFormData) => {
-    console.log("Dados enviados:", data);
-    setShowPix(true); // Exibe a seção com o QRCode
+     try {
+      const body = {
+        description: "Plano Básico - Pagamento Único",
+        paymentMethodId: "pix",
+        email: data.email,
+        identificationType: data.documentType,
+        number: data.documentNumber,
+        payerFirstName: data.firstName,
+        payerLastName: data.lastName,
+      };
+
+      const response = await fetch("http://localhost:3000/process_payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const result: PixResponse = await response.json();
+      console.log("Pagamento criado:", result);
+
+      if (result?.point_of_interaction?.transaction_data?.qr_code_base64) {
+        setPixBase64(result.point_of_interaction.transaction_data.qr_code_base64);
+        setPixCode(result.point_of_interaction.transaction_data.qr_code);
+      } else {
+        alert("Não foi possível gerar QR Code Pix.");
+      }
+    } catch (error) {
+      console.error("Erro ao processar pagamento:", error);
+      alert("Erro ao processar pagamento");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,8 +96,7 @@ export default function PagamentoPage() {
           <div className="mt-3 text-3xl font-extrabold text-green-400">R$ 18,99</div>
         </div>
 
-        {!showPix ? (
-          // Formulário
+        {!pixBase64 ? (
           <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-6">
             {/* Seção Informações Pessoais */}
             <div>
@@ -134,13 +174,13 @@ export default function PagamentoPage() {
             {/* Botão */}
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition duration-300 flex items-center justify-center gap-2"
             >
-              💳 Gerar QR Code PIX
+              {loading ? "Gerando QR Code..." : "💳 Gerar QR Code PIX"}
             </button>
           </form>
         ) : (
-          // Seção QR Code
           <div className="p-8 text-center space-y-6">
             <h2 className="text-xl font-bold text-white">Pagamento via PIX</h2>
             <p className="text-gray-400">
@@ -148,19 +188,21 @@ export default function PagamentoPage() {
             </p>
 
             <div className="flex justify-center">
-              <QRCode value={fakePixKey} size={200} fgColor="#000000" bgColor="#ffffff" />
+              <img src={`data:image/png;base64,${pixBase64}`} alt="QR Code Pix" className="w-52 h-52" />
             </div>
 
             {/* Copia e cola */}
-            <div className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
-              <span className="text-gray-300 text-sm truncate">{fakePixKey}</span>
-              <button
-                onClick={() => navigator.clipboard.writeText(fakePixKey)}
-                className="text-blue-400 hover:underline ml-3 text-sm"
-              >
-                Copiar
-              </button>
-            </div>
+            {pixCode && (
+              <div className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
+                <span className="text-gray-300 text-sm truncate">{pixCode}</span>
+                <button
+                  onClick={() => navigator.clipboard.writeText(pixCode)}
+                  className="text-blue-400 hover:underline ml-3 text-sm"
+                >
+                  Copiar
+                </button>
+              </div>
+            )}
 
             <button className="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition">
               Já realizei o pagamento
