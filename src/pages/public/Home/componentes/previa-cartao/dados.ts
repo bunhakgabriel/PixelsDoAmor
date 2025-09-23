@@ -43,10 +43,6 @@ export const previaCartao: ISpotifyModel = {
   titulo: "Para alguém especial!",
   type: "spotify",
   nome: "Bruna & Lucas",
-  musicaPrincipal: {
-    nome: "Demi Lovato - Heart Attack (Official Video)",
-    url: "https://www.youtube.com/embed/AByfaYcOm4A"
-  },
   data: "02/10/2023",
   fotoPrincipal: {
     imagem: "https://firebasestorage.googleapis.com/v0/b/moments-bf0c4.firebasestorage.app/o/57657189-71fa-4c9c-92d6-35c8a1878faa%2FfotoPrincipal_1758426264553_images%20(7).jpeg?alt=media&token=1bd0f8c6-09e8-4411-a936-ec4f2a973db3",

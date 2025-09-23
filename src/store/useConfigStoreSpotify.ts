@@ -2,8 +2,10 @@ import { create } from "zustand"
 import type { ISpotifyModel } from "../models/ISpotify"
 
 type ConfigStore = {
-    playingSongMain: boolean
-    setPlayingSongMain: (value: boolean) => void,
+    playingSong: boolean
+    setplayingSong: (value: boolean) => void,
+    indexSong: number
+    setIndexSong: (value: number) => void
     previewCartao: boolean
     setPreviewCartao: (value: boolean) => void
     data: ISpotifyModel | null
@@ -11,9 +13,13 @@ type ConfigStore = {
 }
 
 export const useConfigStoreSpotify = create<ConfigStore>((set) => ({
-    playingSongMain: false,
-    setPlayingSongMain: (value: boolean) => {
-        set({ playingSongMain: value })
+    playingSong: false,
+    setplayingSong: (value: boolean) => {
+        set({ playingSong: value })
+    },
+    indexSong: 0,
+    setIndexSong: (value: number) => {
+        set({ indexSong: value })
     },
     previewCartao: false,
     setPreviewCartao: (value: boolean) => {

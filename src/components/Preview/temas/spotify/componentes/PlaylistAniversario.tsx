@@ -14,15 +14,15 @@ export default function ListaMusicas({ model, variant }: Props) {
     null
   );
 
-  const playingSongMain = useConfigStoreSpotify(
-    (state) => state.playingSongMain
+  const playingSong = useConfigStoreSpotify(
+    (state) => state.playingSong
   );
-  const setPlayingSongMain = useConfigStoreSpotify(
-    (state) => state.setPlayingSongMain
+  const setplayingSong = useConfigStoreSpotify(
+    (state) => state.setplayingSong
   );
 
   const tocar = (index: number) => {
-    setPlayingSongMain(false);
+    setplayingSong(false);
     setMusicaTocandoIndex(index);
   };
 
@@ -31,8 +31,8 @@ export default function ListaMusicas({ model, variant }: Props) {
   };
 
   useEffect(() => {
-    if (playingSongMain) pausar();
-  }, [playingSongMain]);
+    if (playingSong) pausar();
+  }, [playingSong]);
 
   // const cores = [
   //   'from-green-400 to-green-600',
@@ -42,11 +42,9 @@ export default function ListaMusicas({ model, variant }: Props) {
   //   'from-red-400 to-red-600'
   // ]
 
-  if (
-    (!model.musicas || model.musicas?.length == 0) &&
-    !model.musicaPrincipal.nome
-  )
+  if (!model.musicas || model.musicas?.length == 0){
     return <></>;
+  }
 
   return (
     <div
@@ -88,27 +86,6 @@ export default function ListaMusicas({ model, variant }: Props) {
             </div>
           </div>
         ))}
-        {model.musicaPrincipal.nome && (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setPlayingSongMain(!playingSongMain)}
-                className={`cursor-pointer min-w-10 h-10 rounded bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center`}
-              >
-                {playingSongMain ? (
-                  <FaPause className="text-white text-lg" />
-                ) : (
-                  <FaYoutube className="text-white text-lg" />
-                )}
-              </button>
-              <p className="font-semibold max-sm:text-[12px]">
-                {model.musicaPrincipal.nome.length > 66
-                  ? model.musicaPrincipal.nome.slice(0, 63) + "..."
-                  : model.musicaPrincipal.nome}
-              </p>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Iframe do vídeo no topo */}
@@ -124,24 +101,6 @@ export default function ListaMusicas({ model, variant }: Props) {
           <iframe
             className="w-full h-full"
             src={`${model.musicas[musicaTocandoIndex].url}?autoplay=1`}
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        )}
-      </div>
-      <div
-        className={clsx("", {
-          "w-0 h-0 hidden": !playingSongMain,
-          "w-full md:h-64": variant == "preview" && playingSongMain,
-          "max-lg:w-full md:h-64":
-            variant != "preview" && playingSongMain,
-        })}
-      >
-        {playingSongMain && (
-          <iframe
-            className="w-full h-full"
-            src={`${model.musicaPrincipal.url}?autoplay=1`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

@@ -8,10 +8,6 @@ export interface ISpotifyModel {
     nome: string;
     url: string;
   }[];
-  musicaPrincipal: {
-    nome: string;
-    url: string;
-  };
   mensagemEspecial: {
     autor?: string;
     mensagem: string;
@@ -50,10 +46,6 @@ export const defaultValueSpotifyObject: ISpotifyModel = {
     previewImagem: "",
   },
   musicas: [],
-  musicaPrincipal: {
-    nome: "",
-    url: "",
-  },
   mensagemEspecial: {
     autor: "",
     mensagem: "",

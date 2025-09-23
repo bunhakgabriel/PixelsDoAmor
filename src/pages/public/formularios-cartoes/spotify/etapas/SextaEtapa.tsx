@@ -1,17 +1,13 @@
 import { useFormContext } from "react-hook-form";
-import YouTubeSearch from "../../../../../components/YoutubeSearch/YoutubeSearch";
 import type { ISpotifyModel } from "../../../../../models/ISpotify";
 import { style } from "../../../../../utils/classesCssGlobais";
 import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput";
 
 function SextaEtapa() {
   const {
-    getValues,
     register,
     formState: { errors },
   } = useFormContext<ISpotifyModel>();
-
-  const musica = getValues("musicaPrincipal");
 
   return (
     <div className="flex flex-col gap-4">
@@ -61,20 +57,6 @@ function SextaEtapa() {
         <div className="h-[10px]">
           {errors.animacao && <MsgErrorInput msg={errors.animacao.message || ""} />}
         </div>
-      </div>
-      <div>
-        <YouTubeSearch<ISpotifyModel>
-          type="item"
-          name="musicaPrincipal"
-          label="Trilha sonora princial"
-          apiKey={"AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo"}
-        />
-        {!musica.nome && (
-          <span className="text-[12px] sm:text-sm text-gray-600">
-            Essa vai ser a trilha sonora principal da web page, ela é opcional,
-            escolha uma para testar.
-          </span>
-        )}
       </div>
     </div>
   );

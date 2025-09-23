@@ -1,37 +1,23 @@
 import { IoIosPlay } from "react-icons/io"
-import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify"
 import { IoPauseSharp } from "react-icons/io5"
 import { useEffect, useState } from "react"
+import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify";
 
-type PlayerProps = {
-    musicaPrincipal: {
-        nome: string
-        url: string
-    }
-}
-
-function Player({ musicaPrincipal }: PlayerProps) {
-    const playingSongMain = useConfigStoreSpotify(state => state.playingSongMain)
-    const setPlayingSongMain = useConfigStoreSpotify(state => state.setPlayingSongMain)
+function Player() {
+    const playingSong = useConfigStoreSpotify((state) => state.playingSong);
+    const setplayingSong = useConfigStoreSpotify((state) => state.setplayingSong);
 
     const [heights, setHeights] = useState([8, 16, 12, 20, 10]);
 
     useEffect(() => {
-        if (!playingSongMain) return;
+        if (!playingSong) return;
 
         const interval = setInterval(() => {
             setHeights(heights.map(() => Math.floor(Math.random() * 25 + 4)));
         }, 300); // muda a cada 300ms
 
         return () => clearInterval(interval);
-    }, [playingSongMain, heights]);
-
-    const playSong = () => {
-        if(!musicaPrincipal?.url) return
-        setPlayingSongMain(!playingSongMain)
-    }
-
-    if ((!musicaPrincipal || !musicaPrincipal?.url)) return <></>
+    }, [playingSong, heights]);
 
     return (
         <div className="flex flex-col gap-4 items-center justify-center text-white py-4">
@@ -53,10 +39,10 @@ function Player({ musicaPrincipal }: PlayerProps) {
                             ))}
                         </div>
                         <button
-                            onClick={() => playSong()}
+                            onClick={() => setplayingSong(!playingSong)}
                             className="mt-2 cursor-pointer text-black bg-green-500 hover:bg-green-600 transition-colors duration-200 p-3 rounded-full shadow-lg"
                         >
-                            {playingSongMain ? <IoPauseSharp className="h-8 w-8" /> : <IoIosPlay className="h-8 w-8" />}
+                            {playingSong ? <IoPauseSharp className="h-8 w-8" /> : <IoIosPlay className="h-8 w-8" />}
                         </button>
                         <div className="flex items-end gap-1 h-10">
                             {heights.map((h, i) => (

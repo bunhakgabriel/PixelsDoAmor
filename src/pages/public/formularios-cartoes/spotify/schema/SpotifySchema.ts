@@ -61,25 +61,6 @@ export const SpotifySchema: Yup.ObjectSchema<ISpotifyModel> = Yup.object({
     }
   ),
 
-  musicaPrincipal: Yup.object({
-    nome: Yup.string()
-      .test("not-empty", "Escolha uma música principal", (value) => {
-        if (value === null || value === undefined || value.trim() === "")
-          return false;
-        return true;
-      })
-      .required("Escolha uma música principal"),
-    url: Yup.string().required().test(
-      "not-empty",
-      "Escolha uma música principal",
-      (value) => {
-        if (value === null || value === undefined || value.trim() === "")
-          return false;
-        return true;
-      }
-    ),
-  }).required("Escolha uma música principal"),
-
   comentarios: Yup.object({
     habilitado: Yup.boolean().required(),
     listaComentarios: Yup.array().min(0).required(),
