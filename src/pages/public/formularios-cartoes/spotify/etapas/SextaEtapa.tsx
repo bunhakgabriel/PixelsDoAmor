@@ -2,15 +2,21 @@ import { useFormContext } from "react-hook-form";
 import YouTubeSearch from "../../../../../components/YoutubeSearch/YoutubeSearch";
 import type { ISpotifyModel } from "../../../../../models/ISpotify";
 import { style } from "../../../../../utils/classesCssGlobais";
+import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput";
 
 function SextaEtapa() {
-  const { register, getValues } = useFormContext<ISpotifyModel>();
+  const {
+    getValues,
+    register,
+    formState: { errors },
+  } = useFormContext<ISpotifyModel>();
 
   const musica = getValues("musicaPrincipal");
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
+    <div className="flex flex-col gap-4">
+      {/* Funcionalidade de comentários, por enquanto não vai ser implementada */}
+      {/* <div>
         <div className="flex gap-2 items-center">
           <input
             type="checkbox"
@@ -32,6 +38,29 @@ function SextaEtapa() {
           com a página, você como administrador pode a qualquer momento
           desabilitar essa opção e excluir comentários indesejados.
         </span>
+      </div> */}
+      <div className="mt-4 flex flex-col gap-2">
+        <label
+          htmlFor="animcao"
+          className={`${style.classLabel} cursor-pointer`}
+        >
+          Selecione uma animação para a página
+        </label>
+        <select
+          className="border border-gray-300 rounded-md w-full p-2"
+          id="animacao"
+          {...register("animacao")}
+        >
+          <option value="">Selecione...</option>
+          <option value="sem-animacao">Sem animação</option>
+          <option value="flocos">Flocos de neve</option>
+          <option value="coracao-vermelho">Corações vermelhos</option>
+          <option value="coracao-preto">Corações pretos</option>
+          <option value="rosa">Rosas</option>
+        </select>
+        <div className="h-[10px]">
+          {errors.animacao && <MsgErrorInput msg={errors.animacao.message || ""} />}
+        </div>
       </div>
       <div>
         <YouTubeSearch<ISpotifyModel>

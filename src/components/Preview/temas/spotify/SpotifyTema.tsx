@@ -2,7 +2,6 @@ import clsx from "clsx";
 import type { ISpotifyModel } from "../../../../models/ISpotify";
 import { converterData } from "../../../../utils/converterData";
 import AlbumMemorias1 from "./componentes/AlbumMemorias1";
-import Comentarios1 from "./componentes/Comentarios1";
 import MensagemEspecial from "./componentes/MensagemEspecial";
 import Player from "./componentes/Player";
 import PlaylistAniversario from "./componentes/PlaylistAniversario";
@@ -42,7 +41,7 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
 
   return (
     <>
-      <SnowfallEfeito tipo="coracao-vermelho" />
+      {variant != 'preview' && <SnowfallEfeito tipo={model.animacao} />}
       <div
         className={clsx(`${backgroundsPage[4]} text-white`, {
           "relative rounded-2xl max-h-[500px] overflow-y-scroll":
@@ -98,10 +97,11 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
           <div className="py-4">
             <PlaylistAniversario variant={variant} model={model} />
           </div>
-          <Comentarios1
+          {/* Funcionalidade de comentarios nao vai ser usada no momento */}
+          {/* <Comentarios1
             comentarios={model.comentarios}
             idDocumento={model.id || ""}
-          />
+          /> */}
         </div>
         <div
           className={clsx("", {

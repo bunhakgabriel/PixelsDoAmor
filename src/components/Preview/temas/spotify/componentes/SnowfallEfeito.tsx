@@ -1,7 +1,7 @@
 import Snowfall from "react-snowfall"
 
 type SnowfallEfeitoProps = {
-  tipo: "flocos" | "coracao-preto" | "coracao-vermelho" | "rosa"
+  tipo: "flocos" | "coracao-preto" | "coracao-vermelho" | "rosa" | "sem-animacao" | "";
 }
 
 function SnowfallEfeito({ tipo }: SnowfallEfeitoProps) {

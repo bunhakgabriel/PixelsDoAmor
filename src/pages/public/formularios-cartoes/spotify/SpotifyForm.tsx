@@ -63,7 +63,7 @@ function SpotifyForm() {
       ["musicas"],
       ["mensagemEspecial"],
       ["albumMemorias"],
-      ["comentarios", "musicaPrincipal"]
+      ["animacao", "musicaPrincipal"]
     ];
 
     const camposDaEtapaAtual = camposPorEtapa[etapaAtual];
