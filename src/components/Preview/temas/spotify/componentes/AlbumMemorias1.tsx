@@ -12,7 +12,7 @@ type AlbumMemoriasProps = {
     variant: 'preview' | 'modal' | 'page'
 }
 
-const configSwipperPreview = {
+const configSwiper = {
     300: {
         slidesPerView: 1.2,
     },
@@ -23,29 +23,8 @@ const configSwipperPreview = {
         slidesPerView: 1.6,
     }
 }
-const configSwipperModal = {
-    ...configSwipperPreview,
-    600: {
-        slidesPerView: 2.3,
-    },
-    700: {
-        slidesPerView: 2.4,
-    },
-    900: {
-        slidesPerView: 3.1,
-    },
-    1024: {
-        spaceBetween: 20,
-        slidesPerView: 3.3
-    },
-    1300: {
-        spaceBetween: 20,
-        slidesPerView: 4.1
-    },
-}
 
 function AlbumMemorias1({ fotos, variant }: AlbumMemoriasProps) {
-    const configSwiper = variant == 'preview' || variant == 'page' ? configSwipperPreview : configSwipperModal
     let passar: SwiperType;
 
     const scrollLeft = () => {

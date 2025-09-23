@@ -59,16 +59,8 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
               </p>
             </div>
 
-            <div
-              className={clsx("flex flex-col gap-4", {
-                "lg:flex-row": variant == "modal",
-              })}
-            >
-              <div
-                className={clsx("flex flex-col gap-4", {
-                  "lg:w-3/6": variant == "modal",
-                })}
-              >
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4">
                 <div>
                   <img
                     className="w-full max-h-[350px] object-cover"
@@ -96,9 +88,10 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
           /> */}
           </div>
           <div
-            className={clsx("max-w-[450px]", {
+            className={clsx("", {
               "sticky -bottom-4 z-10": variant != "page",
               "fixed w-full -bottom-5 z-10": variant == "page",
+              "max-w-[450px]": variant != "preview",
             })}
           >
             <Player musicaPrincipal={model.musicaPrincipal} />
