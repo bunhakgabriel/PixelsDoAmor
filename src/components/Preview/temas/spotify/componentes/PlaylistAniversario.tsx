@@ -116,7 +116,7 @@ export default function ListaMusicas({ model, variant }: Props) {
         className={clsx("", {
           "w-0 h-0 hidden": musicaTocandoIndex == null,
           "w-full md:h-64": variant == "preview" && musicaTocandoIndex !== null,
-          "max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]":
+          "max-lg:w-full md:h-64":
             variant != "preview" && musicaTocandoIndex !== null,
         })}
       >
@@ -134,7 +134,7 @@ export default function ListaMusicas({ model, variant }: Props) {
         className={clsx("", {
           "w-0 h-0 hidden": !playingSongMain,
           "w-full md:h-64": variant == "preview" && playingSongMain,
-          "max-lg:w-full md:h-64 lg:absolute lg:w-[45%] lg:right-2 lg:bottom-4 lg:h-[80%]":
+          "max-lg:w-full md:h-64":
             variant != "preview" && playingSongMain,
         })}
       >
