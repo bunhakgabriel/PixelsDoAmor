@@ -64,5 +64,6 @@ export const previaCartao: ISpotifyModel = {
   ],
   id: "57657189-71fa-4c9c-92d6-35c8a1878faa",
   animacao: "flocos",
-  email: ''
+  email: '',
+  termosDeUso: true
 }
