@@ -31,7 +31,7 @@ function Home() {
                                         setData(null)
                                         navigate(`/previa-cartao`)
                                     }}
-                                    className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                                    className="active:opacity-30 max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                                 >
                                     <HiOutlineSparkles className="w-5 h-5" />
                                     <span>Ver como fica</span>
@@ -41,7 +41,7 @@ function Home() {
                                         setData(null)
                                         navigate("/form-cadastro-spotify")
                                     }}
-                                    className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                                    className="active:opacity-30 max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                                 >
                                     <HiOutlineSparkles className="w-5 h-5" />
                                     <span>Começar Agora</span>
@@ -58,7 +58,7 @@ function Home() {
                                 setData(null)
                                 navigate(`/previa-cartao`)
                             }}
-                            className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            className="active:opacity-30 max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                         >
                             <HiOutlineSparkles className="w-5 h-5" />
                             <span>Ver como fica</span>
@@ -68,7 +68,7 @@ function Home() {
                                 setData(null)
                                 navigate("/form-cadastro-spotify")
                             }}
-                            className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            className="active:opacity-30 max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                         >
                             <HiOutlineSparkles className="w-5 h-5" />
                             <span>Começar Agora</span>

@@ -168,7 +168,7 @@ function SpotifyForm() {
             {etapaAtual === 5 && <SextaEtapa />}
           </form>
           <ButtonUi
-            className="w-[100%] h-[40px] sm:my-4"
+            className="w-[100%] h-[40px] sm:my-4 active:opacity-30"
             text={etapaAtual == 5 ? mutation.isPending ? "Carregando..." : "Salvar" : "Próximo"}
             onClick={avancarEtapa}
             element="button"
@@ -176,7 +176,7 @@ function SpotifyForm() {
           />
           <button
             onClick={() => navigate(`/previa-cartao`, { state: { model: model } })}
-            className="cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-2 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="active:opacity-30 cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-2 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
             <HiOutlineSparkles className="w-5 h-5" />
             <span>Ver prévia em tela cheia</span>

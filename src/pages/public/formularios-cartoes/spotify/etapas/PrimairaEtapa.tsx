@@ -49,7 +49,7 @@ function PrimeiraEtapa() {
             element="div"
             text="Gerar IA"
             onClick={gerarTituloComIA}
-            className="max-sm:text-[12px] w-[110px] sm:w-[25%] sm:min-w-[125px] h-[45px]"
+            className="active:opacity-30 max-sm:text-[12px] w-[110px] sm:w-[25%] sm:min-w-[125px] h-[45px]"
           />
         </div>
       </div>

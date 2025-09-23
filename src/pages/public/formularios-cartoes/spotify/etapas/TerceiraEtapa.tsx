@@ -44,7 +44,7 @@ function TerceiraEtapa() {
             element="div"
             text="Gerar IA"
             onClick={gerarMensagemComIA}
-            className="max-sm:text-[12px] w-full sm:w-[25%] sm:min-w-[125px] h-[45px]"
+            className="active:opacity-30 max-sm:text-[12px] w-full sm:w-[25%] sm:min-w-[125px] h-[45px]"
           />
         </div>
         <div className="h-[22px]">
