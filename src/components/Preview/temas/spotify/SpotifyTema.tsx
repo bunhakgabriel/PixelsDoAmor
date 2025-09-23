@@ -91,9 +91,13 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
               />
             </div>
             <MensagemEspecial model={model.mensagemEspecial} />
+          </div>
+          <div className="py-8">
+            <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
+          </div>
+          <div className="py-4">
             <PlaylistAniversario variant={variant} model={model} />
           </div>
-          <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
           <Comentarios1
             comentarios={model.comentarios}
             idDocumento={model.id || ""}
