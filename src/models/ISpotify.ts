@@ -19,6 +19,7 @@ export interface ISpotifyModel {
   dataCriacao: string;
   animacao: "flocos" | "coracao-preto" | "coracao-vermelho" | "rosa" | "sem-animacao" | "";
   email: string
+  termosDeUso: boolean
 }
 
 export interface Comentarios {
@@ -60,5 +61,6 @@ export const defaultValueSpotifyObject: ISpotifyModel = {
   status: "pendente",
   dataCriacao: new Date().toISOString(),
   animacao: "",
-  email: ""
+  email: "",
+  termosDeUso: false
 };

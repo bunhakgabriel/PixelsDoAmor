@@ -9,6 +9,7 @@ type PropsButtonUi = {
     className?: string
     onClick?: () => void
     translate?: boolean
+    disabled?: boolean
 };
 
 
@@ -20,6 +21,7 @@ function ButtonUi({
     onClick,
     text,
     icon,
+    disabled
 }: PropsButtonUi) {
 
     if (element == 'button') {
@@ -35,6 +37,7 @@ function ButtonUi({
                         onClick()
                     }
                 }}
+                disabled={disabled}
             >
                 {text}
             </button>

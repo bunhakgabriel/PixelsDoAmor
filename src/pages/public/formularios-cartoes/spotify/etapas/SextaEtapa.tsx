@@ -3,12 +3,15 @@ import type { ISpotifyModel } from "../../../../../models/ISpotify";
 import { style } from "../../../../../utils/classesCssGlobais";
 import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 function SextaEtapa() {
   const {
     register,
     formState: { errors },
   } = useFormContext<ISpotifyModel>();
+
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,8 +47,8 @@ function SextaEtapa() {
           Selecione uma animação para a página
         </label>
         <select
-          className={clsx('border border-gray-300 rounded-md w-full p-2', {
-            'border-red-500': errors.animacao
+          className={clsx("border border-gray-300 rounded-md w-full p-2", {
+            "border-red-500": errors.animacao,
           })}
           id="animacao"
           {...register("animacao")}
@@ -58,7 +61,9 @@ function SextaEtapa() {
           <option value="rosa">Rosas</option>
         </select>
         <div className="h-[10px]">
-          {errors.animacao && <MsgErrorInput msg={errors.animacao.message || ""} />}
+          {errors.animacao && (
+            <MsgErrorInput msg={errors.animacao.message || ""} />
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-1">
@@ -68,23 +73,38 @@ function SextaEtapa() {
               Email
             </label>
             <span className="text-[12px] sm:text-sm text-gray-600">
-              (Obs: O QrCode para acessar a WebPage será enviado para o email informado)
+              (Obs: O QrCode para acessar a WebPage será enviado para o email
+              informado)
             </span>
           </div>
           <input
             type="text"
             id="nome"
-            className={`${style.classInput} ${
-                errors.email ? style.error : ""
-              }`}
+            className={`${style.classInput} ${errors.email ? style.error : ""}`}
             placeholder="Ex: brunosilva@gmail.com"
             {...register("email")}
           />
-
         </div>
         <div className="h-[20px]">
-          {errors.email && (
-            <MsgErrorInput msg={errors.email.message || ""} />
+          {errors.email && <MsgErrorInput msg={errors.email.message || ""} />}
+        </div>
+      </div>
+      <div className="flex flex-col gap-1">
+        <div className="flex gap-2">
+          <input {...register("termosDeUso")} className="w-[15px]" type="checkbox" />
+          <p>
+            Ao continuar você concorda com nossos{" "}
+            <strong
+              className="cursor-pointer"
+              onClick={() => navigate("/termos-de-uso")}
+            >
+              termos de uso
+            </strong>
+          </p>
+        </div>
+        <div className="h-[20px]">
+          {errors.termosDeUso && (
+            <MsgErrorInput msg={errors.termosDeUso.message || ""} />
           )}
         </div>
       </div>

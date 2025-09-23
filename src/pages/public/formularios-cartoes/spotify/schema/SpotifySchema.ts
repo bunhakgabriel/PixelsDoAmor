@@ -50,16 +50,14 @@ export const SpotifySchema: Yup.ObjectSchema<ISpotifyModel> = Yup.object({
     autor: Yup.string().optional(),
   }).required("Campo obrigatório"),
 
-  albumMemorias: Yup.mixed<Imagem[]>().required().test(
-    "not-empty",
-    "Mínimo 3 fotos",
-    (value) => {
+  albumMemorias: Yup.mixed<Imagem[]>()
+    .required()
+    .test("not-empty", "Mínimo 3 fotos", (value) => {
       if (value && value.length < 3) {
         return false;
       }
       return true;
-    }
-  ),
+    }),
 
   comentarios: Yup.object({
     habilitado: Yup.boolean().required(),
@@ -74,13 +72,21 @@ export const SpotifySchema: Yup.ObjectSchema<ISpotifyModel> = Yup.object({
 
   dataCriacao: Yup.string().required(),
 
-  animacao: Yup.mixed<"flocos" | "coracao-preto" | "coracao-vermelho" | "rosa" | "sem-animacao">()
-    .oneOf(["flocos", "coracao-preto", "coracao-vermelho", "rosa", "sem-animacao"], "É necessário escolher uma opção")
+  animacao: Yup.mixed<
+    "flocos" | "coracao-preto" | "coracao-vermelho" | "rosa" | "sem-animacao"
+  >()
+    .oneOf(
+      ["flocos", "coracao-preto", "coracao-vermelho", "rosa", "sem-animacao"],
+      "É necessário escolher uma opção"
+    )
     .required("É necessário escolher uma opção"),
 
-  email: Yup
-    .string()
+  email: Yup.string()
     .trim()
     .required("O email é obrigatório")
     .email("Digite um email válido"),
+
+  termosDeUso: Yup.boolean()
+    .oneOf([true], "Você deve aceitar os termos de uso para continuar")
+    .required('O campo "termosDeUso" é obrigatório'),
 });

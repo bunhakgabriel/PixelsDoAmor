@@ -72,7 +72,7 @@ function SpotifyForm() {
       ["mensagemEspecial"],
       ["albumMemorias"],
       ["musicas"],
-      ["animacao", "email"]
+      ["animacao", "email", "termosDeUso"]
     ];
 
     const camposDaEtapaAtual = camposPorEtapa[etapaAtual];
@@ -84,6 +84,7 @@ function SpotifyForm() {
           await loginAnonimo(); // ✅ se falhar, vai pro catch abaixo
           mutation.mutate(); // só roda se o login deu certo
         } catch (err) {
+          console.log(err)
           toast.error("Erro ao salvar cartão, tente novamente ou entre em contato com o suporte!");
           return; // interrompe o fluxo
         }
@@ -168,9 +169,10 @@ function SpotifyForm() {
           </form>
           <ButtonUi
             className="w-[100%] h-[40px] sm:my-4"
-            text={etapaAtual == 5 ? "Salvar" : "Próximo"}
+            text={etapaAtual == 5 ? mutation.isPending ? "Carregando..." : "Salvar" : "Próximo"}
             onClick={avancarEtapa}
             element="button"
+            disabled={mutation.isPending}
           />
           <button
             onClick={() => navigate(`/previa-cartao`, { state: { model: model } })}
