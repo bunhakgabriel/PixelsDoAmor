@@ -46,20 +46,15 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
         "relative rounded-2xl max-h-[500px] overflow-y-scroll":
           variant == "preview",
         "min-h-screen": variant == "modal",
-        "mb-[100px]": variant == "page"
+        "mb-[100px]": variant == "page",
       })}
     >
-      <div className="flex flex-col gap-10 p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">{model.titulo || ""}</h1>
-            <p className="text-green-200">
-              Playlist especial {model.nome ? `para ${model.nome}` : ""}
-            </p>
-          </div>
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-            <IoPlayOutline className="w-6 h-6 text-green-500" />
-          </div>
+      <div className="flex flex-col p-4">
+        <div className="py-4">
+          <h1 className="text-2xl font-bold">{model.titulo || ""}</h1>
+          <p className="text-green-200">
+            Playlist especial {model.nome ? `para ${model.nome}` : ""}
+          </p>
         </div>
 
         <div
@@ -93,16 +88,21 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
               className={`${variant == "preview" ? "block" : "md:hidden"}`}
             />
           </div>
+          <MensagemEspecial model={model.mensagemEspecial} />
           <PlaylistAniversario variant={variant} model={model} />
         </div>
-        <MensagemEspecial model={model.mensagemEspecial} />
         <AlbumMemorias1 variant={variant} fotos={model.albumMemorias} />
-        <Comentarios1 comentarios={model.comentarios} idDocumento={model.id || ''} />
+        <Comentarios1
+          comentarios={model.comentarios}
+          idDocumento={model.id || ""}
+        />
       </div>
-      <div className={clsx('', {
-        'sticky -bottom-4 z-10': variant != 'page',
-        'fixed w-full -bottom-5 z-10': variant == 'page',
-      })}>
+      <div
+        className={clsx("", {
+          "sticky -bottom-4 z-10": variant != "page",
+          "fixed w-full -bottom-5 z-10": variant == "page",
+        })}
+      >
         <Player musicaPrincipal={model.musicaPrincipal} />
       </div>
     </div>
