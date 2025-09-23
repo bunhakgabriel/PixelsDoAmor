@@ -4,12 +4,21 @@ import ButtonUi from "../../../../../components/ButtonUi/ButtonUi";
 import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput";
 import type { ISpotifyModel } from "../../../../../models/ISpotify";
 import { style } from "../../../../../utils/classesCssGlobais";
+import { gerarTituloCartao } from "../../../../../utils/gerarTituloCartao";
 
 function PrimeiraEtapa() {
   const {
     register,
     formState: { errors },
+    setValue,
+    trigger
   } = useFormContext<ISpotifyModel>();
+
+  async function gerarTituloComIA() { 
+    const titulo = gerarTituloCartao()
+    setValue("titulo", titulo)
+    await trigger("titulo")
+  }
 
   return (
     <div className="flex gap-6 flex-col">
@@ -39,6 +48,7 @@ function PrimeiraEtapa() {
             icon={<HiOutlineSparkles className="hidden sm:block w-5 h-5" />}
             element="div"
             text="Gerar IA"
+            onClick={gerarTituloComIA}
             className="max-sm:text-[12px] w-[110px] sm:w-[25%] sm:min-w-[125px] h-[45px]"
           />
         </div>
