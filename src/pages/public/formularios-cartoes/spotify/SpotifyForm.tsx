@@ -23,6 +23,7 @@ import { SpotifyService } from "../../../../services/spotify-service";
 import { toast } from "react-toastify";
 import Loading from "../../../../components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineSparkles } from "react-icons/hi2";
 const etapas = ["", "", "", "", "", ""];
 
 function SpotifyForm() {
@@ -35,10 +36,10 @@ function SpotifyForm() {
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: () =>  SpotifyService.postCartao(model),
+    mutationFn: () => SpotifyService.postCartao(model),
     onSuccess: (data) => {
-      if(data?.id){
-        toast.success('WebPage criada com sucesso, finalize pagamento para continuar!', {autoClose: 5000})
+      if (data?.id) {
+        toast.success('WebPage criada com sucesso, finalize pagamento para continuar!', { autoClose: 5000 })
         setData(data)
         localStorage.setItem('cartao-atual', JSON.stringify(data))
         // const encodedUrl = encodeURIComponent(data.id)
@@ -81,7 +82,7 @@ function SpotifyForm() {
   }
 
   function voltarEtapa() {
-    if(etapaAtual === 0) return navigate(-1);
+    if (etapaAtual === 0) return navigate(-1);
     setEtapaAtual((prev) => prev - 1);
   }
 
@@ -135,9 +136,10 @@ function SpotifyForm() {
           />
           <button
             onClick={() => setPreviewCartao(true)}
-            className="cursor-pointer border"
+            className="cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-2 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
-            Preview
+            <HiOutlineSparkles className="w-5 h-5" />
+            <span>Ver prévia em tela cheia</span>
           </button>
         </div>
 

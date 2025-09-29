@@ -63,7 +63,7 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
               <div className="flex flex-col gap-4">
                 <div>
                   <img
-                    className="w-full max-h-[350px] object-cover"
+                    className="w-full max-h-[350px] object-cover rounded-2xl"
                     src={
                       model.fotoPrincipal.imagem instanceof File
                         ? model.fotoPrincipal.previewImagem
