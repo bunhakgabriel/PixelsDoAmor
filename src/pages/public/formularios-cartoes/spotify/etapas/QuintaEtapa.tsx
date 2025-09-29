@@ -1,13 +1,15 @@
-import MultipleImageUpload from "../../../../../components/MultipleImageUpload/MultipleImageUpload";
+import YouTubeSearch from "../../../../../components/YoutubeSearch/YoutubeSearch";
 import type { ISpotifyModel } from "../../../../../models/ISpotify";
 
 function QuintaEtapa() {
   return (
     <div>
-      <MultipleImageUpload<ISpotifyModel>
-        maxImages={6}
-        name="albumMemorias"
-        label="Selecione até 6 imagens"
+      <YouTubeSearch<ISpotifyModel>
+        type="list"
+        maxMusicas={4}
+        name="musicas"
+        label="Escolha até 4 músicas"
+        apiKey={"AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo"}
       />
     </div>
   );

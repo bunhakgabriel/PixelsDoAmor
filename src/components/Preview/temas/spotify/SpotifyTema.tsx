@@ -45,7 +45,7 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
       <div className={`${backgroundsPage[0]} flex justify-center rounded-lg`}>
         <div
           className={clsx(`${backgroundsPage[4]} w-full text-white rounded-lg`, {
-            "relative max-h-[700px] overflow-y-scroll":
+            "relative max-h-[600px] overflow-y-scroll":
               variant == "preview",
             "min-h-screen max-w-[450px]": variant == "modal",
             "mb-[100px]  max-w-[450px]": variant == "page",

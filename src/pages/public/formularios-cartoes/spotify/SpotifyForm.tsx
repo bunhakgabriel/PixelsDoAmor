@@ -61,9 +61,9 @@ function SpotifyForm() {
     const camposPorEtapa: (keyof ISpotifyModel)[][] = [
       ["titulo", "nome"],
       ["fotoPrincipal", "data"],
-      ["musicas"],
       ["mensagemEspecial"],
       ["albumMemorias"],
+      ["musicas"],
       ["animacao", "musicaPrincipal"]
     ];
 
