@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper"
 import { Navigation, Autoplay } from "swiper/modules";
@@ -5,6 +6,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import 'swiper/swiper-bundle.css';
 import { BsImage } from "react-icons/bs";
 import type { Imagem } from "../../../../../models/ISpotify";
+import { ImageModal } from "../../../../Modal/Modal";
 import clsx from "clsx";
 
 type AlbumMemoriasProps = {
@@ -26,6 +28,10 @@ const configSwiper = {
 
 function AlbumMemorias1({ fotos, variant }: AlbumMemoriasProps) {
     let passar: SwiperType;
+    
+    // Estados para o modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
     const scrollLeft = () => {
         passar?.slidePrev();
@@ -33,6 +39,28 @@ function AlbumMemorias1({ fotos, variant }: AlbumMemoriasProps) {
 
     const scrollRight = () => {
         passar?.slideNext();
+    };
+
+    // Funções para controlar o modal
+    const openModal = (index: number) => {
+        setSelectedImageIndex(index);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const goToNextImage = () => {
+        setSelectedImageIndex((prev) => 
+            prev === fotos.length - 1 ? 0 : prev + 1
+        );
+    };
+
+    const goToPreviousImage = () => {
+        setSelectedImageIndex((prev) => 
+            prev === 0 ? fotos.length - 1 : prev - 1
+        );
     };
 
     if (!fotos || fotos.length == 0) return <></>
@@ -66,20 +94,38 @@ function AlbumMemorias1({ fotos, variant }: AlbumMemoriasProps) {
                         {fotos.map((foto, index) => (
                             <SwiperSlide key={index}>
                                 <div
-                                    className="bg-[#1e1e1e] rounded-xl overflow-hidden shadow-md"
+                                    className="relative bg-[#1e1e1e] rounded-xl overflow-hidden shadow-md cursor-pointer group hover:scale-105 transition-transform duration-200"
+                                    onClick={() => openModal(index)}
                                 >
                                     <img
                                         src={foto.imagem instanceof File ? foto.previewImagem : foto.imagem}
-                                        className={clsx('w-full object-cover h-44 md:h-48',{
+                                        className={clsx('w-full object-cover h-44 md:h-48 group-hover:brightness-110 transition-all duration-200',{
                                             'lg:h-58': variant != 'preview'
                                         })}
+                                        alt={`Memória ${index + 1}`}
                                     />
+                                    {/* Overlay sutil para indicar que é clicável */}
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-200 flex items-center justify-center">
+                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                            <BsImage className="text-white text-2xl" />
+                                        </div>
+                                    </div>
                                 </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
                 </div>
             </div>
+            
+            {/* Modal para visualização das imagens */}
+            <ImageModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                images={fotos}
+                currentIndex={selectedImageIndex}
+                onNext={goToNextImage}
+                onPrevious={goToPreviousImage}
+            />
         </div>
     );
 }
