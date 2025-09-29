@@ -76,7 +76,12 @@ function SpotifyForm() {
         mutation.mutate()
       } else {
         setEtapaAtual((prev) => prev + 1);
+        setTimeout(() => {
+          scrollToTop()
+        }, 500)
       }
+    } else {
+      scrollToTop()
     }
 
   }
@@ -85,6 +90,13 @@ function SpotifyForm() {
     if (etapaAtual === 0) return navigate(-1);
     setEtapaAtual((prev) => prev - 1);
   }
+
+  function scrollToTop(){
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   useEffect(() => {
     console.log("Model atualizado:", data);

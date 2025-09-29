@@ -42,10 +42,10 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
   return (
     <>
       {variant != "preview" && <SnowfallEfeito tipo={model.animacao} />}
-      <div className={`${backgroundsPage[0]} flex justify-center`}>
+      <div className={`${backgroundsPage[0]} flex justify-center rounded-lg`}>
         <div
-          className={clsx(`${backgroundsPage[4]} w-full text-white`, {
-            "relative rounded-2xl max-h-[500px] overflow-y-scroll":
+          className={clsx(`${backgroundsPage[4]} w-full text-white rounded-lg`, {
+            "relative max-h-[700px] overflow-y-scroll":
               variant == "preview",
             "min-h-screen max-w-[450px]": variant == "modal",
             "mb-[100px]  max-w-[450px]": variant == "page",
