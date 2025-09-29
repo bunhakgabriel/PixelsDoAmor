@@ -1,10 +1,12 @@
+import clsx from "clsx";
 import Snowfall from "react-snowfall"
 
 type SnowfallEfeitoProps = {
   tipo: "flocos" | "coracao-preto" | "coracao-vermelho" | "rosa" | "sem-animacao" | "";
+  variant: "preview" | "modal" | "page";
 }
 
-function SnowfallEfeito({ tipo }: SnowfallEfeitoProps) {
+function SnowfallEfeito({ tipo, variant }: SnowfallEfeitoProps) {
 
   function selectImage(tipo: string) {
     switch (tipo) {
@@ -25,7 +27,10 @@ function SnowfallEfeito({ tipo }: SnowfallEfeitoProps) {
   if(!tipo) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50">
+    <div className={clsx(`inset-0 pointer-events-none z-50`, {
+      'fixed': variant != 'preview',
+      'absolute': variant == 'preview'
+    })}>
       {tipo == 'flocos' ? (
         <Snowfall snowflakeCount={100} />
       ) : (
