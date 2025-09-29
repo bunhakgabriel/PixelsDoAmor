@@ -50,7 +50,7 @@ export function Modal({ isOpen, onClose, children, className = "" }: ModalProps)
       />
       
       {/* Modal Content */}
-      <div className={`relative bg-white rounded-2xl shadow-2xl max-w-4xl max-h-[90vh] overflow-hidden transform transition-all duration-300 scale-100 ${className}`}>
+      <div className={`relative rounded-2xl shadow-2xl w-[calc(100%-60px)] h-[90vh] overflow-hidden transform transition-all duration-300 scale-100 ${className}`}>
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
@@ -74,12 +74,7 @@ export function ImageModal({
   onPrevious 
 }: ImageModalProps) {
   const currentImage = images[currentIndex];
-  
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
+
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -95,7 +90,7 @@ export function ImageModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="relative w-full h-full">
+      <div className="relative w-full h-full flex items-center">
         {/* Navigation Arrows */}
         {images.length > 1 && (
           <>
@@ -116,11 +111,11 @@ export function ImageModal({
         )}
 
         {/* Image */}
-        <div className="flex items-center justify-center p-0">
+        <div className="flex items-center justify-center p-0 w-full h-full">
           <img
             src={currentImage.imagem instanceof File ? currentImage.previewImagem : currentImage.imagem}
             alt={`Memória ${currentIndex + 1}`}
-            className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-lg"
+            className="w-full h-full object-contain rounded-lg shadow-lg"
           />
         </div>
 
