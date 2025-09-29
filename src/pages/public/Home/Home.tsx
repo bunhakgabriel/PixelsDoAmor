@@ -21,9 +21,7 @@ function Home() {
                                 </span>
                             </h2>
                             <p className="max-md:hidden text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed px-4">
-                                Transforme momentos especiais em experiências digitais incríveis.
-                                Escolha entre temas do Spotify, Netflix e Instagram para criar
-                                o cartão perfeito para quem você ama.
+                                Transforme momentos especiais em experiências digitais únicas. Personalize um cartão exclusivo para surpreender, emocionar e encantar quem você ama, criando uma lembrança inesquecível.
                             </p>
                             <div className="flex flex-col md:flex-row justify-center items-center gap-2">
                                 <button
