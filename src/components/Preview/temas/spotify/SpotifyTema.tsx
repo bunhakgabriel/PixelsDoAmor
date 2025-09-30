@@ -96,7 +96,7 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
               "max-w-[450px]": variant != "preview",
             })}
           >
-            {model.musicas.length > 0 && <Player />}
+            {model.musicas.length > 0 && <Player numeroMusicas={model.musicas.length} />}
           </div>
         </div>
       </div>

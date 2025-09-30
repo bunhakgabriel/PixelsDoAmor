@@ -2,10 +2,10 @@ import { IoIosPlay } from "react-icons/io"
 import { IoPauseSharp } from "react-icons/io5"
 import { useEffect, useState } from "react"
 import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify";
+import { FaSortNumericUpAlt } from "react-icons/fa";
 
-function Player() {
-    const playingSong = useConfigStoreSpotify((state) => state.playingSong);
-    const setplayingSong = useConfigStoreSpotify((state) => state.setplayingSong);
+function Player({ numeroMusicas }: { numeroMusicas: number }) {
+    const { playingSong, setplayingSong, indexSong, setIndexSong } = useConfigStoreSpotify()
 
     const [heights, setHeights] = useState([8, 16, 12, 20, 10]);
 
@@ -19,11 +19,35 @@ function Player() {
         return () => clearInterval(interval);
     }, [playingSong, heights]);
 
+    const tocar = () => {
+        setplayingSong(true);
+        setIndexSong(indexSong ? indexSong : 0)
+    };
+
+    const pausar = () => {
+        setplayingSong(false);
+        setIndexSong(undefined)
+    };
+
+    const avancarMusica = () => {
+        if(playingSong && indexSong != undefined){
+            let index = indexSong == numeroMusicas - 1 ? 0 : indexSong + 1
+            setIndexSong(index)
+        }
+    };
+
+    const voltarMusica = () => {
+        if(playingSong && indexSong != undefined){
+            let index = indexSong == 0 ? numeroMusicas - 1 : indexSong - 1
+            setIndexSong(index)
+        }
+    };
+
     return (
         <div className="flex flex-col gap-4 items-center justify-center text-white py-4">
             <div className="bg-gray-800 p-4 rounded-lg shadow-xl w-full">
                 <div className="flex items-center justify-between mb-4">
-                    <button className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
+                    <button onClick={() => voltarMusica()} className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
                         </svg>
@@ -39,7 +63,7 @@ function Player() {
                             ))}
                         </div>
                         <button
-                            onClick={() => setplayingSong(!playingSong)}
+                            onClick={() => playingSong ? pausar() : tocar()}
                             className="mt-2 cursor-pointer text-black bg-green-500 hover:bg-green-600 transition-colors duration-200 p-3 rounded-full shadow-lg"
                         >
                             {playingSong ? <IoPauseSharp className="h-8 w-8" /> : <IoIosPlay className="h-8 w-8" />}
@@ -54,7 +78,7 @@ function Player() {
                             ))}
                         </div>
                     </div>
-                    <button className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
+                    <button onClick={() => avancarMusica()} className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                         </svg>

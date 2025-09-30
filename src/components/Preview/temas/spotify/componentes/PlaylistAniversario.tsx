@@ -10,29 +10,30 @@ type Props = {
 };
 
 export default function ListaMusicas({ model, variant }: Props) {
-  const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(
-    null
-  );
+  // const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(
+  //   null
+  // );
 
-  const playingSong = useConfigStoreSpotify(
-    (state) => state.playingSong
-  );
-  const setplayingSong = useConfigStoreSpotify(
-    (state) => state.setplayingSong
-  );
+  const { setplayingSong, indexSong, setIndexSong } = useConfigStoreSpotify()
+
 
   const tocar = (index: number) => {
-    setplayingSong(false);
-    setMusicaTocandoIndex(index);
+    setplayingSong(true);
+    setIndexSong(index)
   };
 
   const pausar = () => {
-    setMusicaTocandoIndex(null);
+    setplayingSong(false)
+    setIndexSong(undefined)
   };
 
   useEffect(() => {
-    if (playingSong) pausar();
-  }, [playingSong]);
+    if(variant != 'preview' && indexSong == undefined){
+      setIndexSong(0)
+      tocar(0)
+      setplayingSong(true)
+    }              
+  }, []);
 
   // const cores = [
   //   'from-green-400 to-green-600',
@@ -68,11 +69,11 @@ export default function ListaMusicas({ model, variant }: Props) {
             <div className="flex items-center gap-4">
               <button
                 onClick={() =>
-                  musicaTocandoIndex === index ? pausar() : tocar(index)
+                  indexSong === index ? pausar() : tocar(index)
                 }
                 className={`cursor-pointer min-w-10 h-10 rounded bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center`}
               >
-                {musicaTocandoIndex === index ? (
+                {indexSong === index ? (
                   <FaPause className="text-white text-lg" />
                 ) : (
                   <FaYoutube className="text-white text-lg" />
@@ -91,16 +92,16 @@ export default function ListaMusicas({ model, variant }: Props) {
       {/* Iframe do vídeo no topo */}
       <div
         className={clsx("", {
-          "w-0 h-0 hidden": musicaTocandoIndex == null,
-          "w-full md:h-64": variant == "preview" && musicaTocandoIndex !== null,
+          "w-0 h-0 hidden": indexSong == undefined,
+          "w-full md:h-64": variant == "preview" && indexSong !== undefined,
           "max-lg:w-full md:h-64":
-            variant != "preview" && musicaTocandoIndex !== null,
+            variant != "preview" && indexSong !== undefined,
         })}
       >
-        {musicaTocandoIndex !== null && (
+        {indexSong !== undefined && (
           <iframe
             className="w-full h-full"
-            src={`${model.musicas[musicaTocandoIndex].url}?autoplay=1`}
+            src={`${model.musicas[indexSong].url}?autoplay=1`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
