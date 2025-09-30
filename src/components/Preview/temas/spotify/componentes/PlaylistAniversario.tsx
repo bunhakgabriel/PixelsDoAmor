@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaPause, FaYoutube } from "react-icons/fa";
 import type { ISpotifyModel } from "../../../../../models/ISpotify";
 import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify";
@@ -10,12 +10,7 @@ type Props = {
 };
 
 export default function ListaMusicas({ model, variant }: Props) {
-  // const [musicaTocandoIndex, setMusicaTocandoIndex] = useState<number | null>(
-  //   null
-  // );
-
   const { setplayingSong, indexSong, setIndexSong } = useConfigStoreSpotify()
-
 
   const tocar = (index: number) => {
     setplayingSong(true);

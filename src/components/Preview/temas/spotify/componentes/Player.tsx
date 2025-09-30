@@ -2,7 +2,6 @@ import { IoIosPlay } from "react-icons/io"
 import { IoPauseSharp } from "react-icons/io5"
 import { useEffect, useState } from "react"
 import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify";
-import { FaSortNumericUpAlt } from "react-icons/fa";
 
 function Player({ numeroMusicas }: { numeroMusicas: number }) {
     const { playingSong, setplayingSong, indexSong, setIndexSong } = useConfigStoreSpotify()
