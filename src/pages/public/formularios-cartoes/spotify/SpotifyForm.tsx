@@ -55,6 +55,7 @@ function SpotifyForm() {
 
   const { previewCartao, setPreviewCartao, data, setData } = useConfigStoreSpotify();
   const [etapaAtual, setEtapaAtual] = useState(0);
+  const [firstOpenModal, setFirstOpenModal] = useState(true);
   const model = useWatch<ISpotifyModel>({ control }) as ISpotifyModel;
 
   async function avancarEtapa() {
@@ -91,12 +92,22 @@ function SpotifyForm() {
     setEtapaAtual((prev) => prev - 1);
   }
 
-  function scrollToTop(){
+  function scrollToTop() {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
+
+  function previaCartao() {
+    setPreviewCartao(true)
+    setTimeout(() => {
+      if (firstOpenModal) {
+        alert('Para não perder seu progresso, clique no "X" no canto superior direito para fechar a modal e continuar!')
+        setFirstOpenModal(false)
+      }
+    }, 1000)
+  }
 
   useEffect(() => {
     console.log("Model atualizado:", data);
@@ -147,7 +158,7 @@ function SpotifyForm() {
             element="button"
           />
           <button
-            onClick={() => setPreviewCartao(true)}
+            onClick={() => previaCartao()}
             className="cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-2 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
             <HiOutlineSparkles className="w-5 h-5" />
