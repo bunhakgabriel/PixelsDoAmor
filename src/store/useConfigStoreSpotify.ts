@@ -9,7 +9,9 @@ type ConfigStore = {
     previewCartao: boolean
     setPreviewCartao: (value: boolean) => void
     data: ISpotifyModel | null
-    setData: (value: ISpotifyModel) => void
+    setData: (value: ISpotifyModel | null) => void
+    etapaAtual: number  
+    setEtapaAtual: (value: number) => void
 }
 
 export const useConfigStoreSpotify = create<ConfigStore>((set) => ({
@@ -26,7 +28,11 @@ export const useConfigStoreSpotify = create<ConfigStore>((set) => ({
         set({ previewCartao: value })
     },
     data: null,
-    setData: (value: ISpotifyModel) => {
+    setData: (value: ISpotifyModel | null) => {
         set({ data: value })
+    },
+    etapaAtual: 0,
+    setEtapaAtual: (value: number) => {
+        set({ etapaAtual: value })
     }
 }))

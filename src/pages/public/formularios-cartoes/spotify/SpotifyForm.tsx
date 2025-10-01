@@ -52,8 +52,7 @@ function SpotifyForm() {
     }
   })
 
-  const { previewCartao, data, setData } = useConfigStoreSpotify();
-  const [etapaAtual, setEtapaAtual] = useState(0);
+  const { previewCartao, data, setData, etapaAtual, setEtapaAtual } = useConfigStoreSpotify();
   const model = useWatch<ISpotifyModel>({ control }) as ISpotifyModel;
 
   async function avancarEtapa() {
@@ -73,7 +72,7 @@ function SpotifyForm() {
       if (etapaAtual == 5) {
         mutation.mutate()
       } else {
-        setEtapaAtual((prev) => prev + 1);
+        setEtapaAtual(etapaAtual + 1);
         setTimeout(() => {
           scrollToTop()
         }, 500)
@@ -86,7 +85,7 @@ function SpotifyForm() {
 
   function voltarEtapa() {
     if (etapaAtual === 0) return navigate(-1);
-    setEtapaAtual((prev) => prev - 1);
+    setEtapaAtual(etapaAtual - 1);
   }
 
   function scrollToTop(){
@@ -103,6 +102,8 @@ function SpotifyForm() {
   useEffect(() => {
     if(data){
       reset(data)
+    } else {
+      setEtapaAtual(0)
     }
   }, [])
 

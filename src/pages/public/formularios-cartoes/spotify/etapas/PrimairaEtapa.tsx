@@ -54,12 +54,12 @@ function PrimeiraEtapa() {
         </div>
       </div>
       <div>
-        <label htmlFor="titulo" className={`${style.classLabel}`}>
+        <label htmlFor="nome" className={`${style.classLabel}`}>
           Nome da pessoa a presentear
         </label>
         <input
           type="text"
-          id="titulo"
+          id="nome"
           className={style.classInput}
           placeholder="Ex: Bruna Silva"
           {...register("nome")}
