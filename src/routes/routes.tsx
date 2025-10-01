@@ -40,7 +40,7 @@ const routes = [
         element: <PageCartao />,
       },
       {
-        path: "/previa-cartao/:type",
+        path: "/previa-cartao",
         element: <PreviaCartao />,
       },
     ],

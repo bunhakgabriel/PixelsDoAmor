@@ -63,7 +63,7 @@ function CardTheme({ theme }: CardThemeProps) {
           Criar Meu Cartão
         </button>
         <button
-          onClick={() => navigate(`/previa-cartao/${theme}`)}
+          onClick={() => navigate(`/previa-cartao`)}
           className="active:opacity-0 max-sm:w-[80%] w-full text-center cursor-pointer bg-white text-purple-600 px-3 py-1 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
         >
           Ver prévia
