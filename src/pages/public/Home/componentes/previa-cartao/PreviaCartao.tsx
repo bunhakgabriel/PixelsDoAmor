@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SpotifyTema from "../../../../../components/Preview/temas/spotify/SpotifyTema";
 import { previaCartao } from "./dados";
 
 function PreviaCartao() {
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const { model } = location.state || {};
 
   return (
     <div>
@@ -15,7 +18,7 @@ function PreviaCartao() {
         X
       </button>
       {/* <Preview /> */}
-      <SpotifyTema variant="page" model={previaCartao} />
+      <SpotifyTema variant="page" model={model || previaCartao} />
     </div>
   );
 }

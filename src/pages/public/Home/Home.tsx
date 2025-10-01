@@ -2,9 +2,12 @@ import { HiOutlineSparkles } from "react-icons/hi2";
 import BenefitsSection from "../../../components/BenefitsSection/BenefitsSection";
 import { dadosBenefitsSection } from "./dados";
 import { useNavigate } from "react-router-dom";
+import type { ISpotifyModel } from "../../../models/ISpotify";
+import { useConfigStoreSpotify } from "../../../store/useConfigStoreSpotify";
 
 function Home() {
 
+    const { setData } = useConfigStoreSpotify()
     const navigate = useNavigate()
 
     return (
@@ -32,7 +35,10 @@ function Home() {
                                     <span>Começar Agora</span>
                                 </button>
                                 <button
-                                    onClick={() => navigate(`/previa-cartao`)}
+                                    onClick={() => {
+                                        setData({} as ISpotifyModel)
+                                        navigate(`/previa-cartao`)
+                                    }}
                                     className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                                 >
                                     <HiOutlineSparkles className="w-5 h-5" />

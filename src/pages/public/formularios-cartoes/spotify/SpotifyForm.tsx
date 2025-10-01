@@ -32,7 +32,7 @@ function SpotifyForm() {
     resolver: yupResolver(SpotifySchema),
     mode: "onChange",
   });
-  const { control, trigger } = form;
+  const { control, trigger, reset } = form;
   const navigate = useNavigate();
 
   const mutation = useMutation({
@@ -53,7 +53,7 @@ function SpotifyForm() {
     }
   })
 
-  const { previewCartao, setPreviewCartao, data, setData } = useConfigStoreSpotify();
+  const { previewCartao, data, setData } = useConfigStoreSpotify();
   const [etapaAtual, setEtapaAtual] = useState(0);
   const model = useWatch<ISpotifyModel>({ control }) as ISpotifyModel;
 
@@ -71,7 +71,6 @@ function SpotifyForm() {
     const valido = await trigger(camposDaEtapaAtual);
 
     if (valido) {
-      setData(model);
       if (etapaAtual == 5) {
         mutation.mutate()
       } else {
@@ -99,8 +98,14 @@ function SpotifyForm() {
   };
 
   useEffect(() => {
-    console.log("Model atualizado:", data);
-  }, [data]);
+    setData(model)
+  }, [model]);
+
+  useEffect(() => {
+    if(data){
+      reset(data)
+    }
+  }, [])
 
   if (mutation.isPending) {
     return <Loading text="Aguarde alguns instantes enquanto sua página é criada..." size={60} />
@@ -147,7 +152,7 @@ function SpotifyForm() {
             element="button"
           />
           <button
-            onClick={() => setPreviewCartao(true)}
+            onClick={() => navigate(`/previa-cartao`, { state: { model: model } })}
             className="cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-2 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
             <HiOutlineSparkles className="w-5 h-5" />
@@ -163,24 +168,6 @@ function SpotifyForm() {
             />
           </div>
         )}
-
-        <Modal
-          isOpen={previewCartao}
-          onRequestClose={() => setPreviewCartao(false)}
-        >
-          <button
-            type="button"
-            onClick={() => setPreviewCartao(false)}
-            className="fixed cursor-pointer w-10 top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-          >
-            X
-          </button>
-          {/* <Preview /> */}
-          <SpotifyTema
-            variant="modal"
-            model={model || defaultValueSpotifyObject}
-          />
-        </Modal>
       </div>
     </FormProvider>
   );

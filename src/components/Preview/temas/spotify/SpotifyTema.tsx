@@ -41,7 +41,7 @@ function SpotifyTema({ model, variant }: SpotifyTemaProps) {
 
   return (
     <>
-      <div className={clsx(`${backgroundsPage[0]} flex justify-center rounded-lg`, {
+      <div className={clsx(`${backgroundsPage[0]} min-h-screen flex justify-center rounded-lg`, {
         'relative': variant == 'preview'
       })}>
         <SnowfallEfeito variant={variant} tipo={model.animacao} />
