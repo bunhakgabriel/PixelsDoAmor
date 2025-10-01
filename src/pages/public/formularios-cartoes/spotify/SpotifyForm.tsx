@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import BackButton from "../../../../components/BackButton/BackButon";
 import ButtonUi from "../../../../components/ButtonUi/ButtonUi";

@@ -2,7 +2,6 @@ import { HiOutlineSparkles } from "react-icons/hi2";
 import BenefitsSection from "../../../components/BenefitsSection/BenefitsSection";
 import { dadosBenefitsSection } from "./dados";
 import { useNavigate } from "react-router-dom";
-import type { ISpotifyModel } from "../../../models/ISpotify";
 import { useConfigStoreSpotify } from "../../../store/useConfigStoreSpotify";
 
 function Home() {
