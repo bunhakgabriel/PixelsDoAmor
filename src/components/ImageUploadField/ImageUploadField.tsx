@@ -3,6 +3,7 @@ import { BsUpload } from "react-icons/bs"
 import { style } from "../../utils/classesCssGlobais.ts"
 import clsx from "clsx"
 import type { Imagem } from "../../models/ISpotify.ts"
+import { comprimirImagem } from "../../utils/comprimirImagens.ts"
 
 type ImageUploadFieldProps<T extends FieldValues> = {
   name: Path<T>
@@ -66,15 +67,26 @@ function ImageUploadField<T extends FieldValues>({ name, label, height, width }:
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={e => {
-                  if (!e.target.files) return
+                onChange={async (e) => {
+                  if (!e.target.files) return;
                   if (e.target.files[0] instanceof File) {
-                    const imagem = e.target.files[0]
-                    const reader = new FileReader()
-                    reader.onloadend = () => {
-                      field.onChange({ imagem: imagem, previewImagem: reader.result })
+                    const originalFile = e.target.files[0];
+              
+                    try {
+                      // 🔽 Comprime a imagem antes de salvar
+                      const compressedFile = await comprimirImagem(originalFile, 0.5, 1280, 720);
+              
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        field.onChange({
+                          imagem: compressedFile,
+                          previewImagem: reader.result,
+                        });
+                      };
+                      reader.readAsDataURL(compressedFile);
+                    } catch (err) {
+                      console.error("Erro ao comprimir imagem:", err);
                     }
-                    reader.readAsDataURL(imagem)
                   }
                 }}
               />
