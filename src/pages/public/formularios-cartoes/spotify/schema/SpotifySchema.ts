@@ -31,8 +31,8 @@ export const SpotifySchema: Yup.ObjectSchema<ISpotifyModel> = Yup.object({
 
   musicas: Yup.mixed<{ nome: string; url: string }[]>()
     .required("É necessário informar músicas")
-    .test("not-empty", "Mínimo 2 músicas", (value) => {
-      if (value && value.length < 2) {
+    .test("not-empty", "Mínimo 3 músicas", (value) => {
+      if (value && value.length < 3) {
         return false;
       }
       return true;

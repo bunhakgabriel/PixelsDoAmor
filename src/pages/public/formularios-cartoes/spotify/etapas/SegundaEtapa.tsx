@@ -43,6 +43,11 @@ function SegundaEtapa() {
                 onBlur={field.onBlur}
                 onChange={(e) => field.onChange(mask(e.target.value, "date"))}
                 placeholder="Ex: 08/05/2002"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
               />
             </div>
           )}

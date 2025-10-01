@@ -128,6 +128,12 @@ function YouTubeSearch<T extends FieldValues>(
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar no YouTube"
             className={`${fieldError ? style.error : ''} border border-gray-300 rounded px-3 py-2 w-full`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch()
+              }
+            }}
           />
           <div className='h-[20px]'>
             {fieldError && <MsgErrorInput msg={fieldError.message || ''} />}
