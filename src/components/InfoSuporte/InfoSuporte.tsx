@@ -18,7 +18,8 @@ function InfoSuporte({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, se
     }, [isMobile]);
 
     // Fallback: caso o usuário não tenha Gmail app
-    const handleEmailClick = () => {
+    const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        debugger
         if (isMobile) {
             // Timeout curto: se o deep link falhar, abre mailto:
             setTimeout(() => {
