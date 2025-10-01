@@ -1,35 +1,8 @@
-import { useMemo, type Dispatch, type SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { FaEnvelope, FaWhatsapp } from "react-icons/fa";
 import Modal from "react-modal";
 
 function InfoSuporte({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, setIsModalOpen: Dispatch<SetStateAction<boolean>>; }) {
-    const isMobile = useMemo(
-        () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
-        []
-    );
-
-    const emailLink = useMemo(() => {
-        if (isMobile) {
-            // Gmail app (Android/iOS)
-            return "googlegmail://co?to=bunhakgabriel@gmail.com";
-        }
-        // Gmail Web (Desktop)
-        return "https://mail.google.com/mail/?view=cm&fs=1&to=bunhakgabriel@gmail.com";
-    }, [isMobile]);
-
-    // Fallback: caso o usuário não tenha Gmail app
-    const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        debugger
-        if (isMobile) {
-            // Timeout curto: se o deep link falhar, abre mailto:
-            setTimeout(() => {
-                window.location.href = "mailto:bunhakgabriel@gmail.com";
-            }, 500);
-        }
-    };
-
-    console.log(isMobile)
-
     return (
         <Modal
             isOpen={isModalOpen}
@@ -47,8 +20,9 @@ function InfoSuporte({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, se
 
                 <div className="space-y-4">
                     <a
-                        href={emailLink}
-                        onClick={handleEmailClick}
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=bunhakgabriel@gmail.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
                     >
                         <FaEnvelope className="text-purple-600 w-6 h-6" />
