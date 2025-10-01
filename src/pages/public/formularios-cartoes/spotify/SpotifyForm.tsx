@@ -2,7 +2,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
-import Modal from "react-modal";
 import BackButton from "../../../../components/BackButton/BackButon";
 import ButtonUi from "../../../../components/ButtonUi/ButtonUi";
 import SpotifyTema from "../../../../components/Preview/temas/spotify/SpotifyTema";
