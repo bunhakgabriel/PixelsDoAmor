@@ -44,6 +44,32 @@ function useMask() {
         return digits
     }
 
+    function cpfMask(value: string): string {
+        const digits = value.replace(/\D/g, '').slice(0, 11)
+        let out = ''
+        if (digits.length > 0) out = digits.slice(0, 3)
+        if (digits.length >= 4) out = `${digits.slice(0,3)}.${digits.slice(3,6)}`
+        if (digits.length >= 7) out = `${digits.slice(0,3)}.${digits.slice(3,6)}.${digits.slice(6,9)}`
+        if (digits.length >= 10) out = `${digits.slice(0,3)}.${digits.slice(3,6)}.${digits.slice(6,9)}-${digits.slice(9,11)}`
+        return out
+    }
+
+    function cnpjMask(value: string): string {
+        const digits = value.replace(/\D/g, '').slice(0, 14)
+        let out = ''
+        if (digits.length > 0) out = digits.slice(0, 2)
+        if (digits.length >= 3) out = `${digits.slice(0,2)}.${digits.slice(2,5)}`
+        if (digits.length >= 6) out = `${digits.slice(0,2)}.${digits.slice(2,5)}.${digits.slice(5,8)}`
+        if (digits.length >= 9) out = `${digits.slice(0,2)}.${digits.slice(2,5)}.${digits.slice(5,8)}/${digits.slice(8,12)}`
+        if (digits.length >= 13) out = `${digits.slice(0,2)}.${digits.slice(2,5)}.${digits.slice(5,8)}/${digits.slice(8,12)}-${digits.slice(12,14)}`
+        return out
+    }
+
+    function emailMask(value: string): string {
+        // Remove espaços, força minúsculas e impede múltiplos espaços acidentais
+        return value.replace(/\s+/g, '').toLowerCase()
+    }
+
     function mask(value: string, mask: tipoMask): string {
         switch (mask) {
             case 'apenasLetras':
@@ -52,6 +78,12 @@ function useMask() {
                 return telefoneMask(value)
             case 'date':
                 return dateMask(value)
+            case 'cpf':
+                return cpfMask(value)
+            case 'cnpj':
+                return cnpjMask(value)
+            case 'email':
+                return emailMask(value)
             default:
                 return ''
         }
@@ -66,6 +98,9 @@ function useMask() {
 type tipoMask =
     'apenasLetras' |
     'telefone' |
-    'date' 
+    'date' |
+    'cpf' |
+    'cnpj' |
+    'email' 
 
 export default useMask;

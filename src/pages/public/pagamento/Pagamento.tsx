@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaUser, FaEnvelope, FaIdCard } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ import { pagamentoService } from "../../../services/pagamento-service";
 import { toast } from "react-toastify";
 import ButtonUi from "../../../components/ButtonUi/ButtonUi";
 import { useNavigate } from "react-router-dom";
+import useMask from "../../../hooks/useMask";
 
 export default function PagamentoPage() {
   const [processandoPagamento, setProcessandoPagamento] = useState<{
@@ -34,10 +35,15 @@ export default function PagamentoPage() {
   const {
     register,
     handleSubmit,
+    control,
+    watch,
     formState: { errors },
   } = useForm<IPagamento>({
     resolver: yupResolver(PagamentoSchema),
   });
+
+  const { mask } = useMask();
+  const tipoDocumento = watch("documentType");
 
   const mutation = useMutation({
     mutationFn: (data: MercadoPagoPagamentoRequest) =>
@@ -153,11 +159,20 @@ export default function PagamentoPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <input
-                    type="text"
-                    {...register("firstName")}
-                    placeholder="Nome"
-                    className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  <Controller
+                    control={control}
+                    name="firstName"
+                    defaultValue=""
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        value={field.value}
+                        onBlur={field.onBlur}
+                        onChange={(e) => field.onChange(mask(e.target.value, "apenasLetras"))}
+                        placeholder="Nome"
+                        className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      />
+                    )}
                   />
                   {errors.firstName && (
                     <p className="text-red-500 text-sm mt-1">
@@ -167,11 +182,20 @@ export default function PagamentoPage() {
                 </div>
 
                 <div>
-                  <input
-                    type="text"
-                    {...register("lastName")}
-                    placeholder="Sobrenome"
-                    className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  <Controller
+                    control={control}
+                    name="lastName"
+                    defaultValue=""
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        value={field.value}
+                        onBlur={field.onBlur}
+                        onChange={(e) => field.onChange(mask(e.target.value, "apenasLetras"))}
+                        placeholder="Sobrenome"
+                        className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      />
+                    )}
                   />
                   {errors.lastName && (
                     <p className="text-red-500 text-sm mt-1">
@@ -183,11 +207,20 @@ export default function PagamentoPage() {
 
               <div className="mt-4 relative">
                 <FaEnvelope className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                <input
-                  type="email"
-                  {...register("email")}
-                  placeholder="Email"
-                  className="w-full pl-10 border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                <Controller
+                  control={control}
+                  name="email"
+                  defaultValue=""
+                  render={({ field }) => (
+                    <input
+                      type="email"
+                      value={field.value}
+                      onBlur={field.onBlur}
+                      onChange={(e) => field.onChange(mask(e.target.value, "email"))}
+                      placeholder="Email"
+                      className="w-full pl-10 border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  )}
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">
@@ -221,11 +254,27 @@ export default function PagamentoPage() {
                 </div>
 
                 <div>
-                  <input
-                    type="text"
-                    {...register("documentNumber")}
-                    placeholder="Número do documento"
-                    className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  <Controller
+                    control={control}
+                    name="documentNumber"
+                    defaultValue=""
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        value={field.value}
+                        onBlur={field.onBlur}
+                        onChange={(e) =>
+                          field.onChange(
+                            mask(
+                              e.target.value,
+                              tipoDocumento === "CNPJ" ? "cnpj" : "cpf"
+                            )
+                          )
+                        }
+                        placeholder="Número do documento"
+                        className="w-full border border-gray-700 bg-gray-900/60 text-white rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      />
+                    )}
                   />
                   {errors.documentNumber && (
                     <p className="text-red-500 text-sm mt-1">
