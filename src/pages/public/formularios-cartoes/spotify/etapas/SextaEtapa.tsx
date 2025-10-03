@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form";
 import type { ISpotifyModel } from "../../../../../models/ISpotify";
 import { style } from "../../../../../utils/classesCssGlobais";
 import MsgErrorInput from "../../../../../components/MsgErrorInput/MsgErrorInput";
+import clsx from "clsx";
 
 function SextaEtapa() {
   const {
@@ -43,7 +44,9 @@ function SextaEtapa() {
           Selecione uma animação para a página
         </label>
         <select
-          className="border border-gray-300 rounded-md w-full p-2"
+          className={clsx('border border-gray-300 rounded-md w-full p-2', {
+            'border-red-500': errors.email
+          })}
           id="animacao"
           {...register("animacao")}
         >
@@ -56,6 +59,33 @@ function SextaEtapa() {
         </select>
         <div className="h-[10px]">
           {errors.animacao && <MsgErrorInput msg={errors.animacao.message || ""} />}
+        </div>
+      </div>
+      <div className="flex flex-col gap-1">
+        <div>
+          <div className="flex gap-4 items-center">
+            <label htmlFor="nome" className={`${style.classLabel}`}>
+              Email
+            </label>
+            <span className="text-[12px] sm:text-sm text-gray-600">
+              (Obs: O QrCode para acessar a WebPage será enviado para o email informado)
+            </span>
+          </div>
+          <input
+            type="text"
+            id="nome"
+            className={`${style.classInput} ${
+                errors.email ? style.error : ""
+              }`}
+            placeholder="Ex: brunosilva@gmail.com"
+            {...register("email")}
+          />
+
+        </div>
+        <div className="h-[20px]">
+          {errors.email && (
+            <MsgErrorInput msg={errors.email.message || ""} />
+          )}
         </div>
       </div>
     </div>

@@ -77,4 +77,10 @@ export const SpotifySchema: Yup.ObjectSchema<ISpotifyModel> = Yup.object({
   animacao: Yup.mixed<"flocos" | "coracao-preto" | "coracao-vermelho" | "rosa" | "sem-animacao">()
     .oneOf(["flocos", "coracao-preto", "coracao-vermelho", "rosa", "sem-animacao"], "É necessário escolher uma opção")
     .required("É necessário escolher uma opção"),
+
+  email: Yup
+    .string()
+    .trim()
+    .required("O email é obrigatório")
+    .email("Digite um email válido"),
 });
