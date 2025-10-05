@@ -18,10 +18,36 @@ const Parabens = () => {
 
   const cardUrl = encodedUrl
     ? "https://moments-plataforma.netlify.app/cartao-digital/" +
-      decodeURIComponent(encodedUrl)
+    decodeURIComponent(encodedUrl)
     : "";
 
-  // Gera QR Code
+  const enviarEmail = async (qrDataUrl: string) => {
+    const destinatario =  localStorage.getItem('cartao-atual')
+    if(!destinatario) return 
+
+    const emailData = {
+      qrDataUrl: qrDataUrl,
+      linkCartao: cardUrl,
+      destinatario: JSON.parse(destinatario).email
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(emailData)
+      });
+
+
+      const result = await response.json();
+      console.log(result.message); // ✅ E-mail enviado com sucesso!
+    } catch (error) {
+      console.error("Erro ao enviar e-mail:", error);
+    }
+  }
+
   useEffect(() => {
     const generateQRCode = async () => {
       if (cardUrl) {
@@ -36,6 +62,7 @@ const Parabens = () => {
             },
           });
           setQrCodeUrl(qrDataUrl);
+          await enviarEmail(qrDataUrl)
         } catch (error) {
           console.error("Erro ao gerar QR Code:", error);
         } finally {

@@ -45,7 +45,7 @@ function SextaEtapa() {
         </label>
         <select
           className={clsx('border border-gray-300 rounded-md w-full p-2', {
-            'border-red-500': errors.email
+            'border-red-500': errors.animacao
           })}
           id="animacao"
           {...register("animacao")}
