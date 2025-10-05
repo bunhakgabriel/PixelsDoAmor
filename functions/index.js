@@ -4,6 +4,8 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 
+import nodemailer from "nodemailer"
+
 // Criar app Express
 const app = express();
 app.use(cors());
@@ -44,6 +46,60 @@ app.get("/payment_status/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/send-email", async (req, res) => {
+  const { qrDataUrl, linkCartao, destinatario } = req.body;
+
+  const name = "PixelsDoAmor";
+  const user = "pixelsamor@gmail.com";
+  const pass = "pass_key";
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: user,
+      pass: pass
+    }
+  });
+
+  const mailOptions = {
+    from: `${name} <${user}>`,
+    to: destinatario,
+    subject: "Parabéns! sua página foi criada.",
+    text: "A plataforma agradece sua preferência! volte sempre.",
+    html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #000;">
+      <h1>Parabéns! Seu cartão digital foi criado 🎉</h1>
+      <p>Seu cartão em <strong>PixelsDoAmor</strong> está pronto. Você pode acessá-lo pelo QR Code abaixo ou clicando no link direto:</p>
+      <div style="margin: 20px 0;">
+        <img src="cid:qrcode" alt="QR Code do Cartão Digital" style="width:200px;height:200px;"/>
+      </div>
+      <p>
+        <a href="${linkCartao}" target="_blank" style="text-decoration: none; color: white; background-color: #ff6b81; padding: 10px 20px; border-radius: 5px;">
+          Acessar meu cartão
+        </a>
+      </p>
+      <p>Obrigado por espalhar amor com <strong>PixelsDoAmor</strong>! 💌</p>
+    </div>
+  `,
+    attachments: [
+      {
+        filename: "qrcode.png",
+        content: qrDataUrl.split("base64,")[1],
+        encoding: "base64",
+        cid: "qrcode"
+      }
+    ]
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "✅ E-mail enviado com sucesso!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "❌ Erro ao enviar o e-mail", error });
   }
 });
 
