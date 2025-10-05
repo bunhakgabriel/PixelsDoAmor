@@ -19,14 +19,15 @@ const Parabens = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [showCopySuccess, setShowCopySuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [emailEnviado, setEmailEnviado] = useState(false)
 
   const mutation = useMutation({
     mutationFn: (data: IEmail) => sendEmail(data),
     onSuccess: () => {
-      toast.success('✉️ O e-mail com o seu link e QR Code de acesso foi enviado! Ele pode levar até 5 minutos para chegar à sua caixa de entrada.', { delay: 5000 })
+      setEmailEnviado(true)
     },
-    onError: () => {
-      toast.error('❌ Não foi possível enviar o e-mail com o QrCode e o Link da sua WebPage para sua caixa de entrada. Você pode baixar o QR Code e salvar o link exibido na tela, ou entrar em contato com o suporte para que o e-mail seja reenviado.')
+    onError: (err) => {
+      console.log(err)
     }
   })
 
@@ -177,6 +178,13 @@ const Parabens = () => {
               </div>
             </div>
 
+            <div className="p-4">
+              <p className="text-white/70 text-sm text-center">
+                ✉️ O seu link + QR Code de acesso foi enviado para seu e-mail! 
+                Ele pode levar até 5 minutos para chegar à sua caixa de entrada.
+              </p>
+            </div>
+
             {/* Link do cartão */}
             <div className="mb-4">
               <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
@@ -191,7 +199,7 @@ const Parabens = () => {
             </div>
 
             {/* Botões de ação */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               {/* Copiar link */}
               <button
                 onClick={handleCopyLink}
