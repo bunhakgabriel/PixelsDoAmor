@@ -8,6 +8,10 @@ import {
   WhatsappShareButton,
   WhatsappIcon,
 } from "react-share";
+import type { IEmail } from "../../../models/IEmail";
+import { useMutation } from "@tanstack/react-query";
+import { sendEmail } from "../../../services/email-service";
+import { toast } from "react-toastify";
 
 const Parabens = () => {
   const { encodedUrl } = useParams();
@@ -16,36 +20,32 @@ const Parabens = () => {
   const [showCopySuccess, setShowCopySuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const mutation = useMutation({
+    mutationFn: (data: IEmail) => sendEmail(data),
+    onSuccess: () => {
+      toast.success('✉️ O e-mail com o seu link e QR Code de acesso foi enviado! Ele pode levar até 5 minutos para chegar à sua caixa de entrada.', { delay: 5000 })
+    },
+    onError: () => {
+      toast.error('❌ Não foi possível enviar o e-mail com o QrCode e o Link da sua WebPage para sua caixa de entrada. Você pode baixar o QR Code e salvar o link exibido na tela, ou entrar em contato com o suporte para que o e-mail seja reenviado.')
+    }
+  })
+
   const cardUrl = encodedUrl
     ? "https://moments-plataforma.netlify.app/cartao-digital/" +
     decodeURIComponent(encodedUrl)
     : "";
 
   const enviarEmail = async (qrDataUrl: string) => {
-    const destinatario =  localStorage.getItem('cartao-atual')
-    if(!destinatario) return 
+    const destinatario = localStorage.getItem('cartao-atual')
+    if (!destinatario) return
 
-    const emailData = {
+    const emailData: IEmail = {
       qrDataUrl: qrDataUrl,
       linkCartao: cardUrl,
       destinatario: JSON.parse(destinatario).email
-    };
-
-    try {
-      const response = await fetch("https://us-central1-moments-bf0c4.cloudfunctions.net/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(emailData)
-      });
-
-
-      const result = await response.json();
-      console.log(result.message); // ✅ E-mail enviado com sucesso!
-    } catch (error) {
-      console.error("Erro ao enviar e-mail:", error);
     }
+
+    mutation.mutate(emailData)
   }
 
   useEffect(() => {
