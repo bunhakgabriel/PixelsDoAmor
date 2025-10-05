@@ -24,6 +24,7 @@ export default function PagamentoPage() {
   }>({ id: "", status: false });
   const [pixBase64, setPixBase64] = useState<string | null>(null);
   const [pixCode, setPixCode] = useState<string | null>(null);
+  const [showCopySuccess, setShowCopySuccess] = useState(false);
   const [dataStorage] = useState<ISpotifyModel>(
     JSON.parse(localStorage.getItem("cartao-atual") || "null")
   );
@@ -126,6 +127,35 @@ export default function PagamentoPage() {
         console.error("Erro ao consultar pagamento:", error);
       }
     }, 5000);
+  };
+
+  const copiarLinkPagamento = async () => {
+    if (!pixCode) return
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(pixCode);
+        setShowCopySuccess(true);
+        setTimeout(() => setShowCopySuccess(false), 2000);
+        return;
+      } catch (err) {
+        console.error("Erro ao copiar com navigator.clipboard:", err);
+      }
+    }
+
+    // Fallback para mobile/navegadores antigos
+    const textArea = document.createElement("textarea");
+    textArea.value = pixCode;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      setShowCopySuccess(true);
+      setTimeout(() => setShowCopySuccess(false), 2000);
+    } catch (err) {
+      console.error("Erro ao copiar com execCommand:", err);
+    }
+    document.body.removeChild(textArea);
   };
 
   useEffect(() => {
@@ -287,10 +317,11 @@ export default function PagamentoPage() {
 
             {/* Botão */}
             <button
+              disabled={mutation.isPending}
               type="submit"
               className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition duration-300 flex items-center justify-center gap-2"
             >
-              💳 Gerar QR Code PIX
+              {mutation.isPending ? 'Gerando QrCode...' : '💳 Gerar QR Code PIX'}
             </button>
           </form>
         ) : (
@@ -314,22 +345,27 @@ export default function PagamentoPage() {
             <div className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
               <span className="text-gray-300 text-sm truncate">{pixCode}</span>
               <button
-                onClick={() =>
-                  pixCode && navigator.clipboard.writeText(pixCode)
-                }
+                onClick={copiarLinkPagamento}
                 className="text-blue-400 hover:underline ml-3 text-sm"
               >
                 Copiar
               </button>
             </div>
 
+            {showCopySuccess && (
+              <div className="mt-4 text-center">
+                <div className="inline-block bg-green-500/20 text-green-300 px-4 py-2 rounded-full text-sm font-medium animate-fade-in">
+                  ✅ Pix copiado para a área de transferência!
+                </div>
+              </div>
+            )}
+
             <ButtonUi
               className="w-[100%] h-[40px] sm:my-4"
-              text={`${
-                timer < 60
-                  ? `Aguardando confirmação do pagamento... (${timer}s)`
-                  : "Já realizei o pagamento"
-              }`}
+              text={`${timer < 60
+                ? `Aguardando confirmação do pagamento... (${timer}s)`
+                : "Já realizei o pagamento"
+                }`}
               onClick={() => {
                 if (timer < 60) return;
                 aguardarProcessamentoPagamento();
