@@ -18,7 +18,7 @@ const Parabens = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [showCopySuccess, setShowCopySuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [emailEnviado, setEmailEnviado] = useState(false)
+  const [_, setEmailEnviado] = useState(false)
 
   const mutation = useMutation({
     mutationFn: (data: IEmail) => sendEmail(data),

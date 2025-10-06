@@ -1,4 +1,3 @@
-import { FiGift } from "react-icons/fi";
 import { MdOutlineHome } from "react-icons/md";
 import { useState } from "react";
 import clsx from "clsx";
