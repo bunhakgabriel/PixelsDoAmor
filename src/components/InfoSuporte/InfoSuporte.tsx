@@ -20,9 +20,7 @@ function InfoSuporte({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, se
 
                 <div className="space-y-4">
                     <a
-                        href="https://mail.google.com/mail/?view=cm&fs=1&to=bunhakgabriel@gmail.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="mailto:bunhakgabriel@gmail.com?subject=Suporte&body=Olá,%20preciso%20de%20ajuda%20com..."
                         className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
                     >
                         <FaEnvelope className="text-purple-600 w-6 h-6" />
