@@ -11,7 +11,6 @@ import {
 import type { IEmail } from "../../../models/IEmail";
 import { useMutation } from "@tanstack/react-query";
 import { sendEmail } from "../../../services/email-service";
-import { toast } from "react-toastify";
 
 const Parabens = () => {
   const { encodedUrl } = useParams();

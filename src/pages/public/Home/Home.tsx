@@ -49,8 +49,8 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="self-center order-1 md:order-2 w-full max-md:max-w-[350px] md:w-[45%] h-[290px] md:h-[350px] lg:h-[500px]">
-                        <img className="-rotate-12 w-full h-full" src="imagens/imagem1home.png" />
+                    <div className="self-center order-1 md:order-2 w-full max-sm:max-w-[270px] sm:w-[340px] h-[330px] sm:h-[400px] md:w-[350px] md:h-[420px] lg:w-[430px] lg:h-[530px]">
+                        <img className="rotate-[-45deg] w-full h-full" src="imagens/imagem2home.png" />
                     </div>
                 </section>
 
