@@ -13,10 +13,10 @@ function Home() {
         <div>
             <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
                 {/* Hero Section */}
-                <section className="py-8 px-4 flex w-full flex-col md:flex-row max-md:gap-4">
-                    <div className="order-2 md:order-1 container mx-auto text-center w-full md:w-[55%] flex items-center">
+                <section className="justify-around py-8 px-4 flex w-full flex-col md:flex-row max-md:gap-8">
+                    <div className="container text-center w-full md:w-[55%] flex items-center">
                         <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6 leading-tight">
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 sm:mb-6 leading-tight">
                                 Crie WebPages de momentos
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
                                     {' '}únicos e inesquecíveis
@@ -25,7 +25,7 @@ function Home() {
                             <p className="max-md:hidden text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed px-4">
                                 Transforme momentos especiais em experiências digitais únicas. Personalize um cartão exclusivo para surpreender, emocionar e encantar quem você ama, criando uma lembrança inesquecível.
                             </p>
-                            <div className="flex flex-col md:flex-row justify-center items-center gap-2">
+                            <div className="max-md:hidden flex flex-col md:flex-row justify-center items-center gap-2">
                                 <button
                                     onClick={() => {
                                         setData(null)
@@ -49,9 +49,32 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="self-center order-1 md:order-2 w-full max-sm:max-w-[270px] sm:w-[340px] h-[330px] sm:h-[400px] md:w-[350px] md:h-[420px] lg:w-[430px] lg:h-[530px]">
-                        <img className="rotate-[-45deg] w-full h-full" src="imagens/imagem2home.png" />
+                    <div className="self-center w-[70%] max-sm:w-[200px] md:w-[25%] lg:w-[20%] py-4">
+                        <img className="rotate-[-15deg] rounded-2xl w-full h-full" src="imagens/imagem5home.jpg" />
                     </div>
+                    <div className="md:hidden flex flex-col md:flex-row justify-center items-center gap-2">
+                        <button
+                            onClick={() => {
+                                setData(null)
+                                navigate("/form-cadastro-spotify")
+                            }}
+                            className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        >
+                            <HiOutlineSparkles className="w-5 h-5" />
+                            <span>Começar Agora</span>
+                        </button>
+                        <button
+                            onClick={() => {
+                                setData(null)
+                                navigate(`/previa-cartao`)
+                            }}
+                            className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        >
+                            <HiOutlineSparkles className="w-5 h-5" />
+                            <span>Ver como fica</span>
+                        </button>
+                    </div>
+
                 </section>
 
                 {/* Features Section */}
