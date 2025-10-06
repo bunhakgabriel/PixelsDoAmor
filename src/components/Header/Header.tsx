@@ -31,8 +31,7 @@ function Header() {
                 <div className="container mx-auto px-4 py-4 max">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2" onClick={handleClickHome} style={{ cursor: 'pointer' }}>
-                            <FiGift className="w-6 h-6 sm:w-8 sm:h-8" />
-                            <h1 className="text-lg sm:text-2xl font-bold">MoMents</h1>
+                            <h1 className="text-lg sm:text-2xl font-bold">PixelsDoAmor</h1>
                         </div>
                         <nav className="flex space-x-2 sm:space-x-4">
                             <button
