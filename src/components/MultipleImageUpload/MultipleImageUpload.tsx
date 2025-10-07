@@ -22,30 +22,51 @@ function MultipleImageUpload<T extends FieldValues>({ name, label, maxImages }: 
   })
 
   const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return
-    if (e.target.files[0] instanceof File) {
-      const imagem = e.target.files[0]
-      if(imagens.length >= maxImages){
-        toast.error('Você só pode adicionar até ' + maxImages + ' imagens.')
-        return
-      }
-      if (imagens.some(img => {
-        if (img.imagem instanceof File && img.imagem.name == imagem.name) {
-          return true
-        }
-        return false
-      })) {
-        toast.error('Essa imagem já foi adicionada!')
-        e.target.value = ''
-        return
-      }
+    const files = e.target.files
+    if (!files) return
+
+    // Array com os arquivos que o usuário selecionou
+    const selectedFiles = Array.from(files)
+
+    // Quantas imagens já existem
+    const currentCount = imagens.length
+
+    // Quantas ainda podem ser adicionadas
+    const remainingSlots = maxImages - currentCount
+
+    // Se já atingiu o máximo
+    if (remainingSlots <= 0) {
+      toast.error(`Você só pode adicionar até ${maxImages} imagens.`)
+      e.target.value = ''
+      return
+    }
+
+    // Filtrar imagens novas (sem duplicadas)
+    const newFiles = selectedFiles.filter(file => {
+      return !imagens.some(img =>
+        img.imagem instanceof File && img.imagem.name === file.name
+      )
+    })
+
+    if (newFiles.length === 0) {
+      toast.error('Todas as imagens selecionadas já foram adicionadas!')
+      e.target.value = ''
+      return
+    }
+
+    // Respeita o limite máximo
+    const filesToAdd = newFiles.slice(0, remainingSlots)
+
+    for (const file of filesToAdd) {
       const reader = new FileReader()
       reader.onloadend = () => {
-        append({ imagem: imagem, previewImagem: reader.result } as any)
-        e.target.value = ''
+        append({ imagem: file, previewImagem: reader.result } as any)
       }
-      reader.readAsDataURL(imagem)
+      reader.readAsDataURL(file)
     }
+
+    // Limpa o input para permitir novas seleções iguais
+    e.target.value = ''
   }
 
   return (
@@ -66,6 +87,7 @@ function MultipleImageUpload<T extends FieldValues>({ name, label, maxImages }: 
           <input
             id={`upload-${name}`}
             type="file"
+            multiple
             accept="image/*"
             className="hidden"
             onChange={handleAddImage}
