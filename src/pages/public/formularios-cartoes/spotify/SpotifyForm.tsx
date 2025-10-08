@@ -40,7 +40,7 @@ function SpotifyForm() {
       if (data?.id) {
         toast.success('WebPage criada com sucesso, finalize pagamento para continuar!', { autoClose: 5000 })
         setData(data)
-        localStorage.setItem('cartao-atual', JSON.stringify(data))
+        localStorage.setItem('cartao-atual', JSON.stringify({ ...data, emailEnviado: false }))
         // const encodedUrl = encodeURIComponent(data.id)
         // navigate(`/parabens/1${encodedUrl}`)
         navigate(`/pagamento`)

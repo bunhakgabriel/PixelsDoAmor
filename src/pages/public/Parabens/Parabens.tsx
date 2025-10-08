@@ -18,7 +18,8 @@ const Parabens = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [showCopySuccess, setShowCopySuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [_, setEmailEnviado] = useState(false)
+  const [cartaoStorage, setCartaoStorage] = useState({})
+  const [emailEnviado, setEmailEnviado] = useState(false)
 
   const mutation = useMutation({
     mutationFn: (data: IEmail) => sendEmail(data),
@@ -31,22 +32,31 @@ const Parabens = () => {
   })
 
   const cardUrl = encodedUrl
-    ? "https://moments-plataforma.netlify.app/cartao-digital/" +
+    ? "https://pixelsdoamor.site/cartao-digital/" +
     decodeURIComponent(encodedUrl)
     : "";
 
   const enviarEmail = async (qrDataUrl: string) => {
-    const destinatario = localStorage.getItem('cartao-atual')
-    if (!destinatario) return
+    debugger
+    const cartaoStorage = JSON.parse(localStorage.getItem('cartao-atual') || "{}")
+    if (!cartaoStorage || cartaoStorage.emailEnviado) return
+
+    setCartaoStorage(cartaoStorage)
 
     const emailData: IEmail = {
       qrDataUrl: qrDataUrl,
       linkCartao: cardUrl,
-      destinatario: JSON.parse(destinatario).email
+      destinatario: cartaoStorage.email
     }
 
     mutation.mutate(emailData)
   }
+
+  useEffect(() => {
+    if (emailEnviado && cartaoStorage) {
+      localStorage.setItem('cartao-atual', JSON.stringify({ ...cartaoStorage, emailEnviado: true }))
+    }
+  }, [emailEnviado, cartaoStorage])
 
   useEffect(() => {
     const generateQRCode = async () => {
@@ -179,7 +189,7 @@ const Parabens = () => {
 
             <div className="p-4">
               <p className="text-white/70 text-sm text-center">
-                ✉️ O seu link + QR Code de acesso foi enviado para seu e-mail! 
+                ✉️ O seu link + QR Code de acesso foi enviado para seu e-mail!
                 Ele pode levar até 5 minutos para chegar à sua caixa de entrada.
               </p>
             </div>
