@@ -11,6 +11,8 @@ import {
 import type { IEmail } from "../../../models/IEmail";
 import { useMutation } from "@tanstack/react-query";
 import { sendEmail } from "../../../services/email-service";
+import { SpotifyService } from "../../../services/spotify-service";
+import type { ISpotifyModel } from "../../../models/ISpotify";
 
 const Parabens = () => {
   const { encodedUrl } = useParams();
@@ -18,7 +20,7 @@ const Parabens = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [showCopySuccess, setShowCopySuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [cartaoStorage, setCartaoStorage] = useState({})
+  const [cartaoStorage, setCartaoStorage] = useState<ISpotifyModel>({} as ISpotifyModel)
   const [emailEnviado, setEmailEnviado] = useState(false)
 
   const mutation = useMutation({
@@ -31,13 +33,20 @@ const Parabens = () => {
     }
   })
 
+  const mutationAlterarStatus = useMutation({
+    mutationFn: ({ idDocumento, status }: { idDocumento: string; status: string }) => {
+      return SpotifyService.atualizarStatus(idDocumento, status)
+    },
+    onSuccess: (response) => { console.log(response) },
+    onError: (err) => { console.log(err) }
+  })
+
   const cardUrl = encodedUrl
     ? "https://pixelsdoamor.site/cartao-digital/" +
     decodeURIComponent(encodedUrl)
     : "";
 
   const enviarEmail = async (qrDataUrl: string) => {
-    debugger
     const cartaoStorage = JSON.parse(localStorage.getItem('cartao-atual') || "{}")
     if (!cartaoStorage || cartaoStorage.emailEnviado) return
 
@@ -55,6 +64,7 @@ const Parabens = () => {
   useEffect(() => {
     if (emailEnviado && cartaoStorage) {
       localStorage.setItem('cartao-atual', JSON.stringify({ ...cartaoStorage, emailEnviado: true }))
+      mutationAlterarStatus.mutate({ idDocumento: cartaoStorage.id || '', status: 'ativo' })
     }
   }, [emailEnviado, cartaoStorage])
 

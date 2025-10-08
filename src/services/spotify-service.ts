@@ -102,4 +102,13 @@ export const SpotifyService = {
       throw error;
     }
   },
+  atualizarStatus: async (documentoId: string, status: string): Promise<string> => {
+    try {
+      const ref = doc(firestore, 'cartoes-spotify', documentoId);
+      await updateDoc(ref, { status: status });
+      return `Status do documento ${documentoId} atualizado com sucesso para: ${status}`
+    } catch (error) {
+      return `Erro ao atualizar o status: ${error}`
+    }
+  }
 };

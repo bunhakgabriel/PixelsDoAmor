@@ -114,14 +114,14 @@ export default function PagamentoPage() {
         if (status === "approved") {
           clearInterval(interval);
           toast.success("Pagamento aprovado com sucesso!", {
-            autoClose: 5000,
+            autoClose: 1500,
           });
           setTimeout(() => {
             const encodedUrl = encodeURIComponent(
               data?.id || dataStorage?.id || ""
             );
             navigate(`/parabens/1${encodedUrl}`);
-          }, 5000);
+          }, 1500);
         }
       } catch (error) {
         console.error("Erro ao consultar pagamento:", error);
