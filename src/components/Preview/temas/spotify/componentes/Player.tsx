@@ -46,7 +46,7 @@ function Player({ numeroMusicas }: { numeroMusicas: number }) {
         <div className="flex flex-col gap-4 items-center justify-center text-white py-4">
             <div className="bg-gray-800 p-4 rounded-lg shadow-xl w-full">
                 <div className="flex items-center justify-between mb-4">
-                    <button onClick={() => voltarMusica()} className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
+                    <button onClick={() => voltarMusica()} className="active:opacity-0 text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
                         </svg>
@@ -77,7 +77,7 @@ function Player({ numeroMusicas }: { numeroMusicas: number }) {
                             ))}
                         </div>
                     </div>
-                    <button onClick={() => avancarMusica()} className="text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
+                    <button onClick={() => avancarMusica()} className="active:opacity-0 text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                         </svg>

@@ -22,14 +22,6 @@ export default function ListaMusicas({ model, variant }: Props) {
     setIndexSong(undefined)
   };
 
-  useEffect(() => {
-    if(variant != 'preview' && indexSong == undefined){
-      setIndexSong(0)
-      tocar(0)
-      setplayingSong(true)
-    }              
-  }, []);
-
   // const cores = [
   //   'from-green-400 to-green-600',
   //   'from-purple-400 to-purple-600',
