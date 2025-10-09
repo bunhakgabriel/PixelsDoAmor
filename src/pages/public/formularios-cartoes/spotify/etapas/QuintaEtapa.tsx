@@ -6,9 +6,9 @@ function QuintaEtapa() {
     <div>
       <YouTubeSearch<ISpotifyModel>
         type="list"
-        maxMusicas={5}
+        maxMusicas={3}
         name="musicas"
-        label="Escolha até 5 músicas"
+        label="Escolha até 3 músicas"
         apiKey={"AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo"}
       />
     </div>

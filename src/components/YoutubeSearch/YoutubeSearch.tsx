@@ -53,6 +53,13 @@ function YouTubeSearch<T extends FieldValues>(
   async function handleSearch() {
     if (!query.trim()) return
 
+    const currentList = selectedVideos as { nome: string; url: string }[]
+    if (maxMusicas && currentList.length >= maxMusicas) {
+      toast.error('Você só pode adicionar até ' + maxMusicas + ' músicas.')
+      limparBusca()
+      return
+    }
+
     setLoading(true)
     setError('')
     try {
@@ -83,11 +90,6 @@ function YouTubeSearch<T extends FieldValues>(
 
     if (type === 'list') {
       const currentList = selectedVideos as { nome: string; url: string }[]
-      if (maxMusicas && currentList.length >= maxMusicas) {
-        toast.error('Você só pode adicionar até ' + maxMusicas + ' músicas.')
-        limparBusca()
-        return
-      }
       if (currentList.some(item => item.nome == title)) {
         toast.error('Essa música já foi adicionada!')
         limparBusca()
