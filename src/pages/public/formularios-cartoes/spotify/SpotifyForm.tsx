@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import Loading from "../../../../components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineSparkles } from "react-icons/hi2";
+import { useAnonymousAuth } from "../../../../hooks/useAnonymousAuth";
 const etapas = ["", "", "", "", "", ""];
 
 function SpotifyForm() {
@@ -41,19 +42,18 @@ function SpotifyForm() {
         toast.success('WebPage criada com sucesso, finalize pagamento para continuar!', { autoClose: 5000 })
         setData(data)
         localStorage.setItem('cartao-atual', JSON.stringify({ ...data, emailEnviado: false }))
-        // const encodedUrl = encodeURIComponent(data.id)
-        // navigate(`/parabens/1${encodedUrl}`)
         navigate(`/pagamento`)
       }
     },
     onError: (error) => {
       console.log('Erro ao salvar: ', error)
-      toast.error('Erro ao salvar cartão, tente novamente!')
+      toast.error('Erro ao salvar cartão, tente novamente ou entre em contato com o suporte!')
     }
   })
 
   const { previewCartao, data, setData, etapaAtual, setEtapaAtual } = useConfigStoreSpotify();
   const model = useWatch<ISpotifyModel>({ control }) as ISpotifyModel;
+  const { loginAnonimo } = useAnonymousAuth()
 
   async function avancarEtapa() {
     const camposPorEtapa: (keyof ISpotifyModel)[][] = [
@@ -70,7 +70,13 @@ function SpotifyForm() {
 
     if (valido) {
       if (etapaAtual == 5) {
-        mutation.mutate()
+        try {
+          await loginAnonimo(); // ✅ se falhar, vai pro catch abaixo
+          mutation.mutate(); // só roda se o login deu certo
+        } catch (err) {
+          toast.error("Erro ao salvar cartão, tente novamente ou entre em contato com o suporte!");
+          return; // interrompe o fluxo
+        }
       } else {
         setEtapaAtual(etapaAtual + 1);
         setTimeout(() => {
@@ -88,7 +94,7 @@ function SpotifyForm() {
     setEtapaAtual(etapaAtual - 1);
   }
 
-  function scrollToTop(){
+  function scrollToTop() {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -100,7 +106,7 @@ function SpotifyForm() {
   }, [model]);
 
   useEffect(() => {
-    if(data){
+    if (data) {
       reset(data)
     } else {
       setEtapaAtual(0)

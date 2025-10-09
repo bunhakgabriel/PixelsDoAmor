@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { sendEmail } from "../../../services/email-service";
 import { SpotifyService } from "../../../services/spotify-service";
 import type { ISpotifyModel } from "../../../models/ISpotify";
+import { useAnonymousAuth } from "../../../hooks/useAnonymousAuth";
 
 const Parabens = () => {
   const { encodedUrl } = useParams();
@@ -22,6 +23,8 @@ const Parabens = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [cartaoStorage, setCartaoStorage] = useState<ISpotifyModel>({} as ISpotifyModel)
   const [emailEnviado, setEmailEnviado] = useState(false)
+
+  const { logoutAndDelete } = useAnonymousAuth()
 
   const mutation = useMutation({
     mutationFn: (data: IEmail) => sendEmail(data),
@@ -62,9 +65,14 @@ const Parabens = () => {
   }
 
   useEffect(() => {
-    if (emailEnviado && cartaoStorage) {
+    async function meta(){
       localStorage.setItem('cartao-atual', JSON.stringify({ ...cartaoStorage, emailEnviado: true }))
       mutationAlterarStatus.mutate({ idDocumento: cartaoStorage.id || '', status: 'ativo' })
+      await logoutAndDelete()
+    }
+
+    if (emailEnviado && cartaoStorage) {
+      meta()
     }
   }, [emailEnviado, cartaoStorage])
 

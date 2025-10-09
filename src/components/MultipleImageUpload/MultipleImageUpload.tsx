@@ -49,7 +49,7 @@ function MultipleImageUpload<T extends FieldValues>({ name, label, maxImages }: 
     })
 
     if (newFiles.length === 0) {
-      toast.error('Todas as imagens selecionadas já foram adicionadas!')
+      toast.error('A imagem(s) selecionada já foi adicionada!')
       e.target.value = ''
       return
     }
