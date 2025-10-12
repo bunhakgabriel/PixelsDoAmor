@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { useEffect } from "react";
 import { FaPause, FaYoutube } from "react-icons/fa";
 import type { ISpotifyModel } from "../../../../../models/ISpotify";
 import { useConfigStoreSpotify } from "../../../../../store/useConfigStoreSpotify";
