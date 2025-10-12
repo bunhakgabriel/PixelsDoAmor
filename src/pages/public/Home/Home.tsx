@@ -13,10 +13,10 @@ function Home() {
         <div>
             <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
                 {/* Hero Section */}
-                <section className="justify-around py-8 px-4 flex w-full flex-col md:flex-row max-md:gap-8">
+                <section className="justify-around py-6 px-4 flex w-full flex-col md:flex-row max-md:gap-6">
                     <div className="container text-center w-full md:w-[55%] flex items-center">
                         <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 sm:mb-6 leading-tight">
+                            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-800 sm:mb-6 leading-tight">
                                 Crie WebPages de momentos
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
                                     {' '}únicos e inesquecíveis
@@ -56,22 +56,22 @@ function Home() {
                         <button
                             onClick={() => {
                                 setData(null)
-                                navigate("/form-cadastro-spotify")
-                            }}
-                            className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                        >
-                            <HiOutlineSparkles className="w-5 h-5" />
-                            <span>Começar Agora</span>
-                        </button>
-                        <button
-                            onClick={() => {
-                                setData(null)
                                 navigate(`/previa-cartao`)
                             }}
                             className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-white text-purple-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                         >
                             <HiOutlineSparkles className="w-5 h-5" />
                             <span>Ver como fica</span>
+                        </button>
+                        <button
+                            onClick={() => {
+                                setData(null)
+                                navigate("/form-cadastro-spotify")
+                            }}
+                            className="max-md:w-[260px] cursor-pointer inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        >
+                            <HiOutlineSparkles className="w-5 h-5" />
+                            <span>Começar Agora</span>
                         </button>
                     </div>
 
