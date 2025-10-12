@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 type YouTubeSearchPropsBase<T extends FieldValues> = {
   name: Path<T>;
   label: string;
-  apiKey: string;
 };
 
 type YouTubeSearchPropsList<T extends FieldValues> = YouTubeSearchPropsBase<T> & {
@@ -26,7 +25,7 @@ export type YouTubeSearchProps<T extends FieldValues> =
 function YouTubeSearch<T extends FieldValues>(
   props: YouTubeSearchProps<T>
 ) {
-  const { name, label, apiKey, type } = props;
+  const { name, label, type } = props;
   const maxMusicas = type === 'list' ? (props as YouTubeSearchPropsList<T>).maxMusicas : undefined;
   const { setValue, watch, formState: { errors }, trigger } = useFormContext<T>()
   const fieldError = (() => {
@@ -66,13 +65,28 @@ function YouTubeSearch<T extends FieldValues>(
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
           query
-        )}&type=video&maxResults=5&key=${apiKey}`
+        )}&type=video&maxResults=5&key=AIzaSyAtkhDgYKvwpI32X58iWR1KpWO1qafgJYo`
       )
 
-      if (!response.ok) throw new Error('Erro na requisição ao YouTube')
+      if (response.ok) {
 
-      const data = await response.json()
-      setResults(data.items || [])
+        const data = await response.json()
+        setResults(data.items || [])
+
+      } else {
+        const response1 = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
+            query
+          )}&type=video&maxResults=5&key=AIzaSyBZ6SujCaNVQ1G9zYRIHV-hepRKOWvbpvo`
+        )
+
+        if (!response1.ok) throw new Error('Erro na requisição ao YouTube')
+
+        const data = await response1.json()
+        setResults(data.items || [])
+
+      }
+
     } catch (err: any) {
       setError('Erro ao buscar vídeos.')
     } finally {
