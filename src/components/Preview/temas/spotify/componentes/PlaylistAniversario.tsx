@@ -29,7 +29,7 @@ export default function ListaMusicas({ model, variant }: Props) {
   //   'from-red-400 to-red-600'
   // ]
 
-  if (!model.musicas || model.musicas?.length == 0){
+  if (!model.musicas || model.musicas?.length == 0) {
     return <></>;
   }
 
@@ -51,13 +51,14 @@ export default function ListaMusicas({ model, variant }: Props) {
         {" "}
         {/* padding-top para não esconder a lista */}
         {model.musicas.map((musica, index) => (
-          <div key={index} className="flex items-center justify-between">
+          <div
+            key={index}
+            onClick={() => indexSong === index ? pausar() : tocar(index)}
+            className="cursor-pointer flex items-center justify-between"
+          >
             <div className="flex items-center gap-4">
               <button
-                onClick={() =>
-                  indexSong === index ? pausar() : tocar(index)
-                }
-                className={`cursor-pointer min-w-10 h-10 rounded bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center`}
+                className={`min-w-10 h-10 rounded bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center`}
               >
                 {indexSong === index ? (
                   <FaPause className="text-white text-lg" />

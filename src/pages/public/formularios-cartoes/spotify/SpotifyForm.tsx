@@ -51,7 +51,17 @@ function SpotifyForm() {
     }
   })
 
-  const { previewCartao, data, setData, etapaAtual, setEtapaAtual } = useConfigStoreSpotify();
+  const {
+    previewCartao,
+    data,
+    setData,
+    etapaAtual,
+    setEtapaAtual,
+    playingSong,
+    setplayingSong,
+    indexSong,
+    setIndexSong
+  } = useConfigStoreSpotify();
   const model = useWatch<ISpotifyModel>({ control }) as ISpotifyModel;
   const { loginAnonimo } = useAnonymousAuth()
 
@@ -106,6 +116,11 @@ function SpotifyForm() {
   }, [model]);
 
   useEffect(() => {
+    if (playingSong && indexSong != undefined) {
+      setplayingSong(false)
+      setIndexSong(undefined)
+    }
+
     if (data) {
       reset(data)
     } else {
