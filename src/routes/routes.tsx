@@ -6,6 +6,7 @@ import Parabens from "../pages/public/Parabens/Parabens";
 import PagamentoPage from "../pages/public/pagamento/Pagamento";
 import PreviaCartao from "../pages/public/Home/componentes/previa-cartao/PreviaCartao";
 import GlobalLayout from "../components/GlobalLayout/GlobalLayout";
+import TermosDeUso from "../components/TermosDeUso/TermosDeUso";
 
 const routes = [
   {
@@ -32,6 +33,10 @@ const routes = [
           {
             path: "/pagamento",
             element: <PagamentoPage />,
+          },
+          {
+            path: "/termos-de-uso",
+            element: <TermosDeUso />,
           },
         ],
       },

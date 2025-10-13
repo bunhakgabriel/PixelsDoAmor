@@ -20,11 +20,11 @@ function InfoSuporte({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, se
 
                 <div className="space-y-4">
                     <a
-                        href="mailto:bunhakgabriel@gmail.com?subject=Suporte&body=Olá,%20preciso%20de%20ajuda%20com..."
+                        href="mailto:pixelsamor@gmail.com?subject=Suporte&body=Olá,%20preciso%20de%20ajuda%20com..."
                         className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
                     >
                         <FaEnvelope className="text-purple-600 w-6 h-6" />
-                        <span className="text-gray-800">bunhakgabriel@gmail.com</span>
+                        <span className="text-gray-800">pixelsamor@gmail.com</span>
                     </a>
                     <a
                         href="https://wa.me/5541996729097"
