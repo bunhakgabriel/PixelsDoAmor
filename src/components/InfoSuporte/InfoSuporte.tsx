@@ -36,7 +36,6 @@ function InfoSuporte({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, se
                         <span className="text-gray-800">+55 41 99538-7676</span>
                     </a>
                 </div>
-
                 <button
                     onClick={() => setIsModalOpen(false)}
                     className="mt-6 w-full py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium hover:opacity-90 transition"
