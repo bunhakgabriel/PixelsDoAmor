@@ -27,13 +27,13 @@ function InfoSuporte({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, se
                         <span className="text-gray-800">pixelsamor@gmail.com</span>
                     </a>
                     <a
-                        href="https://wa.me/5541995387676"
+                        href="https://wa.me/5541996729097"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg hover:bg-green-100 transition"
                     >
                         <FaWhatsapp className="text-green-600 w-6 h-6" />
-                        <span className="text-gray-800">+55 41 99538-7676</span>
+                        <span className="text-gray-800">+55 41 99672-9097</span>
                     </a>
                 </div>
 
