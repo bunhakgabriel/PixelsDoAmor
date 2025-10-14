@@ -70,6 +70,7 @@ export default function PagamentoPage() {
     const body: MercadoPagoPagamentoRequest = {
       description: "Pagamento cartão digital",
       payment_method_id: "pix",
+      transaction_amount: 14.90,
       payer: {
         email: data.email,
         first_name: data.firstName,

@@ -9,6 +9,7 @@ export interface IPagamento {
 export interface MercadoPagoPagamentoRequest {
   description: string;
   payment_method_id: "pix";
+  transaction_amount: number;
   payer: {
     email: string;
     first_name: string;

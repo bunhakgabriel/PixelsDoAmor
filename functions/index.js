@@ -24,8 +24,7 @@ app.post("/process_payment", async (req, res) => {
 
     const result = await paymentClient.create({
       body: {
-        ...body,
-        transaction_amount: 0.1, // ou o valor real
+        ...body
       },
     });
 
