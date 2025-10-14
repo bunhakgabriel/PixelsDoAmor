@@ -91,7 +91,7 @@ function Home() {
           </h3>
           <iframe
             className="h-[420px] w-[60%]"
-            src="https://www.youtube.com/embed/xc0zRQ-Ju1o"
+            src="https://www.youtube.com/embed/KEvLB9daT7k"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
