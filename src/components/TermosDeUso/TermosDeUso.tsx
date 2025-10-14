@@ -191,7 +191,7 @@ export default function TermosDeUso() {
               <strong>PixelsDoAmor</strong>
             </p>
             <p>E-mail: pixelsamor@gmail.com</p>
-            <p>WhatsApp: (41)99672-9097</p>
+            <p>WhatsApp: (41)99538-7676</p>
           </div>
           <div className="text-[18px]">
             <BackButton
