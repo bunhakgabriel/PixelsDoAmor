@@ -51,27 +51,43 @@ export default function ListaMusicas({ model, variant }: Props) {
 
   const handlePlay = (index: number) => {
     if (index == 0) {
-      if (playerRef1.current && playerRef1.current.playVideo && iframeRef1.current) {
-        iframeRef1.current.style.width = "300px";
-        iframeRef1.current.style.height = "300px";
+      if (
+        playerRef1.current &&
+        playerRef1.current.playVideo &&
+        iframeRef1.current
+      ) {
+        iframeRef1.current.style.width = "100%";
+        iframeRef1.current.style.height = "100%";
         playerRef1.current.playVideo();
       }
     } else if (index == 1) {
-      if (playerRef2.current && playerRef2.current.playVideo && iframeRef2.current) {
-        iframeRef2.current.style.width = "300px";
-        iframeRef2.current.style.height = "300px";
+      if (
+        playerRef2.current &&
+        playerRef2.current.playVideo &&
+        iframeRef2.current
+      ) {
+        iframeRef2.current.style.width = "100%";
+        iframeRef2.current.style.height = "100%";
         playerRef2.current.playVideo();
       }
     } else if (index == 2) {
-      if (playerRef3.current && playerRef3.current.playVideo && iframeRef3.current) {
-        iframeRef3.current.style.width = "300px";
-        iframeRef3.current.style.height = "300px";
+      if (
+        playerRef3.current &&
+        playerRef3.current.playVideo &&
+        iframeRef3.current
+      ) {
+        iframeRef3.current.style.width = "100%";
+        iframeRef3.current.style.height = "100%";
         playerRef3.current.playVideo();
       }
     } else if (index == 3) {
-      if (playerRef4.current && playerRef4.current.playVideo && iframeRef4.current) {
-        iframeRef4.current.style.width = "300px";
-        iframeRef4.current.style.height = "300px";
+      if (
+        playerRef4.current &&
+        playerRef4.current.playVideo &&
+        iframeRef4.current
+      ) {
+        iframeRef4.current.style.width = "100%";
+        iframeRef4.current.style.height = "100%";
         playerRef4.current.playVideo();
       }
     }
@@ -79,28 +95,44 @@ export default function ListaMusicas({ model, variant }: Props) {
 
   const handlePause = (index: number) => {
     if (index == 0) {
-      if (playerRef1.current && playerRef1.current.pauseVideo && iframeRef1.current) {
+      if (
+        playerRef1.current &&
+        playerRef1.current.pauseVideo &&
+        iframeRef1.current
+      ) {
         playerRef1.current.pauseVideo();
         playerRef1.current.seekTo(0);
         iframeRef1.current.style.width = "0";
         iframeRef1.current.style.height = "0";
       }
     } else if (index == 1) {
-      if (playerRef2.current && playerRef2.current.pauseVideo && iframeRef2.current) {
+      if (
+        playerRef2.current &&
+        playerRef2.current.pauseVideo &&
+        iframeRef2.current
+      ) {
         playerRef2.current.pauseVideo();
         playerRef2.current.seekTo(0);
         iframeRef2.current.style.width = "0";
         iframeRef2.current.style.height = "0";
       }
     } else if (index == 2) {
-      if (playerRef3.current && playerRef3.current.pauseVideo && iframeRef3.current) {
+      if (
+        playerRef3.current &&
+        playerRef3.current.pauseVideo &&
+        iframeRef3.current
+      ) {
         playerRef3.current.pauseVideo();
         playerRef3.current.seekTo(0);
         iframeRef3.current.style.width = "0";
         iframeRef3.current.style.height = "0";
       }
     } else if (index == 3) {
-      if (playerRef4.current && playerRef4.current.pauseVideo && iframeRef4.current) {
+      if (
+        playerRef4.current &&
+        playerRef4.current.pauseVideo &&
+        iframeRef4.current
+      ) {
         playerRef4.current.pauseVideo();
         playerRef4.current.seekTo(0);
         iframeRef4.current.style.width = "0";
@@ -166,9 +198,12 @@ export default function ListaMusicas({ model, variant }: Props) {
     }
   }, [model.musicas]);
 
-
   useEffect(() => {
-    if ((indexTeste != undefined && indexSong != undefined) && (indexTeste !== indexSong)) {
+    if (
+      indexTeste != undefined &&
+      indexSong != undefined &&
+      indexTeste !== indexSong
+    ) {
       pausar(indexTeste);
       tocar(indexSong);
     } else if (indexTeste != undefined && indexSong == undefined) {
@@ -198,8 +233,9 @@ export default function ListaMusicas({ model, variant }: Props) {
           <div
             key={index}
             onClick={() => (indexSong === index ? pausar(index) : tocar(index))}
-            className={`cursor-pointer flex items-center justify-between ${!apiReady ? "opacity-50 pointer-events-none" : ""
-              }`}
+            className={`cursor-pointer flex items-center justify-between ${
+              !apiReady ? "opacity-50 pointer-events-none" : ""
+            }`}
           >
             <div className="flex items-center gap-4">
               <button
@@ -222,51 +258,52 @@ export default function ListaMusicas({ model, variant }: Props) {
         ))}
       </div>
 
-      {/* iframes */}
-      {model.musicas[0] && (
-        <iframe
-          ref={iframeRef1}
-          width="0"
-          height="0"
-          src={`${model.musicas[0].url}?enablejsapi=1&playsinline=1`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      )}
-      {model.musicas[1] && (
-        <iframe
-          ref={iframeRef2}
-          width="0"
-          height="0"
-          src={`${model.musicas[1].url}?enablejsapi=1&playsinline=1`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      )}
-      {model.musicas[2] && (
-        <iframe
-          ref={iframeRef3}
-          width="0"
-          height="0"
-          src={`${model.musicas[2].url}?enablejsapi=1&playsinline=1`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      )}
-      {model.musicas[3] && (
-        <iframe
-          ref={iframeRef4}
-          width="0"
-          height="0"
-          src={`${model.musicas[3].url}?enablejsapi=1&playsinline=1`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      )}
+      <div className={`${indexSong != undefined ? "h-[160px] sm:h-[200px]" : ""}`}>
+        {model.musicas[0] && (
+          <iframe
+            ref={iframeRef1}
+            width="0"
+            height="0"
+            src={`${model.musicas[0].url}?enablejsapi=1&playsinline=1`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
+        {model.musicas[1] && (
+          <iframe
+            ref={iframeRef2}
+            width="0"
+            height="0"
+            src={`${model.musicas[1].url}?enablejsapi=1&playsinline=1`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
+        {model.musicas[2] && (
+          <iframe
+            ref={iframeRef3}
+            width="0"
+            height="0"
+            src={`${model.musicas[2].url}?enablejsapi=1&playsinline=1`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
+        {model.musicas[3] && (
+          <iframe
+            ref={iframeRef4}
+            width="0"
+            height="0"
+            src={`${model.musicas[3].url}?enablejsapi=1&playsinline=1`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
+      </div>
     </div>
   );
 }
