@@ -174,7 +174,7 @@ export default function PagamentoPage() {
           <h1 className="text-2xl font-bold text-white">Finalizar Compra</h1>
           <p className="text-gray-400">Plano Básico - Pagamento Único</p>
           <div className="mt-3 text-3xl font-extrabold text-green-400">
-            R$ 14,90
+            R$ 5,90
           </div>
         </div>
 

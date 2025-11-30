@@ -35,7 +35,7 @@ export default function TermosDeUso() {
           <strong>webpage digital personalizada</strong> (“Cartão Digital”) para
           momentos especiais, contendo textos, imagens, músicas e etc. O acesso
           ao Cartão Digital é concedido mediante{" "}
-          <strong>pagamento único de R$ 14,90</strong>, com validade de{" "}
+          <strong>pagamento único de R$ 5,90</strong>, com validade de{" "}
           <strong>12 (doze) meses </strong>a partir da data da confirmação do
           pagamento. Após os 12 meses será enviado um email para que o usuário
           faça a renovação do serviço por mais 12 meses pela metade do valor,
