@@ -83,3 +83,11 @@ Minha atuação incluiu:
 * Configuração e publicação da aplicação em ambiente de produção.
 * Manutenção e evolução do produto após sua publicação.
 
+
+## Ambiente de produção
+
+A aplicação está em produção desde outubro de 2025 e está disponível para acesso público.
+
+O sistema possui um fluxo completo de utilização, desde a criação e personalização do cartão até o pagamento e disponibilização do produto adquirido.
+
+**Aplicação:** [pixelsdoamor.site](https://pixelsdoamor.site/?utm_source=chatgpt.com)
