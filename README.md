@@ -33,3 +33,25 @@ O sistema está atualmente em produção e é utilizado por usuários reais, con
   * Página de confirmação após a conclusão da compra.
   * Apresentação das informações necessárias para acessar o cartão.
   * Envio automático das informações de acesso por e-mail.
+
+## Tecnologias
+
+### Frontend
+
+* **React** — desenvolvimento da interface da aplicação.
+* **TypeScript** — tipagem estática e maior segurança durante o desenvolvimento.
+* **Tailwind CSS** — estilização e construção da interface.
+* **React Hook Form** — gerenciamento e validação dos formulários de personalização do cartão.
+* **Zustand** — gerenciamento de estado da aplicação.
+* **TanStack Query** — gerenciamento de requisições e dados provenientes do backend.
+
+### Backend
+
+* **Node.js** — desenvolvimento das regras e serviços do backend.
+* **Firebase Functions** — execução e disponibilização das funções backend em ambiente serverless.
+* **Firebase** — serviços de infraestrutura utilizados pela aplicação.
+
+### Integrações
+
+* **Mercado Pago API** — integração com o fluxo de pagamento via PIX e geração do QR Code para pagamento.
+
