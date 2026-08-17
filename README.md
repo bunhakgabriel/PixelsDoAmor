@@ -91,3 +91,13 @@ A aplicação está em produção desde outubro de 2025 e está disponível para
 O sistema possui um fluxo completo de utilização, desde a criação e personalização do cartão até o pagamento e disponibilização do produto adquirido.
 
 **Aplicação:** [pixelsdoamor.site](https://pixelsdoamor.site/?utm_source=chatgpt.com)
+
+## Demonstração
+
+Confira abaixo uma demonstração do fluxo de criação de uma WebPage, desde a personalização do cartão até a conclusão do processo.
+
+[![Demonstração da plataforma](https://scontent.fbfh2-1.fna.fbcdn.net/v/t39.30808-6/774761631_1594098702248058_1399377443319480224_n.jpg?stp=dst-jpg_tt6&cstp=mx1314x635&ctp=s1314x635&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=qLkv34smMU8Q7kNvwHmR8i4&_nc_oc=Adr39eH1HxR43fyHMAlWLy0CF8j6AtNBEQZTHx8fE_0JYyoKd2HCws7BXItg4PS2-3_SJ2w4-3183VCF0MT_6Fnh&_nc_zt=23&_nc_ht=scontent.fbfh2-1.fna&_nc_gid=wARTPMPQm3DdA8vgfzuYJg&_nc_ss=7b2a8&oh=00_AQGFhxpt0uUAmwdJEPapQikVVPZZRICPhWobt_vYs3ff8A&oe=6A8941E4)](https://www.youtube.com/watch?v=KEvLB9daT7k)
+
+[![Demonstração da plataforma](https://scontent.fbfh3-2.fna.fbcdn.net/v/t39.30808-6/776985293_1594104132247515_1529317853144372494_n.jpg?stp=dst-jpg_tt6&cstp=mx1343x613&ctp=s1343x613&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=tMBsmNygeU0Q7kNvwE_PIZw&_nc_oc=Adrfwe4ufpoVLL-7ZAS48SgLLIg6N9LD2raCBjR2JNWzQso7uaUu6YSrvLqAQk5ginvSbjJa9Z6KoJTV1vLw4Pak&_nc_zt=23&_nc_ht=scontent.fbfh3-2.fna&_nc_gid=CX3PWe_Mn4EVvOA20zA59Q&_nc_ss=7b2a8&oh=00_AQEHAEX4LSHU8IO7iof28AS30mTBjUzxWeUgL1MhacAqQw&oe=6A8939A6)](https://www.youtube.com/watch?v=KEvLB9daT7k)
+
+[![Demonstração da plataforma](https://scontent.fbfh3-3.fna.fbcdn.net/v/t39.30808-6/776324121_1594104325580829_7154675881349011784_n.jpg?stp=dst-jpg_tt6&cstp=mx1305x635&ctp=s1305x635&_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=UnnS-c56zF4Q7kNvwGQprjl&_nc_oc=AdrANQp7p3cWWmt155Lx6-x5-NEmQ6YrgtNfWBXodae164dmH8rUddMszM797cRMY0wJXgCdQjtWKcoJtm0-1pue&_nc_zt=23&_nc_ht=scontent.fbfh3-3.fna&_nc_gid=9QTriwn-wHbPFT1eM_Kfrg&_nc_ss=7b2a8&oh=00_AQGHkRNjTveOoGAkujuG1XT-1AVV-IWAGTjNSBhmVnQO4Q&oe=6A891961)](https://www.youtube.com/watch?v=KEvLB9daT7k)
