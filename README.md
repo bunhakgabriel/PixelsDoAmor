@@ -66,3 +66,20 @@ Um dos principais desafios foi implementar pela primeira vez uma integração co
 Outro desafio foi implementar o envio automático de e-mails após a confirmação da compra. Após a conclusão do pagamento, o sistema processa as informações da aquisição e envia ao cliente as instruções necessárias para acessar o cartão adquirido.
 
 Essas integrações representaram uma oportunidade de aplicar conceitos que ainda não havia utilizado em projetos anteriores, principalmente no desenvolvimento de fluxos envolvendo serviços externos e comunicação entre diferentes sistemas.
+
+## Minha atuação no projeto
+
+O projeto surgiu a partir de uma ideia própria de criar uma plataforma de cartões digitais personalizados. Fui responsável por transformar a ideia em um produto funcional, realizando o desenvolvimento de ponta a ponta.
+
+Minha atuação incluiu:
+
+* Definição da ideia e do fluxo do produto.
+* Desenvolvimento completo do frontend utilizando React e TypeScript.
+* Implementação das interfaces e experiência de personalização dos cartões.
+* Desenvolvimento do backend utilizando Node.js e Firebase Functions.
+* Integração com a API do Mercado Pago para processamento dos pagamentos via PIX.
+* Implementação do fluxo de confirmação de pagamento e liberação do produto.
+* Implementação do envio automático de e-mails após a conclusão da compra.
+* Configuração e publicação da aplicação em ambiente de produção.
+* Manutenção e evolução do produto após sua publicação.
+
