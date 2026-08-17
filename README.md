@@ -55,3 +55,14 @@ O sistema está atualmente em produção e é utilizado por usuários reais, con
 
 * **Mercado Pago API** — integração com o fluxo de pagamento via PIX e geração do QR Code para pagamento.
 
+## Principais desafios técnicos
+
+### Integração com o Mercado Pago
+
+Um dos principais desafios foi implementar pela primeira vez uma integração com uma API de pagamentos. A aplicação utiliza a API do Mercado Pago para criar o fluxo de pagamento via PIX, gerar o QR Code e processar as informações necessárias para identificar a conclusão do pagamento e liberar o acesso ao produto.
+
+### Envio automático de e-mails
+
+Outro desafio foi implementar o envio automático de e-mails após a confirmação da compra. Após a conclusão do pagamento, o sistema processa as informações da aquisição e envia ao cliente as instruções necessárias para acessar o cartão adquirido.
+
+Essas integrações representaram uma oportunidade de aplicar conceitos que ainda não havia utilizado em projetos anteriores, principalmente no desenvolvimento de fluxos envolvendo serviços externos e comunicação entre diferentes sistemas.
