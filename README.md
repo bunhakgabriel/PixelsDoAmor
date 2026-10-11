@@ -99,7 +99,7 @@ A aplicação está em produção desde **outubro de 2025** e está disponível 
 
 O sistema possui um fluxo completo de utilização, desde a criação e personalização do cartão até o pagamento e disponibilização do produto adquirido.
 
-**Aplicação:** `https://pixelsdoamor.site/`
+**Aplicação:** `https://pixels-do-amor.netlify.app/`
 
 ---
 
